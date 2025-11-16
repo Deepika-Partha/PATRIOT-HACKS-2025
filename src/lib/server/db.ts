@@ -1,10 +1,10 @@
 import { MongoClient } from "mongodb";
 import { env } from '$env/dynamic/private';
 
-console.log("=== Environment Variables Debug ===");
-console.log("All env keys:", Object.keys(env));
-console.log("MONGO_DB_URI:", env.MONGO_DB_URI);
-console.log("===================================");
+// console.log("=== Environment Variables Debug ===");
+// console.log("All env keys:", Object.keys(env));
+// console.log("MONGO_DB_URI:", env.MONGO_DB_URI);
+// console.log("===================================");
 
 const uri = env.MONGO_DB_URI;
 

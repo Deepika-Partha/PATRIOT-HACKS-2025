@@ -8,15 +8,6 @@
 
   const majors = [
     "Computer Science",
-    "Information Technology",
-    "Software Engineering",
-    "Data Science",
-    "Cybersecurity",
-    "Computer Engineering",
-    "Business",
-    "Biology",
-    "Psychology",
-    "Other"
   ];
 
   const years = [
@@ -26,22 +17,24 @@
     { label: "Senior", value: 4 }
   ];
 
-  onMount(async () => {
-    try {
-      const res = await fetch("src/routes/api/student/updateProfile/+server.ts");
-      if (res.ok) {
-        student = await res.json();
-        console.log("Loaded student:", student);
-      } else {
-        error = "Failed to load profile";
-      }
-    } catch (err) {
-      console.error(err);
-      error = "Error loading profile";
-    } finally {
-      loading = false;
-    }
-  });
+    onMount(async () => {
+        try {
+        const res = await fetch("/api/student/getInfo"); // ✅ correct route URL
+        if (res.ok) {
+            student = await res.json();
+            console.log("Loaded student:", student);
+        } else {
+            const data = await res.json();
+            error = data.error || "Failed to load profile";
+        }
+        } catch (err) {
+        console.error(err);
+        error = "Error loading profile";
+        } finally {
+        loading = false;
+        }
+    });
+
 
   async function updateProfile() {
     console.log("Updating with:", { major: student.major, year: student.year });
