@@ -15,7 +15,7 @@ export async function POST({ request, cookies }: RequestEvent) {
   const data = await request.json();
 
   await students.updateOne(
-    { id: user.id },
+    { _id: user.id },
     { $set: { degreeProgress: data } }
   );
 

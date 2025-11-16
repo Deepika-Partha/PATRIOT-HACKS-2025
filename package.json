@@ -9,7 +9,9 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test": "node test-all-endpoints.js",
+		"test:chatbot": "node test-chatbot.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.0",
@@ -23,6 +25,7 @@
 		"vite": "^7.1.10"
 	},
 	"dependencies": {
+		"@anthropic-ai/sdk": "^0.69.0",
 		"bcryptjs": "^3.0.3",
 		"jsonwebtoken": "^9.0.2",
 		"mongodb": "^7.0.0"

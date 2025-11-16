@@ -17,6 +17,80 @@
   let error = '';
   let loading = true;
 
+  // Chatbot state
+  let chatbotOpen = false;
+  let chatbotMessage = '';
+  let chatbotHistory: Array<{ role: 'user' | 'assistant'; content: string }> = [];
+  let chatbotLoading = false;
+  let chatbotHistoryLoaded = false;
+
+  async function loadChatbotHistory() {
+    if (chatbotHistoryLoaded) return;
+    try {
+      const res = await fetch('/api/chatbot');
+      const data = await res.json();
+      if (data.conversationHistory && Array.isArray(data.conversationHistory)) {
+        chatbotHistory = data.conversationHistory;
+        chatbotHistoryLoaded = true;
+      }
+    } catch (err) {
+      console.error('Failed to load chatbot history:', err);
+    }
+  }
+
+  function toggleChatbot() {
+    chatbotOpen = !chatbotOpen;
+    if (chatbotOpen && !chatbotHistoryLoaded) {
+      loadChatbotHistory();
+    }
+  }
+
+  async function sendChatbotMessage() {
+    if (!chatbotMessage.trim() || chatbotLoading) return;
+
+    const userMessage = chatbotMessage.trim();
+    chatbotMessage = '';
+    chatbotLoading = true;
+
+    // Add user message to UI immediately
+    chatbotHistory = [...chatbotHistory, { role: 'user', content: userMessage }];
+
+    try {
+      // Server will load conversation history from database and add the new message
+      const res = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userMessage
+          // Don't send conversationHistory - server loads it from database
+        })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.reply) {
+        // Update with complete history from server (includes saved messages)
+        chatbotHistory = data.conversationHistory || [
+          ...chatbotHistory,
+          { role: 'assistant', content: data.reply }
+        ];
+        // Mark history as loaded and scroll to bottom
+        chatbotHistoryLoaded = true;
+        setTimeout(() => {
+          const chatContainer = document.querySelector('.chatbot-messages');
+          if (chatContainer) {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+          }
+        }, 100);
+      } else {
+        chatbotHistory.push({ role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' });
+      }
+    } catch (err) {
+      chatbotHistory.push({ role: 'assistant', content: 'Network error. Please check your connection.' });
+    } finally {
+      chatbotLoading = false;
+    }
+  }
+
   async function fetchStudentInfo() {
     loading = true;
     error = '';
@@ -517,6 +591,211 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   }
+
+  /* Chatbot Styles */
+  .chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  .chatbot-toggle {
+    background-color: #4DB6AC;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 32px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    min-width: 120px;
+  }
+
+  .chatbot-toggle:hover {
+    background-color: #43A19A;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .chatbot-window {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 380px;
+    height: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chatbot-header {
+    background: linear-gradient(135deg, #4DB6AC, #43A19A);
+    color: white;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chatbot-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .chatbot-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+  }
+
+  .chatbot-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #f8f9fa;
+  }
+
+  .chatbot-welcome {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+  }
+
+  .chatbot-welcome p {
+    margin: 8px 0;
+  }
+
+  .chatbot-message {
+    display: flex;
+    margin-bottom: 8px;
+  }
+
+  .chatbot-message.user {
+    justify-content: flex-end;
+  }
+
+  .chatbot-message.assistant {
+    justify-content: flex-start;
+  }
+
+  .message-content {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  .chatbot-message.user .message-content {
+    background: #4DB6AC;
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+
+  .chatbot-message.assistant .message-content {
+    background: white;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    border-bottom-left-radius: 4px;
+  }
+
+  .typing-indicator {
+    font-style: italic;
+    color: #999;
+  }
+
+  .chatbot-input-container {
+    padding: 16px;
+    border-top: 1px solid #e0e0e0;
+    background: white;
+  }
+
+  .chatbot-input-container form {
+    display: flex;
+    gap: 8px;
+  }
+
+  .chatbot-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .chatbot-input:focus {
+    border-color: #4DB6AC;
+  }
+
+  .chatbot-input:disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+  }
+
+  .chatbot-send {
+    padding: 10px 20px;
+    background: #4DB6AC;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .chatbot-send:hover:not(:disabled) {
+    background: #43A19A;
+  }
+
+  .chatbot-send:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+
+  /* Scrollbar styling */
+  .chatbot-messages::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chatbot-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .chatbot-messages::-webkit-scrollbar-thumb {
+    background: #4DB6AC;
+    border-radius: 3px;
+  }
+
+  .chatbot-messages::-webkit-scrollbar-thumb:hover {
+    background: #43A19A;
+  }
 </style>
 
 <div class="dashboard">
@@ -713,5 +992,60 @@
         </div>
       {/if}
     {/if}
+  </div>
+
+  <!-- Chatbot Component - Bottom Right -->
+  <div class="chatbot-container">
+    {#if chatbotOpen}
+      <div class="chatbot-window">
+        <div class="chatbot-header">
+          <h3>Academic Advisor Chatbot</h3>
+          <button class="chatbot-close" on:click={toggleChatbot}>×</button>
+        </div>
+        <div class="chatbot-messages">
+          {#if chatbotHistory.length === 0}
+            <div class="chatbot-welcome">
+              <p>👋 Hi! I'm your GMU academic advisor chatbot.</p>
+              <p>Ask me about courses, scheduling, or degree requirements!</p>
+            </div>
+          {/if}
+          {#each chatbotHistory as msg}
+            <div class="chatbot-message {msg.role}">
+              <div class="message-content">
+                {msg.content}
+              </div>
+            </div>
+          {/each}
+          {#if chatbotLoading}
+            <div class="chatbot-message assistant">
+              <div class="message-content">
+                <span class="typing-indicator">Thinking...</span>
+              </div>
+            </div>
+          {/if}
+        </div>
+        <div class="chatbot-input-container">
+          <form on:submit|preventDefault={sendChatbotMessage}>
+            <input
+              type="text"
+              bind:value={chatbotMessage}
+              placeholder="Ask about courses, schedules, or requirements..."
+              disabled={chatbotLoading}
+              class="chatbot-input"
+            />
+            <button type="submit" disabled={chatbotLoading || !chatbotMessage.trim()} class="chatbot-send">
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
+    {/if}
+    <button class="chatbot-toggle" on:click={toggleChatbot}>
+      {#if chatbotOpen}
+        ×
+      {:else}
+        💬 Chat
+      {/if}
+    </button>
   </div>
 </div>

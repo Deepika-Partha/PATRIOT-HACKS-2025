@@ -15,7 +15,7 @@ export async function POST({ request, cookies }: RequestEvent) {
   const creditInfo = await request.json();
 
   await students.updateOne(
-    { id: user.id },
+    { _id: user.id },
     { $set: { credits: creditInfo } }
   );
 
