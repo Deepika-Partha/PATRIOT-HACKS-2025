@@ -66,7 +66,7 @@
     </form>
 
     <p class="login-link">
-      Already have an account? <a href="/login">Log In</a>
+      Already have an account? <a href="/">Log In</a>
     </p>
   </div>
 </div>
