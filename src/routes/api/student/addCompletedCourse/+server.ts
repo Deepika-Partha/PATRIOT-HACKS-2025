@@ -22,21 +22,67 @@ export async function POST({ request, cookies }: RequestEvent) {
     return json({ error: `Course ${course.courseId} does not exist in the course catalog` }, { status: 400 });
   }
 
+  // Validate grade
+  const VALID_GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'F'];
+  const GRADES_BELOW_C = ['C-', 'D+', 'D', 'F'];
+  const normalizedGrade = course.grade?.toUpperCase().trim();
+  
+  if (!normalizedGrade || !VALID_GRADES.includes(normalizedGrade)) {
+    return json({ 
+      error: `Invalid grade. Valid grades are: ${VALID_GRADES.join(', ')}` 
+    }, { status: 400 });
+  }
+
+  // Check if student already has a C grade
+  const userId = typeof user.id === 'string' ? new ObjectId(user.id) : user.id;
+  const student = await students.findOne({ _id: userId });
+  
+  if (normalizedGrade === 'C' && student?.academicHistory) {
+    const hasC = student.academicHistory.some((c: any) => 
+      c.grade && c.grade.toUpperCase().trim() === 'C' && !c.nullified
+    );
+    if (hasC) {
+      return json({ 
+        error: 'You can only have at most one C grade. You already have a C grade in your academic history.' 
+      }, { status: 400 });
+    }
+  }
+
+  // Determine if course counts toward diploma
+  // Courses below C (C-, D+, D, F) do not count, or if it's not required
+  const countsTowardDiploma = catalogCourse.required && !GRADES_BELOW_C.includes(normalizedGrade);
+
   // Ensure course data matches catalog
   const courseToAdd = {
     courseId: catalogCourse.courseId,
     title: catalogCourse.title,
     credits: catalogCourse.credits,
     semester: course.semester,
-    grade: course.grade,
+    grade: normalizedGrade,
     required: catalogCourse.required,
-    category: catalogCourse.category
+    category: catalogCourse.category,
+    countsTowardDiploma: countsTowardDiploma
   };
 
-  // Convert string ID to ObjectId if needed
-  const userId = typeof user.id === 'string' ? new ObjectId(user.id) : user.id;
-
   try {
+    // If nullifying old course, update it first
+    if (course.nullifyOldCourse && course.oldCourseSemester && course.oldCourseGrade) {
+      await students.updateOne(
+        { 
+          _id: userId,
+          'academicHistory.courseId': catalogCourse.courseId,
+          'academicHistory.semester': course.oldCourseSemester,
+          'academicHistory.grade': course.oldCourseGrade
+        },
+        { 
+          $set: { 
+            'academicHistory.$.nullified': true 
+          } 
+        }
+      );
+    }
+
+    // Add the new course
     await students.updateOne(
       { _id: userId },
       { $push: { academicHistory: courseToAdd } }
