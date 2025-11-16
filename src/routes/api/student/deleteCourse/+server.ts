@@ -13,16 +13,33 @@ export async function POST({ request, cookies }: RequestEvent) {
     return json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const newSchedule = await request.json();
+  const { courseId, semester, grade } = await request.json();
+
+  if (!courseId) {
+    return json({ error: "Course ID is required" }, { status: 400 });
+  }
 
   // Convert string ID to ObjectId if needed
   const userId = typeof user.id === 'string' ? new ObjectId(user.id) : user.id;
 
   try {
-    await students.updateOne(
+    // Remove the course from academic history
+    const result = await students.updateOne(
       { _id: userId },
-      { $set: { currentSchedule: newSchedule } }
+      { 
+        $pull: { 
+          academicHistory: { 
+            courseId: courseId,
+            semester: semester,
+            grade: grade
+          } 
+        } 
+      }
     );
+
+    if (result.matchedCount === 0) {
+      return json({ error: "Course not found" }, { status: 404 });
+    }
 
     return json({ success: true });
   } catch (dbError: any) {
@@ -36,7 +53,7 @@ export async function POST({ request, cookies }: RequestEvent) {
     }
     
     return json({ 
-      error: 'Failed to update schedule. Please try again.' 
+      error: 'Failed to delete course. Please try again.' 
     }, { status: 500 });
   }
 }
