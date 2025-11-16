@@ -14,9 +14,14 @@
 
 <style>
   .schedule-wrapper {
-    height: 100%;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
   }
 
   .schedule-header {
@@ -29,10 +34,12 @@
     font-size: .5em;
     font-weight: 700;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    flex-shrink: 0;
   }
 
   .schedule-content {
     flex: 1;
-    overflow: auto;
+    overflow: hidden;
+    min-height: 0;
   }
 </style>

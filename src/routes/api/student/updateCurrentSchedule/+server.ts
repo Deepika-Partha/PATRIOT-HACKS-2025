@@ -1,8 +1,8 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
+import { ObjectId } from 'mongodb';
 import { students } from '$lib/server/db';
 import { verifyJwt } from '$lib/server/jwt';
-import { ObjectId } from 'mongodb';
 
 export async function POST({ request, cookies }: RequestEvent) {
   const token = cookies.get('jwt');
@@ -15,16 +15,25 @@ export async function POST({ request, cookies }: RequestEvent) {
 
   const newSchedule = await request.json();
 
+  // Ensure we have a valid user ID
+  if (!user.id) {
+    return json({ error: "Invalid user ID" }, { status: 400 });
+  }
+
   // Convert string ID to ObjectId if needed
   const userId = typeof user.id === 'string' ? new ObjectId(user.id) : user.id;
 
   try {
-    await students.updateOne(
+    const result = await students.updateOne(
       { _id: userId },
       { $set: { currentSchedule: newSchedule } }
     );
 
-    return json({ success: true });
+    if (result.matchedCount === 0) {
+      return json({ error: "Student not found" }, { status: 404 });
+    }
+
+    return json({ success: true, message: "Schedule updated successfully" });
   } catch (dbError: any) {
     console.error('Database error:', dbError);
     
