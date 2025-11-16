@@ -55,16 +55,46 @@
     }
   ];
 
+  type Task = {
+    id: string;
+    text: string;
+    completed: boolean;
+    createdAt: string;
+    completedAt?: string;
+  };
+
+  type CalendarEvent = {
+    id: string;
+    title: string;
+    day: Day;
+    start: string;
+    end: string;
+    color: string;
+    description?: string;
+  };
+
   let activeSectionIds: string[] = [];
   let sidebarOpen = false;
+  let tasksPanelOpen = false;
+  let activeTab: 'todo' | 'completed' | 'events' = 'todo';
   let loading = true;
   let saving = false;
   let error = '';
+
+  let tasks: Task[] = [];
+  let events: CalendarEvent[] = [];
+  let newTaskText = '';
+  let newEventTitle = '';
+  let newEventDay: Day = 'Mon';
+  let newEventStart = '09:00';
+  let newEventEnd = '10:00';
+  let newEventDescription = '';
 
   const DAYS: Day[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
   const START_HOUR = 8;
   const END_HOUR = 21;
   const TOTAL_MIN = (END_HOUR - START_HOUR) * 60;
+  const EVENT_COLORS = ['#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
 
   async function loadSchedule() {
     try {
@@ -174,8 +204,126 @@
     `;
   }
 
+  async function loadTasksAndEvents() {
+    try {
+      const res = await fetch('/api/student/getTasks');
+      if (res.ok) {
+        const data = await res.json();
+        tasks = data.tasks || [];
+        events = data.events || [];
+      }
+    } catch (err) {
+      console.error('Error loading tasks:', err);
+    }
+  }
+
+  async function saveTasksAndEvents() {
+    try {
+      await fetch('/api/student/updateTasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tasks, events })
+      });
+    } catch (err) {
+      console.error('Error saving tasks:', err);
+    }
+  }
+
+  function addTask() {
+    if (!newTaskText.trim()) return;
+    
+    const newTask: Task = {
+      id: Date.now().toString(),
+      text: newTaskText.trim(),
+      completed: false,
+      createdAt: new Date().toISOString()
+    };
+    
+    tasks = [...tasks, newTask];
+    newTaskText = '';
+    saveTasksAndEvents();
+  }
+
+  function toggleTask(id: string) {
+    tasks = tasks.map(task => {
+      if (task.id === id) {
+        const wasCompleted = task.completed;
+        return {
+          ...task,
+          completed: !task.completed,
+          completedAt: !wasCompleted ? new Date().toISOString() : undefined
+        };
+      }
+      return task;
+    });
+    saveTasksAndEvents();
+  }
+
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined });
+  }
+
+  function deleteTask(id: string) {
+    tasks = tasks.filter(task => task.id !== id);
+    saveTasksAndEvents();
+  }
+
+  function addEvent() {
+    if (!newEventTitle.trim()) return;
+    
+    const randomColor = EVENT_COLORS[Math.floor(Math.random() * EVENT_COLORS.length)];
+    const newEvent: CalendarEvent = {
+      id: Date.now().toString(),
+      title: newEventTitle.trim(),
+      day: newEventDay,
+      start: newEventStart,
+      end: newEventEnd,
+      color: randomColor,
+      description: newEventDescription.trim() || undefined
+    };
+    
+    events = [...events, newEvent];
+    newEventTitle = '';
+    newEventDescription = '';
+    newEventDay = 'Mon';
+    newEventStart = '09:00';
+    newEventEnd = '10:00';
+    saveTasksAndEvents();
+  }
+
+  function deleteEvent(id: string) {
+    events = events.filter(event => event.id !== id);
+    saveTasksAndEvents();
+  }
+
+  function toggleTasksPanel() {
+    tasksPanelOpen = !tasksPanelOpen;
+  }
+
+  const activeTasks = tasks.filter(t => !t.completed).sort((a, b) => 
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+  const completedTasks = tasks.filter(t => t.completed).sort((a, b) => {
+    const aTime = a.completedAt ? new Date(a.completedAt).getTime() : 0;
+    const bTime = b.completedAt ? new Date(b.completedAt).getTime() : 0;
+    return bTime - aTime; // Most recently completed first
+  });
+
   onMount(() => {
     loadSchedule();
+    loadTasksAndEvents();
   });
 </script>
 
@@ -278,14 +426,211 @@
               </div>
             {/each}
           {/each}
+
+          {#each events.filter(e => e.day === day) as event}
+            <div class="block event-block" style={blockStyle({ day: event.day, start: event.start, end: event.end }, event.color)}>
+              <button 
+                class="delete-btn" 
+                on:click|stopPropagation={() => deleteEvent(event.id)}
+                aria-label="Delete event"
+                title="Delete event"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+              <div class="block-code">Event</div>
+              <div class="block-title">{event.title}</div>
+              <div class="block-time">{event.start}–{event.end}</div>
+            </div>
+          {/each}
         </div>
       {/each}
     </div>
   </main>
 
+  <!-- TASKS PANEL -->
+  <aside class="tasks-panel" class:open={tasksPanelOpen}>
+    <div class="tasks-header">
+      <h2>Tasks & Events</h2>
+      <button class="close-btn" on:click={toggleTasksPanel} aria-label="Close tasks panel">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="tasks-tabs">
+      <button 
+        class="tab-btn" 
+        class:active={activeTab === 'todo'}
+        on:click={() => activeTab = 'todo'}
+      >
+        To-Do ({activeTasks.length})
+      </button>
+      <button 
+        class="tab-btn" 
+        class:active={activeTab === 'completed'}
+        on:click={() => activeTab = 'completed'}
+      >
+        Completed ({completedTasks.length})
+      </button>
+      <button 
+        class="tab-btn" 
+        class:active={activeTab === 'events'}
+        on:click={() => activeTab = 'events'}
+      >
+        Events ({events.length})
+      </button>
+    </div>
+
+    <div class="tasks-content">
+      {#if activeTab === 'todo'}
+        <div class="add-task-form">
+          <input 
+            type="text" 
+            placeholder="Add a new task..." 
+            bind:value={newTaskText}
+            on:keydown={(e) => e.key === 'Enter' && addTask()}
+          />
+          <button class="add-btn" on:click={addTask}>Add</button>
+        </div>
+        <div class="tasks-list">
+          {#each activeTasks as task}
+            <div class="task-item">
+              <input 
+                type="checkbox" 
+                checked={task.completed}
+                on:change={() => toggleTask(task.id)}
+              />
+              <div class="task-content">
+                <span class="task-text">{task.text}</span>
+                <span class="task-date">Created {formatDate(task.createdAt)}</span>
+              </div>
+              <button class="task-delete-btn" on:click={() => deleteTask(task.id)}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          {:else}
+            <div class="empty-state">No tasks yet. Add one above!</div>
+          {/each}
+        </div>
+      {:else if activeTab === 'completed'}
+        <div class="completed-header">
+          <div class="completed-stats">
+            <span class="stat-label">Total Completed:</span>
+            <span class="stat-value">{completedTasks.length}</span>
+          </div>
+          {#if completedTasks.length > 0}
+            <button class="clear-completed-btn" on:click={() => {
+              if (confirm('Delete all completed tasks?')) {
+                tasks = tasks.filter(t => !t.completed);
+                saveTasksAndEvents();
+              }
+            }}>
+              Clear All
+            </button>
+          {/if}
+        </div>
+        <div class="tasks-list completed-list">
+          {#each completedTasks as task}
+            <div class="task-item completed">
+              <input 
+                type="checkbox" 
+                checked={task.completed}
+                on:change={() => toggleTask(task.id)}
+              />
+              <div class="task-content">
+                <span class="task-text">{task.text}</span>
+                <div class="task-dates">
+                  <span class="task-date">Created {formatDate(task.createdAt)}</span>
+                  {#if task.completedAt}
+                    <span class="task-date completed-date">Completed {formatDate(task.completedAt)}</span>
+                  {/if}
+                </div>
+              </div>
+              <button class="task-delete-btn" on:click={() => deleteTask(task.id)}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          {:else}
+            <div class="empty-state">No completed tasks yet. Complete a task to see it here!</div>
+          {/each}
+        </div>
+      {:else}
+        <div class="add-event-form">
+          <input 
+            type="text" 
+            placeholder="Event title..." 
+            bind:value={newEventTitle}
+          />
+          <select bind:value={newEventDay}>
+            {#each DAYS as day}
+              <option value={day}>{day}</option>
+            {/each}
+          </select>
+          <div class="time-inputs">
+            <input type="time" bind:value={newEventStart} />
+            <span>to</span>
+            <input type="time" bind:value={newEventEnd} />
+          </div>
+          <textarea 
+            placeholder="Description (optional)" 
+            bind:value={newEventDescription}
+            rows="2"
+          ></textarea>
+          <button class="add-btn" on:click={addEvent}>Add Event</button>
+        </div>
+        <div class="events-list">
+          {#each events as event}
+            <div class="event-item">
+              <div class="event-color" style={`background: ${event.color}`}></div>
+              <div class="event-details">
+                <div class="event-title">{event.title}</div>
+                <div class="event-time">{event.day} {event.start}–{event.end}</div>
+                {#if event.description}
+                  <div class="event-description">{event.description}</div>
+                {/if}
+              </div>
+              <button class="event-delete-btn" on:click={() => deleteEvent(event.id)}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          {:else}
+            <div class="empty-state">No events yet. Add one above!</div>
+          {/each}
+        </div>
+      {/if}
+    </div>
+  </aside>
+
+  <!-- TASKS PANEL TOGGLE BUTTON -->
+  <button class="tasks-toggle-btn" on:click={toggleTasksPanel} aria-label="Toggle tasks panel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M9 11l3 3L22 4"></path>
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path>
+    </svg>
+  </button>
+
   <!-- OVERLAY (when sidebar is open) -->
   {#if sidebarOpen}
     <div class="overlay" on:click={toggleSidebar}></div>
+  {/if}
+
+  <!-- OVERLAY (when tasks panel is open) -->
+  {#if tasksPanelOpen}
+    <div class="overlay" on:click={toggleTasksPanel}></div>
   {/if}
 </div>
 
@@ -582,5 +927,344 @@
     to {
       opacity: 1;
     }
+  }
+
+  .tasks-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100vh;
+    background: #f9fafb;
+    border-left: 1px solid #e5e7eb;
+    padding: 1rem;
+    overflow-y: auto;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tasks-panel.open {
+    transform: translateX(0);
+  }
+
+  .tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .tasks-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .tasks-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b7280;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s ease;
+  }
+
+  .tab-btn:hover {
+    color: #111827;
+  }
+
+  .tab-btn.active {
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+  }
+
+  .tasks-content {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .add-task-form,
+  .add-event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+  }
+
+  .add-task-form input,
+  .add-event-form input,
+  .add-event-form select,
+  .add-event-form textarea {
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+  }
+
+  .add-event-form textarea {
+    resize: vertical;
+  }
+
+  .time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .time-inputs input {
+    flex: 1;
+  }
+
+  .add-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.625rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .add-btn:hover {
+    background: #1d4ed8;
+  }
+
+  .tasks-list,
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    transition: transform 0.1s ease;
+  }
+
+  .task-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .task-item.completed {
+    background: #f9fafb;
+    opacity: 0.9;
+  }
+
+  .task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #9ca3af;
+  }
+
+  .task-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .task-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .task-text {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .task-date {
+    font-size: 0.7rem;
+    color: #9ca3af;
+  }
+
+  .task-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .completed-date {
+    color: #10b981;
+    font-weight: 500;
+  }
+
+  .completed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .completed-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .stat-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #10b981;
+  }
+
+  .clear-completed-btn {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .clear-completed-btn:hover {
+    background: #fecaca;
+  }
+
+  .completed-list {
+    max-height: calc(100vh - 400px);
+    overflow-y: auto;
+  }
+
+  .task-delete-btn,
+  .event-delete-btn {
+    background: none;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .task-delete-btn:hover,
+  .event-delete-btn:hover {
+    background: #fee2e2;
+  }
+
+  .event-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    transition: transform 0.1s ease;
+  }
+
+  .event-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .event-color {
+    width: 4px;
+    height: 100%;
+    min-height: 40px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .event-details {
+    flex: 1;
+  }
+
+  .event-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .event-time {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+  }
+
+  .event-description {
+    font-size: 0.75rem;
+    color: #4b5563;
+    margin-top: 0.25rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #9ca3af;
+    font-size: 0.875rem;
+  }
+
+  .tasks-toggle-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .tasks-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+  }
+
+  .event-block {
+    border-left: 3px solid;
   }
 </style>
