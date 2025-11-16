@@ -5,8 +5,12 @@
 
 	let { children } = $props();
 	
-	// Don't show navbar on login/register pages
-	const showNav = $derived(!$page.url.pathname.startsWith('/login') && !$page.url.pathname.startsWith('/register'));
+	// Don't show navbar on login/register pages or initial launch page
+	const showNav = $derived(
+		$page.url.pathname !== '/' && 
+		!$page.url.pathname.startsWith('/login') && 
+		!$page.url.pathname.startsWith('/register')
+	);
 </script>
 
 <svelte:head>

@@ -35,6 +35,7 @@
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
   }
   
   .nav-container {
@@ -52,10 +53,14 @@
     text-decoration: none;
     transition: all 0.2s ease;
     letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
   .nav-brand a:hover {
     color: #667eea;
+    transform: translateY(-1px);
   }
   
   .nav-links {
@@ -69,14 +74,16 @@
     text-decoration: none;
     font-weight: 500;
     padding: 0.625rem 1.25rem;
-    border-radius: 10px;
+    border-radius: 12px;
     transition: all 0.2s ease;
     font-size: 0.9375rem;
+    position: relative;
   }
   
   .nav-link:hover {
     background-color: #f1f5f9;
     color: #1a202c;
+    transform: translateY(-1px);
   }
   
   .logout-btn {
@@ -91,6 +98,7 @@
     background: #fee2e2;
     border-color: #fca5a5;
     color: #b91c1c;
+    transform: translateY(-1px);
   }
 </style>
 
