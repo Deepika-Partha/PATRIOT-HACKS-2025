@@ -61,6 +61,7 @@
     completed: boolean;
     createdAt: string;
     completedAt?: string;
+    dueDate?: string; // ISO date string
   };
 
   type CalendarEvent = {
@@ -84,17 +85,89 @@
   let tasks: Task[] = [];
   let events: CalendarEvent[] = [];
   let newTaskText = '';
+  let newTaskDueDate = '';
   let newEventTitle = '';
   let newEventDay: Day = 'Mon';
   let newEventStart = '09:00';
   let newEventEnd = '10:00';
   let newEventDescription = '';
 
+  // Week navigation state
+  let weekOffset = 0; // 0 = current week, positive = future weeks, negative = past weeks
+  let calendarBodyElement: HTMLElement | null = null;
+  let touchStartX = 0;
+  let touchStartY = 0;
+
   const DAYS: Day[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-  const START_HOUR = 8;
-  const END_HOUR = 21;
+  const START_HOUR = 0; // 12am (midnight)
+  const END_HOUR = 24; // 12am next day (full 24 hours: 12am to 11pm)
   const TOTAL_MIN = (END_HOUR - START_HOUR) * 60;
   const EVENT_COLORS = ['#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
+
+  // Date calculation functions
+  function getMondayOfWeek(date: Date): Date {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+    const monday = new Date(d);
+    monday.setDate(diff);
+    return monday;
+  }
+
+  function getWeekDates(offset: number): Date[] {
+    const today = new Date();
+    const monday = getMondayOfWeek(today);
+    monday.setDate(monday.getDate() + (offset * 7));
+    
+    const weekDates: Date[] = [];
+    for (let i = 0; i < 5; i++) {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
+      weekDates.push(date);
+    }
+    return weekDates;
+  }
+
+  function formatDateShort(date: Date): string {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${months[date.getMonth()]} ${date.getDate()}`;
+  }
+
+  function formatWeekRange(start: Date, end: Date): string {
+    const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
+    const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
+    const year = start.getFullYear();
+    
+    if (startMonth === endMonth) {
+      return `${startMonth} ${start.getDate()}-${end.getDate()}, ${year}`;
+    } else {
+      return `${startMonth} ${start.getDate()} - ${endMonth} ${end.getDate()}, ${year}`;
+    }
+  }
+
+  function isToday(date: Date): boolean {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
+           date.getFullYear() === today.getFullYear();
+  }
+
+  function getCurrentHour(): number {
+    return new Date().getHours();
+  }
+
+  function formatHour(hour: number): string {
+    if (hour === 0) return '12:00 AM';
+    if (hour === 12) return '12:00 PM';
+    if (hour < 12) return `${hour}:00 AM`;
+    return `${hour - 12}:00 PM`;
+  }
+
+  // Reactive week dates
+  $: weekDates = getWeekDates(weekOffset);
+  $: weekStart = weekDates[0];
+  $: weekEnd = weekDates[4];
+  $: weekRangeText = formatWeekRange(weekStart, weekEnd);
 
   async function loadSchedule() {
     try {
@@ -233,25 +306,27 @@
     if (!newTaskText.trim()) return;
     
     const newTask: Task = {
-      id: Date.now().toString(),
+      id: Date.now().toString() + Math.random().toString(36).substr(2, 9), // Ensure unique ID
       text: newTaskText.trim(),
       completed: false,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      dueDate: newTaskDueDate || undefined
     };
     
     tasks = [...tasks, newTask];
     newTaskText = '';
+    newTaskDueDate = '';
     saveTasksAndEvents();
   }
 
   function toggleTask(id: string) {
     tasks = tasks.map(task => {
       if (task.id === id) {
-        const wasCompleted = task.completed;
+        const newCompleted = !task.completed;
         return {
           ...task,
-          completed: !task.completed,
-          completedAt: !wasCompleted ? new Date().toISOString() : undefined
+          completed: newCompleted,
+          completedAt: newCompleted ? new Date().toISOString() : undefined
         };
       }
       return task;
@@ -273,6 +348,27 @@
     if (diffDays < 7) return `${diffDays}d ago`;
     
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined });
+  }
+
+  function formatDueDate(dateString: string): string {
+    const date = new Date(dateString);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dueDate = new Date(date);
+    dueDate.setHours(0, 0, 0, 0);
+    const diffDays = Math.floor((dueDate.getTime() - today.getTime()) / 86400000);
+
+    if (diffDays < 0) {
+      return `Overdue by ${Math.abs(diffDays)} day${Math.abs(diffDays) !== 1 ? 's' : ''}`;
+    } else if (diffDays === 0) {
+      return 'Due today';
+    } else if (diffDays === 1) {
+      return 'Due tomorrow';
+    } else if (diffDays <= 7) {
+      return `Due in ${diffDays} days`;
+    } else {
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
   }
 
   function deleteTask(id: string) {
@@ -312,10 +408,74 @@
     tasksPanelOpen = !tasksPanelOpen;
   }
 
-  const activeTasks = tasks.filter(t => !t.completed).sort((a, b) => 
+  function goToPreviousWeek() {
+    weekOffset -= 1;
+  }
+
+  function goToNextWeek() {
+    weekOffset += 1;
+  }
+
+  function goToCurrentWeek() {
+    weekOffset = 0;
+  }
+
+  function handleTouchStart(e: TouchEvent) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }
+
+  function handleTouchEnd(e: TouchEvent) {
+    if (!touchStartX || !touchStartY) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - touchEndY;
+    
+    // Only trigger if horizontal swipe is greater than vertical (to avoid interfering with scrolling)
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        // Swipe left = next week
+        goToNextWeek();
+      } else {
+        // Swipe right = previous week
+        goToPreviousWeek();
+      }
+    }
+    
+    touchStartX = 0;
+    touchStartY = 0;
+  }
+
+  function scrollToCurrentTime() {
+    if (!calendarBodyElement || weekOffset !== 0) return;
+    
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMin = now.getMinutes();
+    
+    if (currentHour < START_HOUR || currentHour >= END_HOUR) return;
+    
+    // Calculate scroll position
+    const hourIndex = currentHour - START_HOUR;
+    const scrollPosition = (hourIndex / (END_HOUR - START_HOUR)) * calendarBodyElement.scrollHeight;
+    
+    setTimeout(() => {
+      if (calendarBodyElement) {
+        calendarBodyElement.scrollTo({
+          top: scrollPosition - 100, // Offset to show some context above
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  }
+
+  // Reactive derived values for tasks
+  $: activeTasks = tasks.filter(t => !t.completed).sort((a, b) => 
     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
-  const completedTasks = tasks.filter(t => t.completed).sort((a, b) => {
+  $: completedTasks = tasks.filter(t => t.completed).sort((a, b) => {
     const aTime = a.completedAt ? new Date(a.completedAt).getTime() : 0;
     const bTime = b.completedAt ? new Date(b.completedAt).getTime() : 0;
     return bTime - aTime; // Most recently completed first
@@ -324,7 +484,18 @@
   onMount(() => {
     loadSchedule();
     loadTasksAndEvents();
+    // Auto-scroll to current time after a short delay
+    setTimeout(() => {
+      scrollToCurrentTime();
+    }, 300);
   });
+
+  // Auto-scroll when returning to current week
+  $: if (weekOffset === 0 && calendarBodyElement) {
+    setTimeout(() => {
+      scrollToCurrentTime();
+    }, 100);
+  }
 </script>
 
 <div class="page">
@@ -384,24 +555,43 @@
 
     <div class="calendar-header">
       <div class="time-col"></div>
-      {#each DAYS as d}
-        <div class="day-col-header">{d}</div>
+      <button class="week-nav-btn week-nav-left" on:click={goToPreviousWeek} aria-label="Previous week">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      {#each weekDates as date, index}
+        <div class="day-col-header" class:today={isToday(date)}>
+          <div class="day-name">{DAYS[index]}</div>
+          <div class="day-date">{formatDateShort(date)}</div>
+        </div>
       {/each}
+      <button class="week-nav-btn week-nav-right" on:click={goToNextWeek} aria-label="Next week">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
     </div>
 
-    <div class="calendar-body">
+    <div 
+      class="calendar-body"
+      bind:this={calendarBodyElement}
+      on:touchstart={handleTouchStart}
+      on:touchend={handleTouchEnd}
+    >
       <!-- time labels -->
       <div class="time-col">
         {#each Array(END_HOUR - START_HOUR) as _, i}
           <div class="time-row">
-            {START_HOUR + i}:00
+            {formatHour(START_HOUR + i)}
           </div>
         {/each}
       </div>
 
       <!-- columns per day -->
-      {#each DAYS as day}
-        <div class="day-col">
+      {#each weekDates as date, dayIndex}
+        {@const day = DAYS[dayIndex]}
+        <div class="day-col" class:today={isToday(date)}>
           {#each Array(END_HOUR - START_HOUR) as _, i}
             <div class="hour-line"></div>
           {/each}
@@ -495,6 +685,12 @@
             bind:value={newTaskText}
             on:keydown={(e) => e.key === 'Enter' && addTask()}
           />
+          <input 
+            type="date" 
+            placeholder="Due date (optional)" 
+            bind:value={newTaskDueDate}
+            class="due-date-input"
+          />
           <button class="add-btn" on:click={addTask}>Add</button>
         </div>
         <div class="tasks-list">
@@ -507,7 +703,14 @@
               />
               <div class="task-content">
                 <span class="task-text">{task.text}</span>
-                <span class="task-date">Created {formatDate(task.createdAt)}</span>
+                <div class="task-dates">
+                  <span class="task-date">Created {formatDate(task.createdAt)}</span>
+                  {#if task.dueDate}
+                    <span class="task-date due-date" class:overdue={new Date(task.dueDate) < new Date()}>
+                      {formatDueDate(task.dueDate)}
+                    </span>
+                  {/if}
+                </div>
               </div>
               <button class="task-delete-btn" on:click={() => deleteTask(task.id)}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -549,6 +752,9 @@
                 <span class="task-text">{task.text}</span>
                 <div class="task-dates">
                   <span class="task-date">Created {formatDate(task.createdAt)}</span>
+                  {#if task.dueDate}
+                    <span class="task-date due-date">Due {formatDueDate(task.dueDate)}</span>
+                  {/if}
                   {#if task.completedAt}
                     <span class="task-date completed-date">Completed {formatDate(task.completedAt)}</span>
                   {/if}
@@ -644,18 +850,18 @@
 
   .sidebar {
     position: fixed;
-    top: 0;
+    top: 70px; /* Start below navbar */
     left: 0;
     width: 320px;
-    height: 100vh;
-    background: #f9fafb;
+    height: calc(100vh - 70px); /* Account for navbar height */
+    background: #ffffff;
     border-right: 1px solid #e5e7eb;
-    padding: 1rem;
+    padding: 1.5rem;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 999; /* Below navbar (1000) but above content */
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
   }
 
   .sidebar.open {
@@ -671,7 +877,9 @@
 
   .sidebar-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
   }
 
   .close-btn {
@@ -750,8 +958,9 @@
     flex-direction: column;
     height: 100%;
     width: 100%;
-    padding: 1rem;
+    padding: 2rem;
     box-sizing: border-box;
+    background: #fafafa;
   }
 
   .toggle-sidebar-btn {
@@ -775,14 +984,76 @@
   .calendar-header {
     display: grid;
     grid-template-columns: 60px repeat(5, 1fr);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 0.25rem;
-    margin-top: 3rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+    color: #374151;
+    padding: 0.75rem 0;
+    border-bottom: 2px solid #e5e7eb;
+    position: relative;
+  }
+
+  .week-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+
+  .week-nav-btn:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    color: #111827;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .week-nav-left {
+    left: -16px;
+  }
+
+  .week-nav-right {
+    right: -16px;
   }
 
   .day-col-header {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .day-col-header.today {
+    color: #2563eb;
+  }
+
+  .day-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .day-date {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6b7280;
+  }
+
+  .day-col-header.today .day-date {
+    color: #2563eb;
+    font-weight: 600;
   }
 
   .calendar-body {
@@ -791,40 +1062,69 @@
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 
   .time-col {
     border-right: 1px solid #e5e7eb;
     font-size: 0.75rem;
     color: #6b7280;
+    display: flex;
+    flex-direction: column;
   }
 
   .time-row {
-    height: calc(100% / 13); /* 21 - 8 = 13 hours */
-    padding-right: 0.25rem;
+    height: 80px; /* Fixed height per hour for better spacing */
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
     text-align: right;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   .day-col {
     position: relative;
-    border-left: 1px solid #f3f4f6;
-    border-right: 1px solid #f3f4f6;
+    border-left: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+    background: #ffffff;
+    transition: background-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .day-col.today {
+    background: #eff6ff;
+    border-left: 2px solid #2563eb;
+    border-right: 2px solid #2563eb;
   }
 
   .hour-line {
-    height: calc(100% / 13);
-    border-top: 1px solid #f3f4f6;
+    height: 80px; /* Fixed height per hour for better spacing */
+    border-top: 1px solid #e5e7eb;
+    box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   .calendar-top-bar {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 0; /* Aligned with top of calendar-header */
+    left: 4rem; /* Moved right to avoid overlap with left arrow */
     right: 1rem;
     display: flex;
     align-items: center;
     gap: 1rem;
     z-index: 100;
+    height: 4rem; /* Match calendar-header height (padding 0.75rem * 2 + content ~2.5rem) */
+    pointer-events: none; /* Allow clicks to pass through to header */
+  }
+
+  .calendar-top-bar > * {
+    pointer-events: auto; /* Re-enable clicks on children */
   }
 
   .error-message {
@@ -911,12 +1211,12 @@
 
   .overlay {
     position: fixed;
-    top: 0;
+    top: 70px; /* Start below navbar */
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 70px); /* Account for navbar height */
     background: rgba(0, 0, 0, 0.3);
-    z-index: 999;
+    z-index: 998; /* Below panels but above content */
     animation: fadeIn 0.3s ease-in-out;
   }
 
@@ -931,18 +1231,18 @@
 
   .tasks-panel {
     position: fixed;
-    top: 0;
+    top: 70px; /* Start below navbar */
     right: 0;
     width: 380px;
-    height: 100vh;
-    background: #f9fafb;
+    height: calc(100vh - 70px); /* Account for navbar height */
+    background: #ffffff;
     border-left: 1px solid #e5e7eb;
-    padding: 1rem;
+    padding: 1.5rem;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 999; /* Below navbar (1000) but above content */
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: -2px 0 12px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
   }
@@ -960,7 +1260,9 @@
 
   .tasks-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
   }
 
   .tasks-tabs {
@@ -1112,6 +1414,24 @@
     display: flex;
     flex-direction: column;
     gap: 0.15rem;
+  }
+
+  .due-date-input {
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+  }
+
+  .due-date {
+    color: #3b82f6;
+    font-weight: 500;
+  }
+
+  .due-date.overdue {
+    color: #ef4444;
+    font-weight: 600;
   }
 
   .completed-date {

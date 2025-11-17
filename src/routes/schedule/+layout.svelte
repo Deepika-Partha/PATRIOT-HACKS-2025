@@ -3,10 +3,6 @@
 </script>
 
 <div class="schedule-wrapper">
-  <header class="schedule-header">
-    <h1>Schedule Builder</h1>
-  </header>
-
   <main class="schedule-content">
     <slot />
   </main>
@@ -14,32 +10,21 @@
 
 <style>
   .schedule-wrapper {
-    height: 100vh;
+    height: calc(100vh - 48px); /* Account for navbar height */
     width: 100vw;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     position: fixed;
-    top: 0;
+    top: 70px; /* Start below navbar */
     left: 0;
-  }
-
-  .schedule-header {
-    background: #0e5bd6;
-    color: white;
-    padding-top: 1.5em;     
-    padding-bottom: 1.5em;   
-    padding-left: 2em;
-    padding-right: 2em;
-    font-size: .5em;
-    font-weight: 700;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    flex-shrink: 0;
+    background: #ffffff;
   }
 
   .schedule-content {
     flex: 1;
     overflow: hidden;
     min-height: 0;
+    height: 100%;
   }
 </style>
