@@ -305,6 +305,27 @@
   const VALID_GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'F'];
   const GRADES_BELOW_C = ['C-', 'D+', 'D', 'F'];
 
+  // Grade to points mapping for comparison
+  const gradeToPoints = (grade: string): number => {
+    const normalizedGrade = grade.toUpperCase().trim();
+    const gradePoints: { [key: string]: number } = {
+      'A+': 4.0, 'A': 4.0, 'A-': 3.7,
+      'B+': 3.3, 'B': 3.0, 'B-': 2.7,
+      'C+': 2.3, 'C': 2.0, 'C-': 1.7,
+      'D+': 1.3, 'D': 1.0, 'F': 0.0
+    };
+    return gradePoints[normalizedGrade] || 0.0;
+  };
+
+  // Compare two grades and return which is higher (1 = grade1 higher, -1 = grade2 higher, 0 = equal)
+  function compareGrades(grade1: string, grade2: string): number {
+    const points1 = gradeToPoints(grade1);
+    const points2 = gradeToPoints(grade2);
+    if (points1 > points2) return 1;
+    if (points1 < points2) return -1;
+    return 0;
+  }
+
   function isValidGrade(grade: string): boolean {
     return VALID_GRADES.includes(grade.toUpperCase().trim());
   }
@@ -313,11 +334,13 @@
     return GRADES_BELOW_C.includes(grade.toUpperCase().trim());
   }
 
-  function hasCGrade(): boolean {
-    // Check if student already has a C grade (not C+ or C-)
-    return academicHistory.some(course => 
-      course.grade && course.grade.toUpperCase().trim() === 'C' && !course.nullified
-    );
+  function hasCGradeOrBelow(): boolean {
+    // Check if student already has a C- or D grade (per catalog: "may not use more than one course with grade C- or D")
+    // Note: The catalog says C- or D, not C. C grades are allowed multiple times.
+    return academicHistory.some(course => {
+      const grade = course.grade?.toUpperCase().trim();
+      return (grade === 'C-' || grade === 'D+' || grade === 'D') && !course.nullified;
+    });
   }
 
   function checkForDuplicate(courseId: string): any | null {
@@ -359,11 +382,17 @@
       return;
     }
 
-    // Check if student already has a C grade and trying to add another C
-    if (normalizedGrade === 'C' && hasCGrade()) {
-      error = 'You can only have at most one C grade. You already have a C grade in your academic history.';
+    // Check if student already has a C- or D grade and trying to add another C- or D
+    // Per catalog: "may not use more than one course with grade C- or D toward departmental requirements"
+    // Note: C (not C-) is allowed multiple times. F is also allowed multiple times.
+    // Only restrict C- or D grades, not C or F
+    if ((normalizedGrade === 'C-' || normalizedGrade === 'D+' || normalizedGrade === 'D') && hasCGradeOrBelow()) {
+      error = 'You can only have at most one course with grade C- or D. You already have a C- or D grade in your academic history. Note: C grades (without the minus) and F grades are allowed multiple times.';
       return;
     }
+    
+    // C grades (without minus) and F grades are always allowed
+    // No additional validation needed for these
 
     const courseToAdd = {
       courseId: courseLookup.courseId,
@@ -384,7 +413,7 @@
     await proceedWithAddCourse(courseToAdd);
   }
 
-  async function proceedWithAddCourse(courseToAdd: any, nullifyOld: boolean = false) {
+  async function proceedWithAddCourse(courseToAdd: any, nullifyOld: boolean = false, gradeComparison: number = 0) {
     error = ''; // Clear any previous errors
     try {
     const res = await fetch('/api/student/addCompletedCourse', {
@@ -394,11 +423,14 @@
           ...courseToAdd,
           nullifyOldCourse: nullifyOld,
           oldCourseSemester: nullifyOld ? duplicateCourse?.semester : undefined,
-          oldCourseGrade: nullifyOld ? duplicateCourse?.grade : undefined
+          oldCourseGrade: nullifyOld ? duplicateCourse?.grade : undefined,
+          gradeComparison: nullifyOld ? gradeComparison : undefined // 1 = new higher, -1 = old higher, 0 = equal
         })
       });
       
     if (res.ok) {
+        // Always clear error on success - retakes are now always added
+        error = '';
         await fetchStudentInfo();
         newCourse = { courseId: '', semester: '', grade: '' };
         courseLookup = null;
@@ -407,7 +439,6 @@
         showRetakeModal = false;
         duplicateCourse = null;
         pendingCourseToAdd = null;
-        error = '';
     } else {
         const errorData = await res.json();
         error = errorData.error || 'Failed to add course';
@@ -420,8 +451,28 @@
   }
 
   function handleRetakeYes() {
-    if (pendingCourseToAdd) {
-      proceedWithAddCourse(pendingCourseToAdd, true);
+    if (pendingCourseToAdd && duplicateCourse) {
+      // Compare grades to determine which one to keep
+      const oldGrade = duplicateCourse.grade || '';
+      const newGrade = pendingCourseToAdd.grade || '';
+      const comparison = compareGrades(newGrade, oldGrade);
+      
+      // If new grade is higher, nullify old and add new
+      // If old grade is higher or equal, nullify new (don't add it) and keep old
+      // But we always want to add the new attempt, so we'll:
+      // - If new is higher: nullify old, add new
+      // - If old is higher: nullify old, add new (but this means we're replacing with a lower grade, which is unusual but possible)
+      // Actually, the user wants to keep the higher grade, so:
+      // - If new is higher: nullify old, add new
+      // - If old is higher: don't add new, keep old (but this means we don't record the retake)
+      
+      // Better approach: Always add the new course, but nullify the one with the lower grade
+      // If new grade is higher or equal, nullify old
+      // If old grade is higher, nullify the new one after adding (but we can't do that easily)
+      
+      // Simplest: Always nullify old when retaking, but we should compare and potentially warn
+      // Actually, let's always nullify the lower grade. We'll determine which to nullify on the backend.
+      proceedWithAddCourse(pendingCourseToAdd, true, comparison);
     }
   }
 
@@ -446,14 +497,19 @@
   }
 
   function getRemainingCourses() {
-    // Only count non-nullified required courses that count toward diploma as completed
+    // Only count non-nullified courses that count toward diploma as completed
     // Include both actual academic history and potential courses
     const allCompletedCourses = [...academicHistory, ...potentialCourses];
     const completedCourseIds = allCompletedCourses
       .filter(c => {
-        // Course must be required, not nullified, and count toward diploma
-        const countsTowardDiploma = c.countsTowardDiploma !== false; // Default to true if not set
-        return c.required && !c.nullified && countsTowardDiploma;
+        // Course must not be nullified and must count toward diploma (using cache)
+        if (c.nullified) return false;
+        
+        // Check cache for accurate count (already considers grade and CS degree requirements)
+        const cacheKey = `${c.courseId}_${(c.grade || '').toUpperCase().trim()}`;
+        const courseCounts = courseCountsCache[cacheKey] ?? (c.countsTowardDiploma !== false);
+        
+        return courseCounts;
       })
       .map(c => c.courseId.toUpperCase());
     
@@ -461,12 +517,14 @@
   }
 
   function getNonCountingCourses() {
-    // Courses that don't count: not required, or below C grade, or explicitly marked as not counting
+    // Courses that don't count: either below C grade or not in CS degree requirements
     // Include both actual and potential courses
     const allCourses = [...academicHistory, ...potentialCourses];
     return allCourses.filter(c => {
-      const countsTowardDiploma = c.countsTowardDiploma !== false; // Default to true if not set
-      return !c.required || !countsTowardDiploma;
+      // Check cache first for more accurate counting
+      const cacheKey = `${c.courseId}_${(c.grade || '').toUpperCase().trim()}`;
+      const courseCounts = courseCountsCache[cacheKey] ?? (c.countsTowardDiploma !== false);
+      return !courseCounts && !c.nullified;
     });
   }
 
@@ -564,16 +622,19 @@
       return;
     }
 
-    // Check C grade limit (including potential courses)
-    if (normalizedGrade === 'C') {
-      const hasCInHistory = academicHistory.some(c => 
-        c.grade && c.grade.toUpperCase().trim() === 'C' && !c.nullified
-      );
-      const hasCInPotential = potentialCourses.some(c => 
-        c.grade && c.grade.toUpperCase().trim() === 'C'
-      );
+    // Check C- or D grade limit (including potential courses)
+    // Per catalog: "may not use more than one course with grade C- or D"
+    if (normalizedGrade === 'C-' || normalizedGrade === 'D+' || normalizedGrade === 'D') {
+      const hasCInHistory = academicHistory.some(c => {
+        const grade = c.grade?.toUpperCase().trim();
+        return (grade === 'C-' || grade === 'D+' || grade === 'D') && !c.nullified;
+      });
+      const hasCInPotential = potentialCourses.some(c => {
+        const grade = c.grade?.toUpperCase().trim();
+        return grade === 'C-' || grade === 'D+' || grade === 'D';
+      });
       if (hasCInHistory || hasCInPotential) {
-        error = 'You can only have at most one C grade. You already have a C grade.';
+        error = 'You can only have at most one course with grade C- or D. You already have a C- or D grade.';
         return;
       }
     }
@@ -1550,7 +1611,7 @@
   {#each academicHistory as course}
             {@const cacheKey = `${course.courseId}_${(course.grade || '').toUpperCase().trim()}`}
             {@const courseCounts = course.nullified ? false : (courseCountsCache[cacheKey] ?? true)}
-            <div class="course-item" class:non-counting={!course.required || !courseCounts} class:nullified={course.nullified}>
+            <div class="course-item" class:non-counting={!courseCounts} class:nullified={course.nullified}>
               <div style="flex: 1;">
                 <div class="course-code">{course.courseId || 'N/A'}</div>
                 <div class="course-title">{course.title || 'N/A'}</div>
@@ -1558,7 +1619,7 @@
                   {course.semester || 'N/A'} • {course.credits || 0} credits • Grade: {course.grade || 'N/A'}
                   {#if course.nullified}
                     <span style="color: #dc2626; margin-left: 0.5rem; font-weight: 500;">(Nullified - Retaken)</span>
-                  {:else if !course.required || !courseCounts}
+                  {:else if !courseCounts}
                     <span style="color: #d97706; margin-left: 0.5rem; font-weight: 500;">(Does not count toward degree)</span>
                   {/if}
                 </div>
@@ -1851,7 +1912,7 @@
                   }}
                 />
                 <small style="color: #64748b; font-size: 0.75rem; margin-top: 0.25rem; display: block;">
-                  Valid grades: A+, A, A-, B+, B, B-, C+, C, C-, D+, D, F. Grades below C (C-, D+, D, F) do not count toward diploma. You can have at most one C grade.
+                  Valid grades: A+, A, A-, B+, B, B-, C+, C, C-, D+, D, F. Grades below C (C-, D+, D, F) do not count toward diploma. You can have at most one course with grade C- or D. <strong>C grades (without minus) and F grades can be added multiple times.</strong>
                 </small>
               </div>
             {/if}
@@ -1899,7 +1960,37 @@
             
             <div class="retake-info">
               <p>You've already taken <strong>{duplicateCourse.courseId} - {duplicateCourse.title}</strong> in <strong>{duplicateCourse.semester}</strong> with a grade of <strong>{duplicateCourse.grade}</strong>.</p>
-              <p>Are you retaking this course?</p>
+              <p>You're now adding this course with a grade of <strong>{pendingCourseToAdd?.grade || 'N/A'}</strong>.</p>
+              {#if pendingCourseToAdd && duplicateCourse}
+                {@const oldGrade = duplicateCourse.grade || ''}
+                {@const newGrade = pendingCourseToAdd.grade || ''}
+                {@const comparison = compareGrades(newGrade, oldGrade)}
+                {@const oldBelowC = isGradeBelowC(oldGrade)}
+                {@const newBelowC = isGradeBelowC(newGrade)}
+                
+                {#if oldBelowC}
+                  <p style="color: #059669; font-weight: 500; margin-top: 0.5rem;">
+                    ✓ Your previous grade ({oldGrade}) is below C, so it will be nullified and the new grade ({newGrade}) will be kept.
+                  </p>
+                {:else if newBelowC && !oldBelowC}
+                  <p style="color: #f59e0b; font-weight: 500; margin-top: 0.5rem;">
+                    ⚠️ Your new grade ({newGrade}) is below C, but your previous grade ({oldGrade}) is C or above. The retake will be recorded, but only your previous grade ({oldGrade}) will count toward your degree.
+                  </p>
+                {:else if comparison > 0}
+                  <p style="color: #059669; font-weight: 500; margin-top: 0.5rem;">
+                    ✓ Your new grade ({newGrade}) is higher than your previous grade ({oldGrade}). The previous grade will be nullified and the new grade will be kept.
+                  </p>
+                {:else if comparison < 0}
+                  <p style="color: #f59e0b; font-weight: 500; margin-top: 0.5rem;">
+                    ⚠️ Your previous grade ({oldGrade}) is higher than your new grade ({newGrade}). The retake will be recorded, but only your previous grade ({oldGrade}) will count toward your degree.
+                  </p>
+                {:else}
+                  <p style="color: #64748b; font-weight: 500; margin-top: 0.5rem;">
+                    Your new grade ({newGrade}) is the same as your previous grade ({oldGrade}). The previous grade will be nullified and the new grade will be kept.
+                  </p>
+                {/if}
+              {/if}
+              <p style="margin-top: 1rem;">Are you retaking this course?</p>
             </div>
 
             <div class="retake-actions">
