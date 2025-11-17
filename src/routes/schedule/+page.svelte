@@ -19,41 +19,9 @@
   };
 
   // Available sections to choose from
-  let allSections: CourseSection[] = [
-    {
-      id: 'cs310-001',
-      code: 'CS 310',
-      title: 'Data Structures',
-      section: '001',
-      color: '#60a5fa',
-      meetings: [
-        { day: 'Mon', start: '09:00', end: '10:15' },
-        { day: 'Wed', start: '09:00', end: '10:15' }
-      ]
-    },
-    {
-      id: 'cs321-002',
-      code: 'CS 321',
-      title: 'Software Engineering',
-      section: '002',
-      color: '#f97316',
-      meetings: [
-        { day: 'Tue', start: '13:30', end: '14:45' },
-        { day: 'Thu', start: '13:30', end: '14:45' }
-      ]
-    },
-    {
-      id: 'math203-003',
-      code: 'MATH 203',
-      title: 'Linear Algebra',
-      section: '003',
-      color: '#22c55e',
-      meetings: [
-        { day: 'Mon', start: '11:30', end: '12:45' },
-        { day: 'Wed', start: '11:30', end: '12:45' }
-      ]
-    }
-  ];
+  let allSections: CourseSection[] = [];
+  let coursesLoading = false;
+  let searchQuery = '';
 
   type Task = {
     id: string;
@@ -103,6 +71,153 @@
   const END_HOUR = 24; // 12am next day (full 24 hours: 12am to 11pm)
   const TOTAL_MIN = (END_HOUR - START_HOUR) * 60;
   const EVENT_COLORS = ['#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
+
+  // Color palette for different subjects
+  const SUBJECT_COLORS: Record<string, string> = {
+    'CS': '#60a5fa',      // Blue for Computer Science
+    'MATH': '#22c55e',    // Green for Mathematics
+    'PHYS': '#f59e0b',    // Orange for Physics
+    'CHEM': '#ec4899',    // Pink for Chemistry
+    'BIOL': '#10b981',    // Emerald for Biology
+    'ENGH': '#8b5cf6',    // Purple for English
+    'COMM': '#f97316',    // Orange for Communications
+    'STAT': '#06b6d4',    // Cyan for Statistics
+    'ECE': '#3b82f6',     // Blue for Electrical Engineering
+    'SWE': '#14b8a6',     // Teal for Software Engineering
+    'SYST': '#a855f7',    // Purple for Systems Engineering
+  };
+
+  function getColorForSubject(subject: string): string {
+    const normalizedSubject = subject.toUpperCase().trim();
+    return SUBJECT_COLORS[normalizedSubject] || EVENT_COLORS[Math.abs(normalizedSubject.charCodeAt(0) || 0) % EVENT_COLORS.length];
+  }
+
+  type GMUCourse = {
+    subject: string;
+    number: string;
+    code: string;
+    title: string;
+    credits: number;
+    description?: string;
+    url?: string;
+  };
+
+  async function loadGMUCourses() {
+    try {
+      coursesLoading = true;
+      const res = await fetch('/gmu_courses.json');
+      if (!res.ok) {
+        throw new Error('Failed to load courses');
+      }
+      const courses: GMUCourse[] = await res.json();
+      
+      // Transform to CourseSection format
+      allSections = courses.map((course, index) => {
+        const subject = course.subject || course.code.split(' ')[0] || 'UNK';
+        // Use "001" as default section (since JSON doesn't have section numbers)
+        const sectionNumber = '001';
+        // Generate unique ID from course code (normalized)
+        // Use course code directly to ensure uniqueness
+        const id = `${course.code.toLowerCase().replace(/\s+/g, '')}-${sectionNumber}`;
+        
+        // Add fake meeting times for demonstration courses (ensuring no overlaps)
+        let meetings: MeetingTime[] = [];
+        let courseColor = getColorForSubject(subject);
+        const normalizedCode = course.code.toUpperCase().trim();
+        
+        if (normalizedCode === 'CS 110') {
+          // Essentials of Computer Science - Mon/Wed 09:00-10:15
+          meetings = [
+            { day: 'Mon', start: '09:00', end: '10:15' },
+            { day: 'Wed', start: '09:00', end: '10:15' }
+          ];
+          courseColor = '#3b82f6'; // Blue
+        } else if (normalizedCode === 'CS 112') {
+          // Introduction to Computer Programming - Tue/Thu 10:30-11:45
+          meetings = [
+            { day: 'Tue', start: '10:30', end: '11:45' },
+            { day: 'Thu', start: '10:30', end: '11:45' }
+          ];
+          courseColor = '#a855f7'; // Purple
+        } else if (normalizedCode === 'MATH 124') {
+          // Calculus I - Mon/Wed/Fri 12:00-13:15
+          meetings = [
+            { day: 'Mon', start: '12:00', end: '13:15' },
+            { day: 'Wed', start: '12:00', end: '13:15' },
+            { day: 'Fri', start: '12:00', end: '13:15' }
+          ];
+          courseColor = '#22c55e'; // Green
+        } else if (normalizedCode === 'AVT 202') {
+          // Art and Visual Technology course - Tue/Thu 14:00-16:30
+          meetings = [
+            { day: 'Tue', start: '14:00', end: '16:30' },
+            { day: 'Thu', start: '14:00', end: '16:30' }
+          ];
+          courseColor = '#f97316'; // Orange
+        }
+        
+        return {
+          id,
+          code: course.code,
+          title: course.title,
+          section: sectionNumber,
+          color: courseColor,
+          meetings
+        };
+      });
+      
+      console.log(`Loaded ${allSections.length} courses from GMU catalog`);
+    } catch (err) {
+      console.error('Error loading GMU courses:', err);
+      error = 'Failed to load courses. Using default courses.';
+      // Fallback to default courses
+      allSections = [
+        {
+          id: 'cs310-001',
+          code: 'CS 310',
+          title: 'Data Structures',
+          section: '001',
+          color: '#60a5fa',
+          meetings: [
+            { day: 'Mon', start: '09:00', end: '10:15' },
+            { day: 'Wed', start: '09:00', end: '10:15' }
+          ]
+        },
+        {
+          id: 'cs321-002',
+          code: 'CS 321',
+          title: 'Software Engineering',
+          section: '002',
+          color: '#f97316',
+          meetings: [
+            { day: 'Tue', start: '13:30', end: '14:45' },
+            { day: 'Thu', start: '13:30', end: '14:45' }
+          ]
+        },
+        {
+          id: 'math203-003',
+          code: 'MATH 203',
+          title: 'Linear Algebra',
+          section: '003',
+          color: '#22c55e',
+          meetings: [
+            { day: 'Mon', start: '11:30', end: '12:45' },
+            { day: 'Wed', start: '11:30', end: '12:45' }
+          ]
+        }
+      ];
+    } finally {
+      coursesLoading = false;
+    }
+  }
+
+  // Filtered sections based on search query
+  $: filteredSections = searchQuery.trim() === '' 
+    ? allSections 
+    : allSections.filter(sec => 
+        sec.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        sec.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
 
   // Date calculation functions
   function getMondayOfWeek(date: Date): Date {
@@ -178,9 +293,19 @@
         const data = await res.json();
         // Load saved sections from database
         if (data.currentSchedule && Array.isArray(data.currentSchedule) && data.currentSchedule.length > 0) {
+          // Merge saved schedule with loaded courses
+          // Match saved courses by ID and preserve meeting times
+          const savedCourses = data.currentSchedule as CourseSection[];
+          savedCourses.forEach((savedCourse: CourseSection) => {
+            const matchingSection = allSections.find(sec => sec.id === savedCourse.id);
+            if (matchingSection && savedCourse.meetings && savedCourse.meetings.length > 0) {
+              // Preserve meeting times from saved schedule
+              matchingSection.meetings = savedCourse.meetings;
+            }
+          });
+          
           // Restore active section IDs from saved schedule
-          // The database stores the full CourseSection objects, so we extract the IDs
-          activeSectionIds = data.currentSchedule
+          activeSectionIds = savedCourses
             .map((course: CourseSection) => course.id)
             .filter((id: string) => allSections.some(sec => sec.id === id));
         } else {
@@ -481,8 +606,10 @@
     return bTime - aTime; // Most recently completed first
   });
 
-  onMount(() => {
-    loadSchedule();
+  onMount(async () => {
+    // Load GMU courses first, then load schedule
+    await loadGMUCourses();
+    await loadSchedule();
     loadTasksAndEvents();
     // Auto-scroll to current time after a short delay
     setTimeout(() => {
@@ -512,7 +639,23 @@
     </div>
     <p class="hint">Click a class to add/remove it from your schedule.</p>
 
-    {#each allSections as sec}
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search courses (e.g., CS 310, Data Structures)" 
+        bind:value={searchQuery}
+        class="search-input"
+      />
+      {#if coursesLoading}
+        <div class="loading-text">Loading courses...</div>
+      {/if}
+    </div>
+
+    {#if filteredSections.length === 0 && !coursesLoading}
+      <div class="empty-state">No courses found. Try a different search.</div>
+    {/if}
+
+    {#each filteredSections as sec}
       <button
         class="section-card"
         class:active={activeSectionIds.includes(sec.id)}
@@ -523,11 +666,15 @@
           <span class="dot" style={`background:${sec.color}`}></span>
         </div>
         <div class="title">{sec.title}</div>
-        <div class="times">
-          {#each sec.meetings as m}
-            <div>{m.day}: {m.start}–{m.end}</div>
-          {/each}
-        </div>
+        {#if sec.meetings.length > 0}
+          <div class="times">
+            {#each sec.meetings as m}
+              <div>{m.day}: {m.start}–{m.end}</div>
+            {/each}
+          </div>
+        {:else}
+          <div class="times no-meetings">No meeting times set</div>
+        {/if}
       </button>
     {/each}
   </aside>
@@ -904,6 +1051,46 @@
     font-size: 0.85rem;
     color: #6b7280;
     margin-bottom: 0.75rem;
+  }
+
+  .search-box {
+    margin-bottom: 1rem;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  .loading-text {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #9ca3af;
+    font-size: 0.875rem;
+  }
+
+  .no-meetings {
+    color: #9ca3af;
+    font-style: italic;
+    font-size: 0.75rem;
   }
 
   .section-card {
