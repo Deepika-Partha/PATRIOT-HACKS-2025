@@ -17,6 +17,11 @@
   let showRetakeModal = $state(false);
   let duplicateCourse = $state<any>(null);
   let pendingCourseToAdd = $state<any>(null);
+  
+  // Autocomplete for course input
+  let courseSuggestions = $state<any[]>([]);
+  let showSuggestions = $state(false);
+  let selectedSuggestionIndex = $state(-1);
 
   // Potential courses (temporary)
   let potentialCourses = $state<any[]>([]);
@@ -24,6 +29,11 @@
   let newPotentialCourse = $state({ courseId: '', grade: 'A' });
   let potentialCourseLookup = $state<any>(null);
   let potentialLookupError = $state('');
+  
+  // Autocomplete for potential course input
+  let potentialSuggestions = $state<any[]>([]);
+  let showPotentialSuggestions = $state(false);
+  let selectedPotentialIndex = $state(-1);
 
   let error = $state('');
   let loading = $state(true);
@@ -102,6 +112,63 @@
     }
   }
 
+  // Cache for course counts toward degree checks
+  let courseCountsCache = $state<Record<string, boolean>>({});
+
+  // Check if a course counts toward degree (recalculate on display)
+  async function checkCourseCountsTowardDegree(courseId: string, grade: string): Promise<boolean> {
+    const GRADES_BELOW_C = ['C-', 'D+', 'D', 'F'];
+    const normalizedGrade = grade?.toUpperCase().trim() || '';
+    
+    // If grade is below C, it doesn't count regardless
+    if (GRADES_BELOW_C.includes(normalizedGrade)) {
+      return false;
+    }
+    
+    // Check cache first
+    const cacheKey = `${courseId}_${normalizedGrade}`;
+    if (courseCountsCache[cacheKey] !== undefined) {
+      return courseCountsCache[cacheKey];
+    }
+    
+    try {
+      const res = await fetch(`/api/courses/countsTowardDegree/${encodeURIComponent(courseId)}`);
+    if (res.ok) {
+      const data = await res.json();
+        const counts = data.countsTowardDegree === true;
+        courseCountsCache[cacheKey] = counts;
+        return counts;
+      }
+    } catch (err) {
+      console.error('Error checking if course counts:', err);
+    }
+    
+    // Fallback: assume it counts if we can't check
+    return true;
+  }
+
+  // Recalculate counts for all courses when academic history changes
+  async function recalculateCourseCounts() {
+    const newCache: Record<string, boolean> = {};
+    // Process all courses in parallel for faster loading
+    const promises = academicHistory.map(async (course) => {
+      if (course.nullified) {
+        const cacheKey = `${course.courseId}_${(course.grade || '').toUpperCase().trim()}`;
+        return { key: cacheKey, counts: false };
+      }
+      const counts = await checkCourseCountsTowardDegree(course.courseId, course.grade || '');
+      const cacheKey = `${course.courseId}_${(course.grade || '').toUpperCase().trim()}`;
+      return { key: cacheKey, counts };
+    });
+    
+    const results = await Promise.all(promises);
+    results.forEach(({ key, counts }) => {
+      newCache[key] = counts;
+    });
+    
+    courseCountsCache = newCache;
+  }
+
   async function fetchStudentInfo() {
     loading = true;
     error = '';
@@ -116,6 +183,9 @@
         credits = data.credits || {};
         email = data.email || '';
         studentYear = data.year || data.profile?.year || null;
+        
+        // Recalculate course counts after fetching
+        await recalculateCourseCounts();
     } else {
         const errorData = await res.json();
         error = errorData.error || 'Failed to fetch student information';
@@ -152,6 +222,49 @@
     
     // Reverse to show most recent first
     return semesters.reverse();
+  }
+
+  // Search courses for autocomplete
+  async function searchCourses(query: string) {
+    if (!query || query.trim().length === 0) {
+      courseSuggestions = [];
+      showSuggestions = false;
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/courses/search?q=${encodeURIComponent(query)}&limit=10`);
+      if (res.ok) {
+        const data = await res.json();
+        courseSuggestions = data.courses || [];
+        showSuggestions = courseSuggestions.length > 0;
+        selectedSuggestionIndex = -1;
+      }
+    } catch (err) {
+      console.error('Search error:', err);
+      courseSuggestions = [];
+      showSuggestions = false;
+    }
+  }
+
+  // Debounced search function
+  let searchTimeout: ReturnType<typeof setTimeout> | null = null;
+  function handleCourseInput() {
+    if (searchTimeout) clearTimeout(searchTimeout);
+    
+    searchTimeout = setTimeout(async () => {
+      await searchCourses(newCourse.courseId);
+      // Also do the lookup for exact match
+      await lookupCourse();
+    }, 200);
+  }
+
+  function selectCourse(course: any) {
+    newCourse.courseId = course.courseId;
+    courseLookup = course;
+    courseSuggestions = [];
+    showSuggestions = false;
+    lookupError = '';
   }
 
   async function lookupCourse() {
@@ -357,6 +470,49 @@
     });
   }
 
+  // Search courses for potential course autocomplete
+  async function searchPotentialCourses(query: string) {
+    if (!query || query.trim().length === 0) {
+      potentialSuggestions = [];
+      showPotentialSuggestions = false;
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/courses/search?q=${encodeURIComponent(query)}&limit=10`);
+      if (res.ok) {
+        const data = await res.json();
+        potentialSuggestions = data.courses || [];
+        showPotentialSuggestions = potentialSuggestions.length > 0;
+        selectedPotentialIndex = -1;
+      }
+    } catch (err) {
+      console.error('Search error:', err);
+      potentialSuggestions = [];
+      showPotentialSuggestions = false;
+    }
+  }
+
+  // Debounced search function for potential courses
+  let potentialSearchTimeout: ReturnType<typeof setTimeout> | null = null;
+  function handlePotentialCourseInput() {
+    if (potentialSearchTimeout) clearTimeout(potentialSearchTimeout);
+    
+    potentialSearchTimeout = setTimeout(async () => {
+      await searchPotentialCourses(newPotentialCourse.courseId);
+      // Also do the lookup for exact match
+      await lookupPotentialCourse();
+    }, 200);
+  }
+
+  function selectPotentialCourse(course: any) {
+    newPotentialCourse.courseId = course.courseId;
+    potentialCourseLookup = course;
+    potentialSuggestions = [];
+    showPotentialSuggestions = false;
+    potentialLookupError = '';
+  }
+
   async function lookupPotentialCourse() {
     if (!newPotentialCourse.courseId) {
       potentialCourseLookup = null;
@@ -382,7 +538,7 @@
     }
   }
 
-  function addPotentialCourse() {
+  async function addPotentialCourse() {
     if (!potentialCourseLookup) {
       error = 'Please enter a valid course number';
       return;
@@ -423,8 +579,25 @@
     }
 
     // Determine if counts toward diploma
+    // First check if course counts toward CS degree (based on PDF requirements)
+    // Then check if grade is acceptable (C or above)
     const GRADES_BELOW_C = ['C-', 'D+', 'D', 'F'];
-    const countsTowardDiploma = potentialCourseLookup.required && !GRADES_BELOW_C.includes(normalizedGrade);
+    
+    // Check with server if course counts toward CS degree
+    let countsTowardCSDegree = potentialCourseLookup.required; // Default to catalog value
+    try {
+      const response = await fetch(`/api/courses/countsTowardDegree/${encodeURIComponent(potentialCourseLookup.courseId)}`);
+      if (response.ok) {
+        const data = await response.json();
+        countsTowardCSDegree = data.countsTowardDegree;
+      }
+    } catch (err) {
+      console.error('Error checking if course counts toward degree:', err);
+      // Fall back to catalog value
+    }
+    
+    // Course counts if: (1) it counts toward CS degree AND (2) grade is C or above
+    const countsTowardDiploma = countsTowardCSDegree && !GRADES_BELOW_C.includes(normalizedGrade);
 
     const potentialCourse = {
       courseId: potentialCourseLookup.courseId,
@@ -476,17 +649,18 @@
     // Filter courses that count toward diploma
     // Only count courses that:
     // 1. Are not nullified
-    // 2. Have countsTowardDiploma === true (or not explicitly false)
+    // 2. Count toward degree (using cache or recalculated)
     // 3. Have valid grades and credits
     const coursesThatCount = allCourses.filter(course => {
       // Skip nullified courses
       if (course.nullified) return false;
       
-      // Check if course counts toward diploma
-      const countsTowardDiploma = course.countsTowardDiploma !== false;
-      
       // Must have valid grade and credits
       if (!course.grade || !course.credits) return false;
+      
+      // Check if course counts toward diploma using cache
+      const cacheKey = `${course.courseId}_${(course.grade || '').toUpperCase().trim()}`;
+      const countsTowardDiploma = courseCountsCache[cacheKey] ?? (course.countsTowardDiploma !== false);
       
       return countsTowardDiploma;
     });
@@ -850,6 +1024,55 @@
     letter-spacing: -0.02em;
   }
   
+  .autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    margin-top: 0.25rem;
+  }
+
+  .autocomplete-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.15s ease;
+  }
+
+  .autocomplete-item:last-child {
+    border-bottom: none;
+  }
+
+  .autocomplete-item:hover,
+  .autocomplete-item.selected {
+    background-color: #f0f9ff;
+  }
+
+  .autocomplete-course-id {
+    font-weight: 600;
+    color: #1a202c;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .autocomplete-course-title {
+    color: #475569;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .autocomplete-course-meta {
+    color: #64748b;
+    font-size: 0.75rem;
+  }
+
   .form-group {
     margin-bottom: 1.5rem;
   }
@@ -1325,7 +1548,9 @@
         </div>
         {#if academicHistory.length > 0}
   {#each academicHistory as course}
-            <div class="course-item" class:non-counting={!course.required || course.countsTowardDiploma === false} class:nullified={course.nullified}>
+            {@const cacheKey = `${course.courseId}_${(course.grade || '').toUpperCase().trim()}`}
+            {@const courseCounts = course.nullified ? false : (courseCountsCache[cacheKey] ?? true)}
+            <div class="course-item" class:non-counting={!course.required || !courseCounts} class:nullified={course.nullified}>
               <div style="flex: 1;">
                 <div class="course-code">{course.courseId || 'N/A'}</div>
                 <div class="course-title">{course.title || 'N/A'}</div>
@@ -1333,7 +1558,7 @@
                   {course.semester || 'N/A'} • {course.credits || 0} credits • Grade: {course.grade || 'N/A'}
                   {#if course.nullified}
                     <span style="color: #dc2626; margin-left: 0.5rem; font-weight: 500;">(Nullified - Retaken)</span>
-                  {:else if !course.required || course.countsTowardDiploma === false}
+                  {:else if !course.required || !courseCounts}
                     <span style="color: #d97706; margin-left: 0.5rem; font-weight: 500;">(Does not count toward degree)</span>
                   {/if}
                 </div>
@@ -1370,16 +1595,60 @@
             </p>
             
             <div style="display: flex; gap: 1rem; align-items: flex-end;">
-              <div style="flex: 1;">
+              <div style="flex: 1; position: relative;">
                 <label for="potential-course-number" style="display: block; font-weight: 500; color: #374151; font-size: 0.875rem; margin-bottom: 0.5rem;">Course Number</label>
                 <input 
                   id="potential-course-number"
                   type="text" 
                   placeholder="e.g., CS 310"
                   bind:value={newPotentialCourse.courseId}
-                  on:input={lookupPotentialCourse}
+                  on:input={handlePotentialCourseInput}
+                  on:focus={() => {
+                    if (newPotentialCourse.courseId && potentialSuggestions.length > 0) {
+                      showPotentialSuggestions = true;
+                    }
+                  }}
+                  on:blur={() => {
+                    setTimeout(() => {
+                      showPotentialSuggestions = false;
+                    }, 200);
+                  }}
+                  on:keydown={(e) => {
+                    if (e.key === 'ArrowDown') {
+                      e.preventDefault();
+                      selectedPotentialIndex = Math.min(selectedPotentialIndex + 1, potentialSuggestions.length - 1);
+                    } else if (e.key === 'ArrowUp') {
+                      e.preventDefault();
+                      selectedPotentialIndex = Math.max(selectedPotentialIndex - 1, -1);
+                    } else if (e.key === 'Enter' && selectedPotentialIndex >= 0) {
+                      e.preventDefault();
+                      selectPotentialCourse(potentialSuggestions[selectedPotentialIndex]);
+                    } else if (e.key === 'Escape') {
+                      showPotentialSuggestions = false;
+                    }
+                  }}
+                  autocomplete="off"
                   style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem;"
                 />
+                
+                {#if showPotentialSuggestions && potentialSuggestions.length > 0}
+                  <div class="autocomplete-dropdown" style="position: absolute; top: 100%; left: 0; right: 0; z-index: 1000;">
+                    {#each potentialSuggestions as course, index}
+                      <div 
+                        class="autocomplete-item"
+                        class:selected={index === selectedPotentialIndex}
+                        on:click={() => selectPotentialCourse(course)}
+                        on:mouseenter={() => selectedPotentialIndex = index}
+                      >
+                        <div class="autocomplete-course-id">{course.courseId}</div>
+                        <div class="autocomplete-course-title">{course.title}</div>
+                        <div class="autocomplete-course-meta">
+                          {course.credits} credits • {course.required ? 'Required' : 'Elective'}
+                        </div>
+                      </div>
+  {/each}
+                  </div>
+                {/if}
               </div>
               <div style="width: 120px;">
                 <label for="potential-grade" style="display: block; font-weight: 500; color: #374151; font-size: 0.875rem; margin-bottom: 0.5rem;">Grade</label>
@@ -1483,15 +1752,60 @@
           >
             <h2 id="modal-title">Add Completed Course</h2>
             
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
               <label for="course-number">Course Number</label>
               <input 
                 id="course-number"
                 type="text" 
                 placeholder="e.g., CS 310"
                 bind:value={newCourse.courseId}
-                on:input={lookupCourse}
+                on:input={handleCourseInput}
+                on:focus={() => {
+                  if (newCourse.courseId && courseSuggestions.length > 0) {
+                    showSuggestions = true;
+                  }
+                }}
+                on:blur={() => {
+                  // Delay hiding to allow click on suggestion
+                  setTimeout(() => {
+                    showSuggestions = false;
+                  }, 200);
+                }}
+                on:keydown={(e) => {
+                  if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedSuggestionIndex = Math.min(selectedSuggestionIndex + 1, courseSuggestions.length - 1);
+                  } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedSuggestionIndex = Math.max(selectedSuggestionIndex - 1, -1);
+                  } else if (e.key === 'Enter' && selectedSuggestionIndex >= 0) {
+                    e.preventDefault();
+                    selectCourse(courseSuggestions[selectedSuggestionIndex]);
+                  } else if (e.key === 'Escape') {
+                    showSuggestions = false;
+                  }
+                }}
+                autocomplete="off"
               />
+              
+              {#if showSuggestions && courseSuggestions.length > 0}
+                <div class="autocomplete-dropdown">
+                  {#each courseSuggestions as course, index}
+                    <div 
+                      class="autocomplete-item"
+                      class:selected={index === selectedSuggestionIndex}
+                      on:click={() => selectCourse(course)}
+                      on:mouseenter={() => selectedSuggestionIndex = index}
+                    >
+                      <div class="autocomplete-course-id">{course.courseId}</div>
+                      <div class="autocomplete-course-title">{course.title}</div>
+                      <div class="autocomplete-course-meta">
+                        {course.credits} credits • {course.required ? 'Required' : 'Elective'}
+                      </div>
+                    </div>
+                  {/each}
+                </div>
+              {/if}
             </div>
 
             {#if lookupError}

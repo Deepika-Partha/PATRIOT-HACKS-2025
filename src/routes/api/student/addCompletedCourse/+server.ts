@@ -3,6 +3,7 @@ import { json } from '@sveltejs/kit';
 import { students } from '$lib/server/db';
 import { verifyJwt } from '$lib/server/jwt';
 import { getCourseByNumber } from '$lib/server/courseCatalog';
+import { courseCountsTowardCSDegree } from '$lib/server/parseCSRequirements';
 import { ObjectId } from 'mongodb';
 
 export async function POST({ request, cookies }: RequestEvent) {
@@ -49,8 +50,12 @@ export async function POST({ request, cookies }: RequestEvent) {
   }
 
   // Determine if course counts toward diploma
-  // Courses below C (C-, D+, D, F) do not count, or if it's not required
-  const countsTowardDiploma = catalogCourse.required && !GRADES_BELOW_C.includes(normalizedGrade);
+  // First check if the course counts toward CS degree based on PDF requirements
+  const countsTowardCSDegree = await courseCountsTowardCSDegree(course.courseId);
+  
+  // Courses below C (C-, D+, D, F) do not count, even if required
+  // A course counts if: (1) it counts toward CS degree AND (2) grade is C or above
+  const countsTowardDiploma = countsTowardCSDegree && !GRADES_BELOW_C.includes(normalizedGrade);
 
   // Ensure course data matches catalog
   const courseToAdd = {

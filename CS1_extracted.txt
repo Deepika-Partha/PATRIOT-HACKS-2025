@@ -1,0 +1,2585 @@
+Computer Science (CS) 1
+COMPUTER SCIENCE (CS)
+100 Level Courses
+CS 100: Principles of Computing. 3 credits.
+This course is intended to help students learn to think in the manner
+necessary to fully grasp the nature and power of the digital world around
+us. The early era of the Internet and the personal computer led to the
+need for "computer literacy." Now, the changing nature of our global
+society requires that students learn new ways to think about problems
+and how to solve them, regardless of students' specific fields of endeavor.
+Through this course, students will explore major issues related to the "big
+ideas" of computational thinking (namely, (i) Creativity, (ii) Abstraction,
+(iii) Data, (iv) Algorithms, (v) Programming, (vi) Internet, and (vii) Societal
+Impact), as well as how these issues will impact their future lives. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Mason Core: Mason Core, Info Tech & Computing (https://
+catalog.gmu.edu/mason-core/)
+Registration Restrictions:
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 105: Computer Ethics and Society. 1 credit.
+Intensive introduction to legal, social, and ethical issues surrounding
+software development and computer use. Stresses professional conduct,
+social responsibility, and rigorous standards for software testing and
+reliability. Examines issues such as liability, ownership of information,
+and computer crime. Note: Students who have received credit for CS
+305 or 306 should not register for CS 105. No credit will be given for
+CS 105 if a student has already received credit for CS 305 or 306. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Registration Restrictions:
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 108: Intro to Computer Programming, Part A. 3 credits.
+This is the first of a two semester sequence intended for students
+with little or no programming experience, which introduces the field of
+Computer Science as well as the basics of programming commensurate
+with a first course in programming. This course discusses the history
+of computing, as well as ethical, security, and societal impacts of
+technology. Basics of tools and technology used for programming are
+introduced. It also covers the basics of programming in a procedural
+style, including expressions, control structures, functions, testing,
+debugging, and general problem solving techniques. The course prepares
+students for more in-depth programming courses. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). Limited to two
+attempts.
+Mason Core: Mason Core, Info Tech & Computing (https://
+catalog.gmu.edu/mason-core/)
+Registration Restrictions:
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 109: Intro to Computer Programming, Part B. 3 credits.
+This is the second part of a two semester sequence intended for
+students with little or no programming experience, which introduces
+the field of Computer Science as well as the basics of programming
+commensurate with a first course in programming. CS 109 follows
+CS 108 with coverage of procedural programming appropriate for a first
+course in programming. The course begins with a review of expressions,
+control structures, and functions. Further topics include testing and
+debugging, multidimensional lists, mutability and references, file input/
+output, data types, recursion, exceptions, and basics of classes and
+objects. Offered by Computer Science (https://catalog.gmu.edu/colleges-
+schools/engineering-computing/school-computing/computer-science/).
+Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 108C and (minimum score of 80 in 'Math
+Placement Aleks', MATH 104C, 105C, 113C, 115C or 123C)).
+C Requires minimum grade of C.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Laboratory, Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 110: Essentials of Computer Science. 3 credits.
+Offers a broad overview of computer science designed to provide
+computer science majors with an introduction to their discipline.
+Fundamental computing concepts such as number representation,
+programming environments, communication tools, and basic network
+security measures are covered. Privacy and ethical use of computing are
+also discussed along with guest lectures to sample current computer
+science research. Note: All computer science majors are required to
+take this course within their first year as a computer science major.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Registration Restrictions:
+Enrollment limited to students in the EC-BS-ACS or EC-BS-CS programs.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+
+-- 1 of 25 --
+
+2 Computer Science (CS)
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 112: Introduction to Computer Programming. 4 credits.
+Rigorous introduction to problem solving through development of
+computer programs. Focuses on identifying algorithmic patterns in
+problems, describing problem solutions in high-level pseudocode,
+then implementing in a procedural programming language. Basic
+programming concepts are covered in detail including expressions,
+control structures, simple data types, and input/output. Program
+testing and debugging are discussed to verify that problems are solved
+correctly. Note: The department will drop students who fail to meet
+the prerequisites. Lectures and Labs are offered in groups. Students
+MUST register for a lecture and a lab from the same group. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Mason Core: Mason Core, Info Tech & Computing (https://
+catalog.gmu.edu/mason-core/)
+Registration Restrictions:
+Required Prerequisites: ((minimum score of 80 in 'Math Placement Aleks',
+MATH 104C, 104T, 105C, 105T, 105XS, 113C, 113XS, 115C, 123C or 123XS)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Laboratory, Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+200 Level Courses
+CS 211: Object-Oriented Programming. 3 credits.
+Thorough treatment of programming according to object-oriented
+principles. Introduces classes, interfaces, inheritance, polymorphism, and
+single dispatch as means to decompose problems. Covers intermediate
+programming techniques including error handling through exceptions,
+arrangement of source code into packages, and simple data structures.
+Intermediate debugging techniques and unit testing are covered. Note:
+Lectures and labs are offered in groups. Students MUST register for a
+lecture and a lab from the same group. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 112C, 112XS or 109C).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Laboratory, Lecture
+Grading:
+This course is graded on the Undergraduate Special scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 222: Computer Programming for Engineers. 3 credits.
+Introduction to C as a second programming language with emphasis on
+problems and language features relevant to engineers. Topics include
+basic data types, pointers, elementary data structures, file/output, bitwise
+operations, and Unix commands for compilation and debugging. Intended
+as terminal course in computer programming. Notes: Intended as
+terminal course in computer programming. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 112C, 112XS, 109C, 109XS or L109).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 262: Introduction to Low-Level Programming. 3 credits.
+Introduction to the language C, as well as operating system concepts, in
+UNIX, to prepare students for topics in systems programming. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 110*C, 110XS or 101*) and (CS 211C, 211XS,
+222C or 222XS).
+* May be taken concurrently.
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Laboratory, Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+300 Level Courses
+CS 306: Synthesis of Ethics and Law for the Computing Professional. 3
+credits.
+Practical course to become effective computer professional. Examines
+legal and ethical issues surrounding computer technology and its use,
+as well as the foundation building that is necessary to deal with those
+challenges. Applies philosophical bases for ethical decision making
+to modern concerns raised by computers and technology. Addresses
+topics covered by CS 105 and CS 110 in a more intensive manner and
+focuses on the emerging legal and ethical issues involved in e-commerce
+and widespread use of the Internet. Notes: Computer science majors
+may use this course to satisfy the Mason Core synthesis requirement,
+so long as they have not previously taken CS 305 for credit. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts. Equivalent to CS 405.
+Mason Core: Mason Core, Mason Apex, Writing Intensive in Major
+(https://catalog.gmu.edu/mason-core/)
+Recommended Prerequisite: Junior standing (at least 60 credit hours).
+Recommended Corequisite: All required Mason Core courses.
+Registration Restrictions:
+
+-- 2 of 25 --
+
+Computer Science (CS) 3
+Required Prerequisites: ((CS 105C, 105XS, 110C or 110XS) and
+((COMM 100C, 100XS, 101C or 101XS) and (ENGH 302C or 302XS)) or
+(HNRS 260XS, 260C, 261C or 261XS)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Enrollment is limited to students with a major, minor, or concentration in
+Applied Computer Science or Computer Science.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 310: Data Structures. 3 credits.
+Focuses on object-oriented programming with an emphasis on tools and
+techniques for developing moderate to large programs. Topics include
+use and implementation of linear and nonlinear data structures and the
+design and analysis of elementary algorithms. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). Limited to two
+attempts.
+Registration Restrictions:
+Required Prerequisites: ((CS 211C or 211XS) and MATH 125C and
+(MATH 113C, 113XS, 124C, 124XS or 115C)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 321: Software Engineering. 3 credits.
+An introduction to concepts, methods, and tools for the creation of
+large-scale software systems. Methods, tools, notations, and validation
+techniques to analyze, specify, prototype, and maintain software
+requirements. Introduction to object-oriented requirements modeling,
+including use of case modeling, static modeling, and dynamic modeling
+using the Unified Modeling Language (UML) notation. Concepts and
+methods for the design of large-scale software systems. Fundamental
+design concepts and design notations are introduced. A study of object-
+oriented analysis and design modeling using the UML notation. Students
+participate in a group project on software requirements, specification, and
+object-oriented software design. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Mason Core: Mason Core, Writing Intensive in Major (https://
+catalog.gmu.edu/mason-core/)
+Registration Restrictions:
+Required Prerequisites: ((CS 310C or 310XS) and (ENGH 302C, 302XS,
+HNRS 260C, 260XS, 261C or 261XS)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Enrollment is limited to students with a major, minor, or concentration in
+Applied Computer Science, Computer Science, Software Engineering or
+Systems Engineering.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 325: Introduction to Game Design. 3 credits.
+Game design, in various electronic entertainment technologies, involves a
+diverse set of skills and backgrounds from narrative and art to computer
+programming. Surveys the technical aspects of the field, with an
+emphasis on programming. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 211C or 211XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 330: Formal Methods and Models. 3 credits.
+Abstract concepts that underlie much advanced work in computer
+science, with major emphasis on formal languages, models of
+computation, logic, and proof strategies. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 211C or 211XS) and (MATH 125C or 125XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Enrollment is limited to students with a major, minor, or concentration in
+Applied Computer Science, Computer Science or Software Engineering.
+Enrollment limited to students in a Bachelor of Science or Post-
+Baccalaureate Certificate degrees.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 351: Visual Computing. 3 credits.
+Focuses on programming essential mathematical and geometric
+concepts underlying computer graphics. Covers fundamental topics in
+computational geometry, 3D modeling, graphics algorithms, and graphical
+user interfaces using both 2D and 3D implementations. Reinforces
+object-oriented programming practices. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+
+-- 3 of 25 --
+
+4 Computer Science (CS)
+Required Prerequisites: (CS 262C or 262XS) and (CS 310C or 310XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 367: Computer Systems and Programming. 4 credits.
+Introduces students to computer systems from a programmer's
+perspective. Topics include data representation, assembly and machine-
+level representation of high-level language programs, the memory
+hierarchy, linking, exceptions, interrupts, processes and signals, virtual
+memory, and system-level I/O. Foundation for courses on compilers;
+networks; operating systems; and computer architecture, where a deeper
+understanding of systems-level issues is required. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). Limited to two
+attempts.
+Registration Restrictions:
+Required Prerequisites: ((CS 262C, 262XS, 222XS or 222C) and
+(MATH 125C or 125XS) and (CS 110C or 110XS)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture, Recitation
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 390: Research and Project Design Principles in Computing. 3 credits.
+This course introduces students to the research and project design
+process within the computing field. Students will learn about the tools of
+the trade, work through design principles beginning with the articulation
+of a question, reviewing methods of exploration, gathering evidence,
+communicating results, and assessing and evaluating research or project
+outcomes. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). Limited to two attempts.
+Specialized Designation: Mason Impact.
+Recommended Prerequisite: CS 310 and CS 321.
+Registration Restrictions:
+Required Prerequisites: CS 262C or 262XS.
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 391: Advanced Programming Lab. 1 credit.
+Programming-intensive lab course. Students refine problem-solving and
+programming skills while gaining experience in teamwork. Focuses on
+data structures, recursion, backtracking, dynamic programming, and
+debugging. Central focus is applying familiar and new algorithms and
+data structures to novel circumstances. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May be repeated within the
+degree for a maximum 3 credits.
+Registration Restrictions:
+Required Prerequisites: CS 310C or 310XS.
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Laboratory
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 395: Student Initiated Special Topics. 1 credit.
+Special and emerging topics of interest to computer science
+undergraduates. Lectures are taught by student/faculty teams. Notes:
+May be repeated if topics are substantially different. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). May be repeated
+within the term for a maximum 3 credits.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Additional pre-requisites will vary by topic
+Registration Restrictions:
+Required Prerequisites: (CS 211C or 211XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Enrollment is limited to students with a major in Applied Computer
+Science or Computer Science.
+Enrollment limited to students in a Bachelor of Science degree.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 399: Special Topics. 3 credits.
+Special and emerging topics in computer science or closely related
+disciplines. Notes: May be repeated if topics are substantially different.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May be
+repeated within the term for a maximum 6 credits.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Additional prerequisites will vary by topic.
+Registration Restrictions:
+Required Prerequisites: (CS 211C or 211XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+
+-- 4 of 25 --
+
+Computer Science (CS) 5
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+400 Level Courses
+CS 405: Synthesis of Ethics and Law for the Computing Professional. 3
+credits.
+Practical course to become effective computer professional. Examines
+legal and ethical issues surrounding computer technology and its use,
+as well as the foundation building that is necessary to deal with those
+challenges. Applies philosophical bases for ethical decision making
+to modern concerns raised by computers and technology. Addresses
+topics covered by CS 105 and CS 110 in a more intensive manner and
+focuses on the emerging legal and ethical issues involved in e-commerce
+and widespread use of the Internet. Notes: Computer science majors
+may use this course to satisfy the Mason Core synthesis requirement,
+so long as they have not previously taken CS 306 for credit. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts. Equivalent to CS 306.
+Mason Core: Mason Core, Mason Apex, Writing Intensive in Major
+(https://catalog.gmu.edu/mason-core/)
+Recommended Corequisite: All required Mason Core courses.
+Registration Restrictions:
+Required Prerequisites: ((CS 105C, 105XS, 110C or 110XS) and
+(((COMM 100C, 100XS, 101C or 101XS) and (ENGH 302C or 302XS)) or
+(HNRS 260C, 260XS, 261C or 261XS))).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Junior Plus, Junior, Senior
+Plus or Senior.
+Enrollment is limited to students with a major, minor, or concentration in
+Applied Computer Science or Computer Science.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 425: Game Programming I. 3 credits.
+Introduction to technologies and techniques used in modern computer
+games. Teams will explore the various facets of a complete design using
+sophisticated tools. Includes a project in which a game is prototyped; this
+prototype and initial design will serve as the starting point for the project
+in CS 426. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 351C or 351XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 426: Game Programming II. 3 credits.
+Project-oriented continuation of CS 425 with an emphasis on the
+implementation of a complete game. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: ((CS 325C or 325XS) and (CS 425C or 425XS)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 440: Compilers. 3 credits.
+Survey of basic programming language processors and software
+development tools with an emphasis on compilers. Topics include
+lexical analysis; parsing theory; semantic analysis; intermediate
+representations; runtime environments; code generation; and basic
+program analysis and optimization. This class is project intensive and
+will include having students implement a compiler for a simple language.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 330C or 330XS) and
+(CS 367C or 367XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 450: Database Concepts. 3 credits.
+Covers basics to intermediate knowledge for the design, implementation,
+and use of relational database systems. Topics include the Entity-
+Relationship (ER) and Entity-Enhanced Relationship (EER) models for
+database design, Relational Algebra (RA), Structured Query Language
+(SQL), SQL programming techniques, functional dependencies and
+normalization, object and object-relational databases, and security.
+Students will practice to design, develop, and implement a relational
+ORACLE database and use the database for queries, transaction
+processing, and report generation. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 330C or 330XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+
+-- 5 of 25 --
+
+6 Computer Science (CS)
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 451: Computer Graphics. 3 credits.
+Basic graphics principles and programming. Topics include scan
+conversion, transformation, viewing, lighting, blending, texture mapping,
+and some advanced graphics techniques. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (MATH 203C or 203XS) and (CS 310C or 310XS)
+and (CS 367C or 367XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 452: Virtual Reality. 3 credits.
+This course covers the concepts and techniques underlying virtual
+reality (VR) technologies. From display technologies, visual computing,
+sound, haptics, to navigation, and 3D interaction techniques, students will
+learn about the pipeline of techniques applied to devise a practical VR
+system. This course will also cover other immersive technologies such
+as augmented reality and holographic displays. Students will also learn
+about the applications of VR technologies for training, serious games,
+design, exhibitions, and education. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 325C, 325, 325XS, 351C, 351, 351XS, 451C, 451
+or 451XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 453: Computational Photography. 3 credits.
+Computational photography overcomes the limitations of traditional
+photography with computational algorithms. This course discusses a
+broad range of topics on computational photography, including image/
+video capturing devices, image-based 3D reconstruction, lighting and
+shading, novel imaging techniques, image enhancement techniques, and
+content-rich image and video generation. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (MATH 203C, 203 or 203XS) and (CS 310C, 310 or
+310XS) and (CS 330C, 330 or 330XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 455: Computer Communications and Networking. 3 credits.
+Data communications and networking protocols, with study organized
+to follow layers of Internet Protocol Suite (TCP/IP family of protocols).
+Topics include role of various media and software components, local
+and wide area network protocols, network performance, and emerging
+advanced commercial technologies. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 367C or 367XS) and
+(STAT 344C or 344XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 463: Comparative Programming Languages. 3 credits.
+Key programming mechanisms described independently of particular
+machines or languages, including control, binding, procedural abstraction,
+types, and concurrency. Includes basic programming competence in
+several different types of programming languages, including a language
+that provides concurrency. Notes: Students who have taken CS 363 may
+not receive credit for CS 463. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 330C or 330XS) and (CS 367C or 367XS) and
+(CS 310C or 310XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 465: Computer Systems Architecture. 3 credits.
+Computer subsystems and instruction set architectures. Single-cycle,
+multiple-cycle, and pipeline architectures. Memory hierarchy, cache, and
+virtual memory input-output processing. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 367C or 367XS).
+C Requires minimum grade of C.
+
+-- 6 of 25 --
+
+Computer Science (CS) 7
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 468: Secure Programming and Systems. 3 credits.
+Fundamental principles and techniques for implementing secure
+computer systems. Topics include security and cryptography basics,
+vulnerability analysis, secure software development, and distributed
+system security. Projects involve designing and programming basic
+security tools, secure programs, and distributed systems. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 367C or 367XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 469: Security Engineering. 3 credits.
+Covers the software subsystems that are involved in defending computer
+systems. Studies threats and architecting solutions against them,
+including but not limited to access control and identity management,
+network and system security, intrusion detection and recovery systems,
+monitoring and forensic systems. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 330C or 330XS) and (CS 367C or 367XS) and
+(STAT 344C or 344XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 471: Operating Systems. 3 credits.
+Issues in multiprogramming. Covers concurrent processes and
+synchronization mechanisms; processor scheduling; memory, file, I/
+O, and deadlock management; performance of operating systems; and
+projects dealing with synchronization in multiprogrammed OS and
+virtual memory management. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: ((CS 310C, 310XS, ECE 340C or 340XS) and
+(CS 367C, 367XS, ECE 445C or 445XS)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 475: Concurrent and Distributed Systems. 3 credits.
+Practical issues in designing and implementing concurrent and
+distributed software. Topics include concurrent programming,
+synchronization, multithreading, local and wide-area network protocols,
+distributed computation, systems integration, and techniques for
+expressing coarsegrained parallelism at the application level. Projects
+involve network programming at application level. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). Limited to two
+attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 367C or 367XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 477: Mobile Application Development. 3 credits.
+This project based course will teach fundamental principles of software
+development for the mobile device environment, emphasizing the
+application of numerous academic concepts and the new design and
+programming paradigms that stem from the use of mobile devices.
+Topics include user interfaces, event-based programming, interprocess
+communications, networking, mobile-specific capabilities and
+performance in a resource restricted environment. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). Limited to two
+attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 367C or 367XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 478: Natural Language Processing. 3 credits.
+This covers the core concepts and algorithms for the theory and
+practice of natural language processing (NLP), the creation of computer
+programs that aim to understand, generate, and learn natural language.
+Topics include language modeling, word and sentence representations,
+sentiment analysis, POS tagging, and syntactic parsing. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+
+-- 7 of 25 --
+
+8 Computer Science (CS)
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Registration Restrictions:
+Required Prerequisites: ((CS 310C, 310XS or 310) and (CS 330C, 330XS or
+330)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 480: Introduction to Artificial Intelligence. 3 credits.
+Principles and methods for knowledge representation, reasoning,
+learning, problem solving, planning, heuristic search, and natural
+language processing and their application to building intelligent
+systems in a variety of domains. Uses LISP, PROLOG, or expert system
+programming language. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 330C or 330XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 482: Computer Vision. 3 credits.
+Basic principles of visual perception and their implementation
+on computer systems. Topics include early visual processing,
+edge detection, segmentation, intrinsic images, image modeling,
+representation of visual knowledge, and image understanding. Students
+complete projects involving real images. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (MATH 203C or 203XS)
+and (STAT 344C or 344XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 483: Analysis of Algorithms. 3 credits.
+Analyzes computational resources for important problem types by
+alternative algorithms and their associated data structures, using
+mathematically rigorous techniques. Specific algorithms analyzed and
+improved. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 330C or 330XS) and
+(MATH 125C or 125XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 484: Data Mining. 3 credits.
+Basic principles and methods for data analysis and knowledge discovery.
+Emphasizes developing basic skills for modeling and prediction and
+performance evaluation. Topics include system design; data quality,
+preprocessing, and association; event classification; clustering;
+biometrics; business intelligence; and mining complex types of data.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Registration Restrictions:
+Required Prerequisites: ((CS 310C or 310XS) and ((STAT 344C, 344XS,
+334C, 334XS or 346C) or (MATH 351C and 352C))).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 485: Autonomous Robotics. 3 credits.
+Covers various basic topics in autonomous robotics, such as
+autonomous architectures and their interaction with physical hardware,
+elementary kinematics and robot control, motion and trajectory planning,
+localization, task planning, learning and adaptation, modeling, and
+sensor fusion. Includes projects involving physical robots. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). Limited
+to two attempts.
+Registration Restrictions:
+Required Prerequisites: (CS 262C or 262XS) and (CS 310C or 310XS) and
+(MATH 203C or 203XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 487: Introduction to Cryptography. 3 credits.
+Covers formal definitions of security for the most common tasks: data
+encryption and authentication, in both the private key and public key
+
+-- 8 of 25 --
+
+Computer Science (CS) 9
+settings. Covers the process of formally proving that constructions meet
+the appropriate security definitions. Also covers practical constructions
+and applications, such as how to correctly use block ciphers and hash
+functions for the tasks above. In addition, several current topics in
+cryptography may also be covered. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Registration Restrictions:
+Required Prerequisites: ((CS 310C or 310XS) and (CS 330C or 330XS) and
+(STAT 344C or 344XS)).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 489: Deep Learning. 3 credits.
+This course covers an introduction to neural networks and deep learning.
+The course covers multi-layer neural networks, convolutional neural
+networks, recurrent neural networks and transformers. The concepts
+of self-supervised, supervised, contrastive and reinforcement learning
+are introduced. Advanced topics on generative models both for images
+and language and associated applications are discussed. The course
+covers basics of optimization techniques, commonly used objectives
+and associated evaluation methodologies for different classes of
+problems. We discuss representative models and techniques for image
+classification, image and text generation, natural language processing
+and issues of robustness, interpretability and fairness. The focus is
+on practical skills for implementing and deploying new and existing
+models in real-world settings. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). Limited to two attempts.
+Recommended Prerequisite: (MATH 213 C/T/XS) AND (STAT 344 C/T/XS)
+Registration Restrictions:
+Required Prerequisites: (MATH 203C, 203 or 203XS) and (CS 480C, 480 or
+480XS) and (CS 484C, 484 or 484XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Enrollment limited to students with the terminated from CEC major
+attribute.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 490: Design Exhibition. 3 credits.
+Capstone course focusing on design and successful implementation of
+major software project, encompassing broad spectrum of knowledge and
+skills, developed by team of students. Requires final exhibition to faculty-
+industry panel. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May be repeated within the degree for a maximum 12 credits.
+Recommended Prerequisite: Two other CS 400-level courses; and senior
+standing.
+Registration Restrictions:
+Required Prerequisites: (CS 321C, 321XS or 421C) and (CS 483C or 483XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 491: Industry-Sponsored Senior Design Project. 3 credits.
+Senior design project course focusing on design and successful
+implementation of major software project specified by an industry
+sponsor, encompassing broad spectrum of knowledge and skills,
+developed by team of students. Requires final exhibition to faculty-
+industry panel. Students are matched to group projects with industry
+partners at the start of the course; students must enroll in the two-
+semester Fall/Spring sequence to receive credit. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). May be repeated
+within the degree for a maximum 6 credits.
+Recommended Corequisite: CS 367, CS 483
+Registration Restrictions:
+Required Prerequisites: (CS 321C, 321XS or 321).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Enrollment is limited to students with a major, minor, or concentration in
+Applied Computer Science or Computer Science.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Special scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 498: Independent Study in Computer Science. 1-3 credits.
+Research and analysis of selected problems or topics in computer
+science. Topic must be arranged with instructor and approved by
+department chair before registering. Notes: May be repeated if
+topics substantially different. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the term for a
+maximum 6 credits.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: 60 credits, CS major, and Permission of
+Instructor.
+Registration Restrictions:
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Independent Study
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+
+-- 9 of 25 --
+
+10 Computer Science (CS)
+CS 499: Special Topics in Computer Science. 3 credits.
+Topics of special interest to undergraduates. Notes: May be repeated
+if topics substantially different. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the term for a
+maximum 24 credits.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: 60 credits. Additional prerequisites may vary
+with nature of topic.
+Registration Restrictions:
+Required Prerequisites: (CS 310C or 310XS) and (CS 330C or 330XS).
+C Requires minimum grade of C.
+XS Requires minimum grade of XS.
+Students with the terminated from CEC major attribute may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Undergraduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+500 Level Courses
+CS 500: Special Topics. 0-4 credits.
+Select contemporary topics in Engineering and Computing. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May be
+repeated within the degree for a maximum 6 credits.
+Specialized Designation: Topic Varies
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Special scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 504: Principles of Data Management and Mining. 3 credits.
+Techniques to store, manage, and use data including databases,
+relational model, schemas, queries and transactions. On Line Transaction
+Processing, Data Warehousing, star schema, On Line Analytical
+Processing. MOLAP, HOLAP, and hybrid systems. Overview of Data
+Mining principles, models, supervised and unsupervised learning, pattern
+finding. Massively parallel architectures and Hadoop. Notes: This course
+cannot be taken for credit by students of the MS CS, MS ISA, MS SWE,
+CS PhD or IT PhD programs. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 530: Mathematical Foundations of Computer Science. 3 credits.
+This course focuses on the topics of basic mathematical structures,
+mathematical logic and probability theory; and application of these
+concepts to problem solving and formal reasoning through hand-on
+practice with the use of computational tools. Note: May not be taken
+for credit by students in the PhD CS program, or by students who went
+through the Bachelor's-Accelerated Master's in Computer Science or
+the Bachelor's-Accelerated Master's in Software Engineering programs.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Recommended Prerequisite: MATH 125 and STAT 344.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate or Non-Degree.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 531: Computer Systems and Fundamentals of Systems Programming. 3
+credits.
+This course is a hands-on introduction to the systems level of
+programming with an emphasis on data structures and interfacing with
+operating systems. This course focuses on fundamental data structures
+needed to design and implement systems applications and continues
+with an introduction to the Unix Application Programming Interface,
+signals, threads, and interprocess communications. This course is
+taught from a programmatic perspective using C, with special topics in
+both Java and Python. Note: May not be taken for credit by students in
+the PhD CS program, or by students who went through the Bachelor's-
+Accelerated Master's in Computer Science or the Bachelor's-Accelerated
+Master's in Software Engineering programs. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Recommended Prerequisite: CS 310 and CS 367 or equivalent.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate or Non-Degree.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+
+-- 10 of 25 --
+
+Computer Science (CS) 11
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 540: Compilers. 3 credits.
+Survey of basic programming language processors and software
+development tools with an emphasis on compiler generation. Topics
+covered include: lexical analysis; parsing theory; semantic analysis;
+intermediate representations; runtime environments; code generation;
+and basic program analysis and optimization. This class is project
+intensive and will include having students implement a compiler for a
+simple language. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Recommended Prerequisite: CS 310 and CS 330 and CS 367
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students cannot enroll who have a major in Computing Foundations.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 550: Database Systems. 3 credits.
+An introduction to database management with focus on architecting
+databases and using them in applications. Topics to be covered include:
+data modeling with the Entity-Relationship model, the relational data
+model and its formal languages, SQL, the theory of database design,
+object databases, XML and Web data. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Recommended Prerequisite: (CS 310 or INFS 519) and CS 330
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 551: Computer Graphics. 3 credits.
+Graphics principles and programming. Topics include graphics hardware,
+antialiasing, transformations, viewing, illumination, blending, texture
+mapping, color models, curves, surfaces, and animation. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Recommended Prerequisite: CS 310 and CS 367.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students cannot enroll who have a major in Computing Foundations.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 555: Computer Communications and Networking. 3 credits.
+Techniques and systems for communication of data between
+computational devices and layers of Internet Protocol Suite. Topics
+include role of various media and software components, local and
+wide area network protocols, network design, performance and cost
+considerations, and emerging advanced commercial technologies.
+Emphasizes TCP/IP family of protocols. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Recommended Prerequisite: CS 310 and CS 367 and STAT 344.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students cannot enroll who have a major in Computing Foundations.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 571: Operating Systems. 3 credits.
+Models of operating systems. Major functions including processes,
+memory management, I/O, interprocess communication, files, directories,
+shells, distributed systems, performance, and user interface. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Recommended Prerequisite: CS 310 and CS 367, or CS 310 and ECE 445
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+
+-- 11 of 25 --
+
+12 Computer Science (CS)
+Students cannot enroll who have a major in Computing Foundations.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 580: Introduction to Artificial Intelligence. 3 credits.
+Artificial Intelligence principles and methods. Topics will include
+uninformed search, informed search, adversarial search, probabilistic
+reasoning and models, Bayes networks, machine learning fundamentals,
+classification and clustering, and neural networks. Additional topics
+may include knowledge representation, constraint satisfaction search,
+agent architectures, and Markov decision problems, among others.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Recommended Prerequisite: CS 310 and CS 330.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students cannot enroll who have a major in Computing Foundations.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 583: Analysis of Algorithms. 3 credits.
+Topics include analyzing sequential and parallel algorithmic strategies
+such as greedy methods, divide and conquer strategies, dynamic
+programming, search and traversal techniques, and approximation
+algorithms; and analyzing specific algorithms falling into these classes,
+NP-Hard and NP-Complete problems. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Recommended Prerequisite: CS 310 and CS 330 and MATH 125.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 584: Theory and Applications of Data Mining. 3 credits.
+Concepts and techniques in data mining and multidisciplinary
+applications. Topics include databases; data cleaning and
+transformation; concept description; association and correlation rules;
+data classification and predictive modeling; performance analysis and
+scalability; data mining in advanced database systems, including text,
+audio, and images; and emerging themes and future challenges. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Recommended Prerequisite: CS 310 and STAT 344.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students cannot enroll who have a major in Computing Foundations.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 587: Introduction to Cryptography. 3 credits.
+Covers formal definitions of security for the most common tasks: data
+encryption and authentication, in both the private key and public key
+settings. Covers the process of formally proving that constructions meet
+the appropriate security definitions. Also covers practical constructions
+and applications, such as how to correctly use block ciphers and hash
+functions for the tasks above. In addition, several current topics in
+cryptography may also be covered. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Recommended Prerequisite: CS 330
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 595: Basic Topics in Computer Science. 3 credits.
+Special topics in computer science not occurring in existing courses.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May be
+repeated within the degree for a maximum 9 credits.
+
+-- 12 of 25 --
+
+Computer Science (CS) 13
+Specialized Designation: Topic Varies
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+600 Level Courses
+CS 600: Theory of Computation. 3 credits.
+Introduction to logic and proof techniques, formal languages, automata
+theory, and computational complexity. Specific topics include regular
+and context-free languages, Turing machines, NP-completeness, and
+undecidability. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 583B- or 583XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 630: Advanced Algorithms. 3 credits.
+Provides an overview of advanced algorithm design and analysis
+techniques. Topics include algorithms for hash tables, matrix operations,
+number theory, string matching, computational geometry, combinatorial
+optimization, and linear programming; also the areas of NP-completeness
+and approximation algorithms. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 583B- or 583XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 633: Computational Geometry. 3 credits.
+Basic principles and methods for computing in field of geometric
+modeling. Emphasizes data structures used to represent geometric
+objects and algorithms for manipulating those data structures. Topics
+include range searching, polygon triangulation, convex hulls, motion-
+planning, visibility, and mesh generation. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 583B- or 583XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 635: Foundations of Parallel Computation. 3 credits.
+Covers three major parallel computing paradigms: MIMD computation,
+SIMD computation, and data flow computation. Emphasizes interfaces
+between algorithm design and implementation, architecture, and
+software. Examines parallel algorithms and parallel programming
+languages relative to architecture of particular parallel computers.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Recommended Prerequisite: Proficiency in C programming language.
+Registration Restrictions:
+Required Prerequisites: (CS 583B- or 583XS) and (CS 571B- or 571XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+
+-- 13 of 25 --
+
+14 Computer Science (CS)
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 640: Advanced Compilers. 3 credits.
+Examines advanced compiler techniques such as code optimizations
+for sequential and parallel machines; compilers for logical, functional,
+or object-oriented languages; and other topics in current literature.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: (CS 540B- or 540XS) and (CS 583B- or 583XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 650: Advanced Database Management. 3 credits.
+Study of the internal architecture of database systems. Topics include:
+physical data organization and indexing, query processing and
+optimization, transaction processing, database system architectures,
+Web services and Web data security. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 550B-, 550XS, INFS 614B- or 614XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 653: Computational Photography. 3 credits.
+Computational photography overcomes the limitations of traditional
+photography with computational algorithms. The course offers in-
+depth discussions on a broad range of topics in computational
+photography, including image/video capturing devices, novel camera
+models, non-traditional lighting and shading techniques, image
+enhancement techniques, image-based 3D reconstruction, and content-
+rich image and video generation. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: (CS 580B-, 580XS, 584B- or 584XS) and (CS 583B- or
+583XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 655: Wireless and Mobile Computing. 3 credits.
+This course provides an introduction to wireless and mobile networking.
+Topics include principles and architectures of wireless and mobile
+networking and fundamental issues of wireless communications with
+energy-constrained, mobile devices. It discusses physical, data link, and
+network layer protocols including IEEE 802.11, and emerging wireless
+networks such as Internet-of-Things, high-speed millimeter-waves,
+vehicular networks, and mobile and IoT sensing applications including
+indoor localization, smart-homes, and smart-cities. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). May not be repeated
+for credit.
+Registration Restrictions:
+Required Prerequisites: CS 555B- or 555XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 657: Mining Massive Datasets with MapReduce. 3 credits.
+Covers the techniques to mine large datasets, including Distributed File
+Systems and Map-Reduce, similarity search, and data stream processing.
+Covers classic problems in data mining, such as clustering, association
+rule mining, and others from the point of view of scalability. Includes a
+final project to exercise concepts covered in class. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). May not be repeated
+for credit.
+Registration Restrictions:
+Required Prerequisites: CS 584B- or 584XS.
+B- Requires minimum grade of B-.
+
+-- 14 of 25 --
+
+Computer Science (CS) 15
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 658: Networked Virtual Environments. 3 credits.
+Networked virtual environment overview, networking and multimedia
+concepts, virtual simulation concepts, efficiency/performance issues, and
+online conferencing/virtual classrooms. Course is based around a project
+with multiple segments, each covering one aspect of networked virtual
+environments, plus a final session where one- or two-person teams create
+a minimally functional networked virtual environment over the Internet
+using multicast network software. Lectures available online/recorded.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 555B- or 555XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 662: Computer Graphics Game Technologies. 3 credits.
+Addresses some graphics game techniques including collision detection,
+levels of detail, physics-based simulations, textures, maps, and shadows.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 551B- or 551XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 663: Computational Design. 3 credits.
+This course will cover the fundamentals of computational design.
+Students will learn how to design a computational design framework
+to generate different types of designs such as interior design, 3D
+product design, and user interface design. Topics to discuss include
+3D representation, 3D modeling, procedural modeling, simulation, and
+interaction techniques. Students will also learn how to carry out user
+studies and hypothesis testing to evaluate designs. The course will also
+include advanced topics on using optimization and artificial intelligence
+techniques to generate designs. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 583B- or 583XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 667: Biometrics and Identity Management. 3 credits.
+Basic principles and methods for automatic authentication of individuals.
+Technologies include face, fingerprint, and iris recognition; and speaker
+verification. Additional topics cover multimodal biometrics, system
+design, performance evaluation, and privacy concerns. Term project
+required. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 580B- or 580XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+
+-- 15 of 25 --
+
+16 Computer Science (CS)
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 672: Computer System Performance Evaluation. 3 credits.
+Theory and practice of analytical models of computer systems. Topics
+include open and closed multiclass queuing networks, single and multiple
+class Mean Value Analysis, Markov Chains, performance and availability
+models of Internet data centers, software performance engineering,
+and e-commerce performance. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 571B- or 571XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 673: Multimedia Computing and Systems. 3 credits.
+Focuses on technological and development environments in developing
+multimedia applications. Projects involve experience with multimedia
+authoring tools and simulations to assess performance. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 571B- or 571XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 675: Distributed Systems. 3 credits.
+Issues in design and implementation of distributed systems and
+applications. Topics include distributed communication paradigms,
+middleware, coordination and synchronization, distributed transactions,
+consistency and replication, fault-tolerance and reliability, and peer-to-
+peer systems. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 571B- or 571XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 677: Operating System Internals. 3 credits.
+This class is designed for computer science graduate students seeking
+an in-depth understanding of operating system internals. This course
+explores the foundational concepts, design principles, and advanced
+topics related to the operating system kernel, including, but not limited to:
+system calls, CPU scheduling, context switching, process management,
+memory management, file systems. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Recommended Prerequisite: Have a good understanding of data
+structures and algorithms; Comfortable writing programs from scratch
+in C and Java; Comfortable in a command-line Unix development
+environment (gdb, gcc, etc); Have basic knowledge of assembly
+languages such as x86.
+Registration Restrictions:
+Required Prerequisites: CS 571B- or 571XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 678: Advanced Natural Language Processing. 3 credits.
+The course covers recent advances in the field of natural language
+processing (NLP). Topics include language generation; language
+understanding; multilingual learning; transfer learning; active learning;
+multitask and multimodal learning; semantics; representation learning
+for language data; machine reading and question answering. Offered
+
+-- 16 of 25 --
+
+Computer Science (CS) 17
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Recommended Prerequisite: Undergraduate statistics course such as
+STAT 344
+Registration Restrictions:
+Required Prerequisites: (CS 580B-, 580XS, 584B- or 584XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 682: Computer Vision. 3 credits.
+Study of computational models of visual perception and their
+implementation in computer systems. Topics include early visual
+processing, edge detection, segmentation, intrinsic images, image
+modeling, representation of visual knowledge, and image understanding.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: (CS 580B-, 580XS, 584B- or 584XS) and (CS 583B- or
+583XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 683: Parallel Algorithms. 3 credits.
+Examines design and analysis of parallel algorithms. Material focuses
+on algorithms for both theoretical and practical models of parallel
+computation. Considers algorithm design and analysis for PRAM and
+existing SIMD and MIMD type architectures. Topics include sorting,
+graph algorithms, numerical algorithms, and computational complexity.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 583B- or 583XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 684: Graph Algorithms. 3 credits.
+Data structures and analytical techniques to study graph algorithms.
+Data structures include disjoint sets, heaps, and dynamic trees.
+Algorithms include minimum spanning trees, shortest path, maximum
+flow, and graph planarity. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 583B- or 583XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 685: Autonomous Robotics. 3 credits.
+Reviews developments in intelligent autonomous systems. Studies
+applications of artificial intelligence, computer vision, and machine
+learning to robotics. Topics include analysis and design of algorithms
+and architectures for planning, navigation, sensory data understanding,
+sensor fusion, spatial reasoning, motion control, knowledge acquisition,
+learning concepts and procedures, self-organization, and adaptation to
+environment. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 580B- or 580XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+
+-- 17 of 25 --
+
+18 Computer Science (CS)
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 686: Image Processing and Applications. 3 credits.
+Concepts and techniques in image processing. Discusses methods for
+image capture, transformation, enhancement, restoration, and encoding.
+Students complete projects involving naturally occurring images. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 583B- or 583XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 687: Advanced Artificial Intelligence. 3 credits.
+Explores foundational issues of artificial intelligence, such as roles
+of knowledge and search, formalization of knowledge and inference,
+and symbolic versus emergent approaches to intelligence. Studies
+advanced programming techniques for artificial intelligence, relationship
+to foundational issues, and important application areas for artificial
+intelligence. Notes: Major programming project required. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 580B- or 580XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 688: Machine Learning. 3 credits.
+This course covers the theory and principles underlying different
+machine learning paradigms. The emphasis is on statistical theory
+and methodology. Topics include: Model selection and generalization;
+Overfitting and under fitting; Bayesian theory and Decision theory;
+Maximum Likelihood estimation, MAP; Regularization; Bias-variance
+tradeoff; Curse of dimensionality; Dimensionality reduction; Linear
+Models for classification; Probabilistic Generative Models; Probabilistic
+Discriminative Models; Neural Networks (Backpropagation); Deep
+Learning (CNNs); Kernel methods; Support Vector Machines; Ensemble
+Methods; Unsupervised Learning (Clustering, EM, Mixture Modeling);
+Reinforcement learning. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 580B-, 580XS, 584B- or 584XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 689: Planning Motions of Robots and Molecules. 3 credits.
+Covers topics from artificial intelligence, algorithms and databases.
+Presents algorithms that model and simulate physical and biological
+systems and focuses on motion-planning algorithms for robotic systems
+in the presence of obstacles. Simple deterministic and sampling-based
+approaches to motion planning will be covered, as well as advanced
+planning methods including planning with kinematics and dynamic
+constraints. Selected topics include sensor-based motion planning,
+manipulation planning, assembly planning, planning under uncertainty
+and robotics-inspired methods to compute functionally-relevant
+motions of molecular chains. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 583B- or 583XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+
+-- 18 of 25 --
+
+Computer Science (CS) 19
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 690: Special Topics in Artificial Intelligence and Databases. 3 credits.
+Special topics in artificial intelligence and databases not occurring
+in regular computer science sequence. Notes: May be repeated for
+credit when topics are distinctly different. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May be repeated within the term.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Completion of at least two core courses and
+permission of the instructor.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 691: Special Topics in Programming Languages and Software
+Engineering. 3 credits.
+Special topics in programming languages and software engineering not
+occurring in regular computer science sequence. Notes: May be repeated
+for credit when topics are distinctly different. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). May be repeated
+within the term.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Completion of at least two core courses and
+permission of the instructor.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 692: Special Topics in Systems and Networks. 3 credits.
+Special topics in systems and networks not occurring in regular
+computer science sequence. Notes: May be repeated for credit when
+topics are distinctly different. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the term.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Completion of at least two core courses and
+permission of the instructor.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 693: Special Topics in Theoretical Computer Science. 3 credits.
+Special topics in theoretical computer science not occurring in regular
+computer science sequence. Notes: May be repeated for credit when
+topics are distinctly different. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the term.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Completion of at least two core courses and
+permission of the instructor.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 694: Special Topics in Visual Computing. 3 credits.
+Special topics in visual computing not occurring in regular computer
+science sequence. Notes: May be repeated for credit when topics
+are distinctly different. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the term.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Completion of at least two core courses and
+permission of the instructor.
+
+-- 19 of 25 --
+
+20 Computer Science (CS)
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 695: Special Topics in Computer Science. 3 credits.
+Special topics in Computer Science not occurring in regular computer
+science sequence. Notes: May be repeated for credit when topics
+are distinctly different. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the term.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Completion of at least two core courses and
+permission of the instructor.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 697: Independent Reading and Research. 3 credits.
+Analysis and investigation of contemporary problem in Computer
+Science. Must be supervised by a fulltime faculty member or affiliate
+faculty member of the Computer Science department. To register,
+students must complete an individualized section form available on the
+department’s website. The form must include course outcomes, course
+content, and a reading list. A written report is required. Must be approved
+by the faculty member, MS-CS program director, and chair or associate
+chair. Offered by Computer Science (https://catalog.gmu.edu/colleges-
+schools/engineering-computing/school-computing/computer-science/).
+May be repeated within the degree for a maximum 6 credits.
+Recommended Prerequisite: Completion of at least two core courses, and
+permission of the instructor.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy,
+Graduate, Junior Plus, Non-Degree or Senior Plus.
+Enrollment is limited to Graduate, Non-Degree or Undergraduate level
+students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Research
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+700 Level Courses
+CS 700: Research Methodology in Computer Science. 3 credits.
+Topics include approaches for evaluating, writing, and presenting
+scholarly papers, research integrity issues, and quantitative models
+and methods in experimental computer science. Techniques for the use
+of analytic and simulation models, design of experiments, hypothesis
+testing, and statistical analysis of data are presented. Students apply
+these techniques to a project, write a report, and make a presentation
+to the class. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Recommended Prerequisite: Admission to PhD in Computer Science or
+PhD in Information Technology programs.
+Registration Restrictions:
+Enrollment is limited to students with a major in Computer Science or
+Information Technology.
+Enrollment limited to students in a Doctor of Philosophy degree.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 701: Research Experience in Computer Science. 3 credits.
+Readings and research for early stage PhD students under the direction
+of a Computer Science faculty member. Research findings must be
+reported in a professionally prepared document and presented in a
+public meeting at the end of the semester. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May be repeated within the term
+for a maximum 3 credits.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: CS 700
+Registration Restrictions:
+Enrollment is limited to students with a major in Computer Science or
+Information Technology.
+Enrollment limited to students in a Doctor of Philosophy degree.
+Schedule Type: Research
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 706: Concurrent Software Systems. 3 credits.
+Topics include concurrent programming languages and constructs,
+and specification, design, verification, and validation of concurrent
+programs. Students required to solve concurrent programming problems
+
+-- 20 of 25 --
+
+Computer Science (CS) 21
+and check solutions by using verification, testing, and debugging tools.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 571B- or 571XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 719: Scalable Internet Services. 3 credits.
+Discusses, from quantitative point of view, characteristics of most
+important technologies used to support implementation of e-business
+sites. Includes topics such as hardware and software architectures
+of e-business sites, authentication, payment services, understanding
+customer behavior, workload characterization, scalability analysis,
+and performance prediction. Notes: Term paper and project required.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: (CS 555B- or 555XS) and (CS 571B- or 571XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 747: Deep Learning. 3 credits.
+This course presents the theory, underlying principles and applications of
+Deep Learning (DL). Deep learning is a Machine Learning approach based
+on learning data representations as opposed to designing task-specific
+algorithms. The course covers the concepts of Multilayer Perceptrons
+(MLPs) and algorithms to train them (gradient descent, backpropagation),
+Regularization of DL, Convolutional Networks (CNNs), Autoencoders,
+Recurrent Networks (RNNs), and Deep Generative Models including
+Generative Adversarial Methods. Problems from various application
+domains such as natural language processing and computer vision will
+be discussed. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Recommended Prerequisite: CS 688
+Registration Restrictions:
+Required Prerequisites: CS 580B-, 580XS, 584B- or 584XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment limited to students with a class of Graduate or Non-Degree.
+Undergraduate level students may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 752: Interactive Graphics Software. 3 credits.
+Advanced graphics methods and tools. Topics include visualization,
+modeling, rendering, animation, simulation, virtual reality, graphics
+software tools, and current research topics. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: (CS 551B- or 551XS) and (CS 583B- or 583XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 755: Advanced Computer Networks. 3 credits.
+Current and emerging issues in advanced computer networks and
+applications. Topics include software systems associated with
+packet and cell-switched networking architectures and protocols,
+high-performance LANs, scheduling and congestion control, mobile
+networking, multimedia applications, and next generation of Internet.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 555B- or 555XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 756: Performance Analysis of Computer Networks. 3 credits.
+Analytical, measurement, and simulation techniques for modeling and
+analyzing computer networks. Examines elementary queuing analysis;
+
+-- 21 of 25 --
+
+22 Computer Science (CS)
+networks of queues; routing and flow controls; and applications to local
+and wide area networks, Internet, and emerging networking technologies.
+A large portion of the course is devoted to projects, normally performed in
+student teams, who apply the techniques presented. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). May not be repeated
+for credit.
+Registration Restrictions:
+Required Prerequisites: CS 555B- or 555XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 757: Generative Deep Learning. 3 credits.
+This course focuses on the theory and applications of generative models
+in Machine Learning. A generative model describes how a dataset is
+generated in probabilistic terms, allowing the generation of new data.
+Generative models are receiving a lot of attention in both the research
+and industrial community, with new applications surfacing continuously.
+This course covers the theoretical aspects behind the Deep Learning
+models utilized to generate data, plus their practical applications. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Recommended Prerequisite: CS 747.
+Registration Restrictions:
+Required Prerequisite: CS 688B-.
+B- Requires minimum grade of B-.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the College of Science, Engineering
+Computing or Schar School of Policy and Gov colleges.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 773: Real-Time Systems Design and Development. 3 credits.
+Real-time systems and principles supporting design and implementation.
+Emphasizes fundamental results from real-time scheduling theory
+and relevance to computer system design. Topics include system
+design issues for real-time applications involving operating systems,
+communication networks, databases, and multimedia Offered by
+Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 571B- or 571XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 774: Computational Vision. 3 credits.
+Studies recent advances in development of machine vision algorithms
+and knowledge-based vision systems. Topics include scalespace; Gabor
+and wavelet processing; distributed and hierarchical processing using
+neural networks; motion analysis; active, functional, and selective
+perception; object and target recognition; expert systems; data fusion;
+and machine learning. Emphasizes system integration in terms of
+perception, control, action, and adaptation. Presents applications
+to robotics, intelligent highways, inspection, forensic, and data
+compression. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: (CS 682B- or 682XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 775: Advanced Pattern Recognition. 3 credits.
+Covers statistical pattern recognition, neural network, and statistical
+learning theory approaches. Topics include decision theory and Bayes'
+theorem, density (parametric and nonparametric) estimation, linear and
+nonlinear discriminant analysis, SVM and kernel methods, SRM and
+model selection, performance evaluation, mixture of experts (AdaBoost),
+dimensionality reduction, feature selection and extraction, and clustering.
+Emphasizes experimental design, applications, and performance
+evaluation. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 688B- or 688XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+
+-- 22 of 25 --
+
+Computer Science (CS) 23
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 777: Human-Computer Intelligent Interaction. 3 credits.
+Current and emerging issues in human-computer intelligent interaction,
+and human-centered systems and their applications. Topics include video
+processing, visualization, virtual environments, adaptation and tutoring,
+image and scene modeling, analysis and synthesis, face and gesture
+recognition, and speech and natural language processing. Notes: Term
+project and topical review required. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: ((CS 580B- or 580XS) and (CS 551B- or 551XS)) or
+(CS 682B- or 682XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 779: Topics in Resilient and Secure Computer Systems. 3 credits.
+Covers study of alternate computer security, including how these
+methods can be combined in a layered defense and factors that affect
+the selection of the architectures. Reviews recent papers and reports.
+Offered by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May not
+be repeated for credit.
+Specialized Designation: Topic Varies
+Registration Restrictions:
+Required Prerequisites: CS 571B-, 571XS, ISA 562B- or 562XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 782: Advanced Machine Learning. 3 credits.
+The course covers recent advances in the field of machine learning.
+Possible topics include: Learning Theory (PAC, error bounds, VC-
+dimension); Learning manifolds; Transfer learning; Active learning;
+Learning with structured data (e.g. graphs); Topic modeling; Learning
+with text; Graphical Models (Bayesian Networks); Learning HMMs. Topics
+may change depending on the instructor. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: or (CS 687B-, 687XS, 688B- or 688XS).
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 787: Decision Guidance Systems. 3 credits.
+Decision-guidance systems support an iterative process of giving
+actionable recommendations to and extracting feedbacks from human
+decision-makers, with the goal of arriving at the best possible course of
+action. Focuses on models, languages, algorithms and applications of
+Decision-Guidance Management Systems, used for fast development of
+decision-guidance applications. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: INFS 614B-, 614XS, CS 550B- or 550XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 788: Autonomic Computing. 3 credits.
+Studies self-managing, self-optimizing, self-configuring, self-tuning, self-
+healing, and self-protecting computing systems. This course analyzes
+many examples of autonomic systems as well as various techniques
+to design and build such systems. This is a doctoral seminar based on
+reading and analysis of current papers. Offered by Computer Science
+(https://catalog.gmu.edu/colleges-schools/engineering-computing/
+school-computing/computer-science/). May not be repeated for credit.
+Registration Restrictions:
+Required Prerequisites: CS 555B-, 555XS, 571B-, 571XS, ISA 562B- or 562XS.
+B- Requires minimum grade of B-.
+XS Requires minimum grade of XS.
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+
+-- 23 of 25 --
+
+24 Computer Science (CS)
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 795: Advanced Topics in CS. 3 credits.
+Advanced topics not occurring in regular sequence. Notes: May
+be repeated for credit when subject differs. Satisfies MS breadth
+requirement only if explicitly stated in syllabus in given section. Only
+one such course should be used for breadth requirements. Offered
+by Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May be
+repeated within the term.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Admission into computer science PhD
+program.
+Registration Restrictions:
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 798: Research Project. 3 credits.
+Master's student undertake a project using knowledge gained in prior MS
+courses. Topic chosen under the guidance of a member of the Graduate
+Faculty of the department, resulting in written technical report. Prior
+approval is required by the faculty sponsor. To register, student must
+complete a Master's Project form available from the department. It must
+be signed by the faculty sponsor and approved by the department chair
+or delegate. Offered by Computer Science (https://catalog.gmu.edu/
+colleges-schools/engineering-computing/school-computing/computer-
+science/). May be repeated within the degree for a maximum 6 credits.
+Recommended Prerequisite: 18 hours of credit applicable toward the MS
+degree.
+Registration Restrictions:
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Thesis
+Grading:
+This course is graded on the Satisfactory/No Credit scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 799: MS Thesis. 1-6 credits.
+Research project completed under supervision of a member of the
+Graduate Faculty of the department, resulting in a technical report
+accepted by three-member faculty committee. Thesis must be defended
+in an oral presentation. To register, students must complete thesis
+form available from the department. It must be signed by all committee
+members and the department chair or delegate. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). May be repeated
+within the degree for a maximum 6 credits.
+Recommended Prerequisite: 18 hours of credit applicable toward the MS
+degree.
+Registration Restrictions:
+Enrollment is limited to Graduate or Non-Degree level students.
+Students in a Non-Degree Undergraduate degree may not enroll.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Thesis
+Grading:
+This course is graded on the Satisfactory/No Credit scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+800 Level Courses
+CS 800: Computer Science Colloquium. 0 credits.
+Students are required to attend colloquia including talks by distinguished
+speakers, faculty candidates, and Mason faculty. This course introduces
+PhD students to research topics in computer science. Offered by
+Computer Science (https://catalog.gmu.edu/colleges-schools/
+engineering-computing/school-computing/computer-science/). May be
+repeated within the degree for a maximum 0 credits.
+Registration Restrictions:
+Enrollment is limited to students with a major in Computer Science.
+Enrollment is limited to Graduate level students.
+Enrollment limited to students in a Doctor of Philosophy degree.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Seminar
+Grading:
+This course is graded on the Satisfactory/No Credit scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 895: Research Topics in CS. 3 credits.
+Advanced topics not occurring in regular sequence. Notes: May be
+repeated for credit when subject differs. Only one such course should be
+used for breadth requirements. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the term.
+Specialized Designation: Topic Varies
+Recommended Prerequisite: Doctoral status.
+Registration Restrictions:
+Enrollment is limited to Graduate level students.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Lecture
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 896: Directed Reading and Research. 1-6 credits.
+Reading and research on a specific topic under the direction of a faculty
+member. Students can sign up for this class only after satisfying the
+CS PhD breadth requirement. Must be supervised by a fulltime faculty
+
+-- 24 of 25 --
+
+Computer Science (CS) 25
+member or affiliate faculty member of the Computer Science department.
+To register, students must complete an individualized section form
+available on the department’s website. The form must include course
+outcomes, course content, and a reading list. A written report is required.
+Must be approved by the faculty member, PhD-CS program director,
+and chair or associate chair. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the degree for a
+maximum 18 credits.
+Recommended Prerequisite: Permission of Instructor.
+Registration Restrictions:
+Enrollment limited to students in the EC-PHD-CS program.
+Enrollment is limited to Graduate level students.
+Enrollment limited to students in a Doctor of Philosophy degree.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Research
+Grading:
+This course is graded on the Graduate Regular scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+900 Level Courses
+CS 998: Doctoral Dissertation Proposal. 1-12 credits.
+Work on a research proposal that forms the basis for a doctoral
+dissertation. Notes: No more than 24 credits of CS 998 and 999 may
+be applied to the doctoral degree requirements. Offered by Computer
+Science (https://catalog.gmu.edu/colleges-schools/engineering-
+computing/school-computing/computer-science/). May be repeated
+within the degree.
+Recommended Prerequisite: Student must have passed the PhD
+qualifying examinations and must have a dissertation advisor.
+Registration Restrictions:
+Enrollment is limited to Graduate level students.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Dissertation
+Grading:
+This course is graded on the Satisfactory/No Credit scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+CS 999: Doctoral Dissertation. 1-12 credits.
+Dissertation research under the supervision of the dissertation director.
+Notes: No more than 24 credits of CS 998 and 999 may be applied to the
+doctoral degree requirements. Offered by Computer Science (https://
+catalog.gmu.edu/colleges-schools/engineering-computing/school-
+computing/computer-science/). May be repeated within the degree.
+Recommended Prerequisite: Admission to candidacy.
+Registration Restrictions:
+Enrollment limited to students with a class of Advanced to Candidacy.
+Enrollment is limited to Graduate level students.
+Enrollment limited to students in the Engineering Computing college.
+Schedule Type: Dissertation
+Grading:
+This course is graded on the Satisfactory/No Credit scale. (https://
+catalog.gmu.edu/policies/academic/grading/)
+
+-- 25 of 25 --
+
