@@ -1,48 +1,35 @@
+import type { RequestEvent } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { getAllCourses } from '$lib/server/courseCatalog';
+import { findRelevantCourses } from '$lib/server/gmuCourseCatalog';
 
 /**
- * API endpoint to search courses in the catalog
  * GET /api/courses/search?q=query
- * Returns courses matching the query (searches courseId and title)
+ * Search for courses by code, title, or description
  */
-export const GET: RequestHandler = async ({ url }) => {
-  try {
-    const query = url.searchParams.get('q') || '';
-    const limit = parseInt(url.searchParams.get('limit') || '10');
-    
-    if (!query || query.trim().length === 0) {
-      return json({ courses: [] });
-    }
-
-    const allCourses = getAllCourses();
-    const normalizedQuery = query.toUpperCase().trim();
-    
-    // Filter courses that match the query
-    const matchingCourses = allCourses
-      .filter(course => {
-        const courseIdMatch = course.courseId.toUpperCase().includes(normalizedQuery);
-        const titleMatch = course.title.toUpperCase().includes(normalizedQuery);
-        return courseIdMatch || titleMatch;
-      })
-      .slice(0, limit)
-      .map(course => ({
-        courseId: course.courseId,
-        title: course.title,
-        credits: course.credits,
-        required: course.required,
-        category: course.category,
-        prerequisites: course.prerequisites
-      }));
-
-    return json({ courses: matchingCourses });
-  } catch (error: any) {
-    console.error('Error searching courses:', error);
-    return json({ 
-      error: 'Failed to search courses',
-      details: error.message 
-    }, { status: 500 });
+export async function GET({ url }: RequestEvent): Promise<Response> {
+  const query = url.searchParams.get('q');
+  
+  if (!query || query.trim().length < 2) {
+    return json({ courses: [] });
   }
-};
+
+  try {
+    // Use the findRelevantCourses function which does smart searching
+    const courses = findRelevantCourses(query.trim(), []);
+    
+    // Limit to top 10 suggestions for autocomplete
+    const suggestions = courses.slice(0, 10).map(course => ({
+      code: course.code,
+      title: course.title,
+      credits: course.credits,
+      description: course.description?.substring(0, 100) || '',
+      subject: course.subject
+    }));
+
+    return json({ courses: suggestions });
+  } catch (error: any) {
+    console.error('Course search error:', error);
+    return json({ courses: [] }, { status: 500 });
+  }
+}
 

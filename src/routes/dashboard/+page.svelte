@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
   
   let profile: any = {};
   let academicHistory: any[] = [];
@@ -13,6 +12,20 @@
   let courseLookup: any = null;
   let lookupError = '';
   let showAddCourse = false;
+  let courseSuggestions: any[] = [];
+  let showSuggestions = false;
+  let searchTimeout: any = null;
+
+  // Helper function to check if a grade counts toward degree (C or above counts)
+  function gradeCountsTowardDegree(grade: string): boolean {
+    if (!grade) return false;
+    const gradeUpper = grade.toUpperCase().trim();
+    
+    // Grades that count: A+, A, A-, B+, B, B-, C+, C
+    // Grades that don't count: C-, D+, D, D-, F, W, I, etc.
+    const passingGrades = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C'];
+    return passingGrades.includes(gradeUpper);
+  }
 
   let error = '';
   let loading = true;
@@ -139,30 +152,72 @@
     }
   }
 
+  async function searchCourses(query: string) {
+    if (!query || query.length < 2) {
+      courseSuggestions = [];
+      showSuggestions = false;
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/courses/search?q=${encodeURIComponent(query)}`);
+      if (res.ok) {
+        const data = await res.json();
+        courseSuggestions = data.courses || [];
+        showSuggestions = courseSuggestions.length > 0;
+      } else {
+        courseSuggestions = [];
+        showSuggestions = false;
+      }
+    } catch (err) {
+      courseSuggestions = [];
+      showSuggestions = false;
+    }
+  }
+
   async function lookupCourse() {
     if (!newCourse.courseId) {
       courseLookup = null;
       lookupError = '';
+      courseSuggestions = [];
+      showSuggestions = false;
       return;
     }
 
-    // Add a small delay to avoid too many requests while typing
-    await new Promise(resolve => setTimeout(resolve, 300));
+    // Search for suggestions as user types
+    if (searchTimeout) clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+      await searchCourses(newCourse.courseId);
+    }, 300);
 
+    // Try to lookup exact course match
     try {
       const res = await fetch(`/api/courses/lookup?number=${encodeURIComponent(newCourse.courseId)}`);
       if (res.ok) {
         courseLookup = await res.json();
         lookupError = '';
-    } else {
-        const errorData = await res.json();
+        showSuggestions = false;
+      } else {
+        // If exact match fails, don't show error yet - let user see suggestions
         courseLookup = null;
-        lookupError = errorData.error || `Course ${newCourse.courseId} does not exist in the course catalog`;
+        lookupError = '';
       }
     } catch (err) {
       courseLookup = null;
-      lookupError = 'Failed to lookup course. Please try again.';
+      lookupError = '';
     }
+  }
+
+  function selectCourse(course: any) {
+    newCourse.courseId = course.code;
+    courseLookup = {
+      courseId: course.code,
+      title: course.title,
+      credits: course.credits,
+      required: false // This will be determined by grade later
+    };
+    courseSuggestions = [];
+    showSuggestions = false;
   }
 
   async function addCompletedCourse() {
@@ -894,7 +949,7 @@
       <div class="section">
         <div class="card-header">
           <h2>Profile Information</h2>
-          <button class="btn btn-secondary" on:click={() => goto('/profile')}>Edit Profile</button>
+          <a href="/profile" class="btn btn-secondary">Edit Profile</a>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
           <div>
@@ -917,29 +972,63 @@
       <!-- Academic History -->
       <div class="section">
         <div class="card-header">
-          <h2>Academic History</h2>
+<h2>Academic History</h2>
           <button class="btn btn-primary" on:click={() => showAddCourse = true}>Add Course</button>
         </div>
         {#if academicHistory.length > 0}
-          {#each academicHistory as course}
-            <div class="course-item" class:non-counting={!course.required}>
+  {#each academicHistory as course}
+            <div class="course-item" class:non-counting={!gradeCountsTowardDegree(course.grade)}>
               <div style="flex: 1;">
                 <div class="course-code">{course.courseId || 'N/A'}</div>
                 <div class="course-title">{course.title || 'N/A'}</div>
                 <div class="course-meta">
                   {course.semester || 'N/A'} • {course.credits || 0} credits • Grade: {course.grade || 'N/A'}
-                  {#if !course.required}
+                  {#if !gradeCountsTowardDegree(course.grade)}
                     <span style="color: #d97706; margin-left: 0.5rem; font-weight: 500;">(Does not count toward degree)</span>
                   {/if}
                 </div>
               </div>
               <button class="btn btn-danger" on:click={() => deleteCourse(course)} style="margin-left: 1rem;">Remove</button>
             </div>
-          {/each}
+  {/each}
         {:else}
           <div class="empty-state">
             <div class="empty-state-icon">📚</div>
             <p>No completed courses yet</p>
+          </div>
+        {/if}
+      </div>
+
+      <!-- Current Schedule -->
+      <div class="section">
+        <div class="card-header">
+          <h2>Current Schedule</h2>
+        </div>
+        {#if currentSchedule.length > 0}
+          {#each currentSchedule as course}
+            <div class="course-item">
+              <div style="flex: 1;">
+                <div class="course-code">{course.courseId || 'N/A'}</div>
+                <div class="course-title">{course.title || 'N/A'}</div>
+                <div class="course-meta">
+                  {#if course.time}
+                    {course.time}
+                  {/if}
+                  {#if course.days}
+                    • {course.days}
+                  {/if}
+                  {#if course.location}
+                    • {course.location}
+                  {/if}
+                  • {course.credits || 0} credits
+                </div>
+              </div>
+            </div>
+          {/each}
+        {:else}
+          <div class="empty-state">
+            <div class="empty-state-icon">📅</div>
+            <p>No courses scheduled for current semester</p>
           </div>
         {/if}
       </div>
@@ -985,7 +1074,7 @@
           >
             <h2 id="modal-title">Add Completed Course</h2>
             
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
               <label for="course-number">Course Number</label>
               <input 
                 id="course-number"
@@ -993,7 +1082,29 @@
                 placeholder="e.g., CS 310"
                 bind:value={newCourse.courseId}
                 on:input={lookupCourse}
+                on:focus={() => { if (courseSuggestions.length > 0) showSuggestions = true; }}
+                on:blur={() => { setTimeout(() => showSuggestions = false, 200); }}
+                autocomplete="off"
               />
+              {#if showSuggestions && courseSuggestions.length > 0}
+                <div class="course-suggestions" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 4px; max-height: 200px; overflow-y: auto; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                  {#each courseSuggestions as suggestion}
+                    <div 
+                      class="suggestion-item" 
+                      role="button"
+                      tabindex="0"
+                      style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #eee;"
+                      on:click={() => selectCourse(suggestion)}
+                      on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectCourse(suggestion); } }}
+                      on:mouseenter={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+                      on:mouseleave={(e) => e.currentTarget.style.backgroundColor = 'white'}
+                    >
+                      <div style="font-weight: 500;">{suggestion.code}</div>
+                      <div style="font-size: 0.9em; color: #666;">{suggestion.title}</div>
+                    </div>
+                  {/each}
+                </div>
+              {/if}
             </div>
 
             {#if lookupError}
@@ -1065,7 +1176,7 @@
                 {msg.content}
               </div>
             </div>
-          {/each}
+  {/each}
           {#if chatbotLoading}
             <div class="chatbot-message assistant">
               <div class="message-content">
