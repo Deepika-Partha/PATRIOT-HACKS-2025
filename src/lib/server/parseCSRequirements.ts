@@ -295,7 +295,11 @@ export async function courseCountsTowardCSDegree(courseId: string): Promise<bool
   }
   
   // NATURAL SCIENCE REQUIREMENT (12 credits required)
-  // Must include a two-course sequence with laboratories
+  // Must include a two-course lab sequence from ONE of the following options:
+  // - Biology: BIOL 103+106 and BIOL 107
+  // - Chemistry: CHEM 211+213 and CHEM 212+214
+  // - Geology: GEOL 101 and GEOL 102
+  // - Physics: PHYS 160+161 and PHYS 260+261
   const naturalScienceCourses = [
     // Biology sequence
     'BIOL 103', 'BIOL 106', 'BIOL 107',
@@ -303,7 +307,7 @@ export async function courseCountsTowardCSDegree(courseId: string): Promise<bool
     'CHEM 211', 'CHEM 213', 'CHEM 212', 'CHEM 214',
     // Geology sequence
     'GEOL 101', 'GEOL 102',
-    // Physics sequence (required for CS)
+    // Physics sequence
     'PHYS 160', 'PHYS 161', 'PHYS 260', 'PHYS 261'
   ];
   if (naturalScienceCourses.some(sci => sci.toUpperCase() === normalizedId)) {

@@ -65,11 +65,16 @@ export const csCourseCatalog: Course[] = [
   { courseId: 'STAT 354', title: 'Probability and Statistics for Engineers & Scientists II', credits: 3, required: false, category: 'math' },
   { courseId: 'STAT 334', title: 'Introduction to Data Science', credits: 3, required: false, category: 'math' },
   
-  // Natural Science Requirements
-  { courseId: 'PHYS 160', title: 'University Physics I', credits: 3, required: true, category: 'science' },
-  { courseId: 'PHYS 161', title: 'University Physics I Laboratory', credits: 1, required: true, category: 'science' },
-  { courseId: 'PHYS 260', title: 'University Physics II', credits: 3, required: true, prerequisites: ['PHYS 160'], category: 'science' },
-  { courseId: 'PHYS 261', title: 'University Physics II Laboratory', credits: 1, required: true, prerequisites: ['PHYS 161'], category: 'science' },
+  // Natural Science Requirements (12 credits required)
+  // Students must complete a two-course lab sequence from ONE of the following:
+  // - Biology: BIOL 103+106 and BIOL 107
+  // - Chemistry: CHEM 211+213 and CHEM 212+214
+  // - Geology: GEOL 101 and GEOL 102
+  // - Physics: PHYS 160+161 and PHYS 260+261
+  { courseId: 'PHYS 160', title: 'University Physics I', credits: 3, required: false, category: 'science' },
+  { courseId: 'PHYS 161', title: 'University Physics I Laboratory', credits: 1, required: false, category: 'science' },
+  { courseId: 'PHYS 260', title: 'University Physics II', credits: 3, required: false, prerequisites: ['PHYS 160'], category: 'science' },
+  { courseId: 'PHYS 261', title: 'University Physics II Laboratory', credits: 1, required: false, prerequisites: ['PHYS 161'], category: 'science' },
   { courseId: 'BIOL 103', title: 'Contemporary Biology', credits: 4, required: false, category: 'science' },
   { courseId: 'BIOL 106', title: 'Biology Laboratory I', credits: 1, required: false, category: 'science' },
   { courseId: 'BIOL 107', title: 'Biology Laboratory II', credits: 3, required: false, category: 'science' },

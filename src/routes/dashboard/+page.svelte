@@ -30,7 +30,7 @@
   // Potential courses (temporary) - roadmap feature
   let potentialCourses = $state<any[]>([]);
   let showPotentialCourses = $state(false);
-  let newPotentialCourse = $state({ courseId: '', grade: 'A', semester: '' });
+  let newPotentialCourse = $state({ courseId: '', grade: 'Planning', semester: '' });
   let potentialCourseLookup = $state<any>(null);
   let potentialLookupError = $state('');
   let potentialPrerequisites = $state<string[]>([]);
@@ -346,18 +346,38 @@
 
   function checkCoursePrerequisiteStatus() {
     const status: Record<string, { met: boolean; inHistory: boolean }> = {};
+    const GRADES_BELOW_C = ['C-', 'D+', 'D', 'F'];
     
     coursePrerequisites.forEach(prereqId => {
       const normalizedPrereq = prereqId.toUpperCase().trim();
       
-      // Check if in academic history (completed and not nullified)
-      const inHistory = academicHistory.some(c => {
+      // Check if in academic history with passing grade (C or better)
+      const prereqCourse = academicHistory.find(c => {
         const courseId = c.courseId?.toUpperCase().trim();
         return courseId === normalizedPrereq && !c.nullified;
       });
       
+      const inHistory = !!prereqCourse;
+      
+      // Prerequisite is met if:
+      // 1. Course exists in academic history
+      // 2. Course is not nullified (already checked above)
+      // 3. Grade is C or better (not in GRADES_BELOW_C)
+      // 4. Course counts toward diploma (check cache)
+      let met = false;
+      if (prereqCourse) {
+        const grade = prereqCourse.grade?.toUpperCase().trim() || '';
+        const hasPassingGrade = !GRADES_BELOW_C.includes(grade);
+        
+        // Check if prerequisite counts toward diploma using cache
+        const cacheKey = `${prereqCourse.courseId}_${grade}`;
+        const courseCounts = courseCountsCache[cacheKey] ?? (prereqCourse.countsTowardDiploma !== false);
+        
+        met = hasPassingGrade && courseCounts;
+      }
+      
       status[prereqId] = {
-        met: inHistory,
+        met,
         inHistory
       };
     });
@@ -766,113 +786,133 @@
   }
 
   async function addPotentialCourse() {
-    if (!potentialCourseLookup) {
-      error = 'Please enter a valid course number';
-      return;
-    }
-
-    if (!newPotentialCourse.semester) {
-      error = 'Please select a semester for this course';
-      return;
-    }
-
-    // Check if already in potential courses
-    const normalizedCourseId = potentialCourseLookup.courseId.toUpperCase().trim();
-    if (potentialCourses.some(c => c.courseId.toUpperCase().trim() === normalizedCourseId)) {
-      error = 'This course is already in your potential courses';
-      return;
-    }
-
-    // Check if already in academic history
-    if (academicHistory.some(c => c.courseId.toUpperCase().trim() === normalizedCourseId && !c.nullified)) {
-      error = 'This course is already in your academic history';
-      return;
-    }
-
-    // Validate prerequisites
-    const unmetPrerequisites = potentialPrerequisites.filter(prereq => {
-      const status = prerequisiteStatus[prereq];
-      return !status || !status.met;
-    });
-
-    if (unmetPrerequisites.length > 0) {
-      const prereqList = unmetPrerequisites.join(', ');
-      error = `Prerequisites not met: ${prereqList}. Please complete these courses or add them to an earlier semester in your roadmap.`;
-      return;
-    }
-
-    // Validate grade
-    const normalizedGrade = newPotentialCourse.grade.toUpperCase().trim();
-    if (!isValidGrade(normalizedGrade)) {
-      error = `Invalid grade. Valid grades are: ${VALID_GRADES.join(', ')}`;
-      return;
-    }
-
-    // Check C- or D grade limit (including potential courses)
-    // Per catalog: "may not use more than one course with grade C- or D"
-    if (normalizedGrade === 'C-' || normalizedGrade === 'D+' || normalizedGrade === 'D') {
-      const hasCInHistory = academicHistory.some(c => {
-        const grade = c.grade?.toUpperCase().trim();
-        return (grade === 'C-' || grade === 'D+' || grade === 'D') && !c.nullified;
-      });
-      const hasCInPotential = potentialCourses.some(c => {
-        const grade = c.grade?.toUpperCase().trim();
-        return grade === 'C-' || grade === 'D+' || grade === 'D';
-      });
-      if (hasCInHistory || hasCInPotential) {
-        error = 'You can only have at most one course with grade C- or D. You already have a C- or D grade.';
+    try {
+      error = ''; // Clear any previous errors
+      
+      if (!potentialCourseLookup) {
+        error = 'Please enter a valid course number';
         return;
       }
-    }
 
-    // Determine if counts toward diploma
-    // First check if course counts toward CS degree (based on PDF requirements)
-    // Then check if grade is acceptable (C or above)
-    const GRADES_BELOW_C = ['C-', 'D+', 'D', 'F'];
-    
-    // Check with server if course counts toward CS degree
-    let countsTowardCSDegree = potentialCourseLookup.required; // Default to catalog value
-    try {
-      const response = await fetch(`/api/courses/countsTowardDegree/${encodeURIComponent(potentialCourseLookup.courseId)}`);
-      if (response.ok) {
-        const data = await response.json();
-        countsTowardCSDegree = data.countsTowardDegree;
+      if (!newPotentialCourse.semester) {
+        error = 'Please select a semester for this course';
+        return;
       }
+
+      // Check if already in potential courses
+      const normalizedCourseId = potentialCourseLookup.courseId.toUpperCase().trim();
+      if (potentialCourses.some(c => c.courseId.toUpperCase().trim() === normalizedCourseId)) {
+        error = 'This course is already in your potential courses';
+        return;
+      }
+
+      // Check if already in academic history
+      if (academicHistory.some(c => c.courseId.toUpperCase().trim() === normalizedCourseId && !c.nullified)) {
+        error = 'This course is already in your academic history';
+        return;
+      }
+
+      // Validate prerequisites
+      // For potential courses (roadmap planning), we allow adding courses even if prerequisites aren't met yet
+      // We'll just warn the user - they can plan prerequisites in earlier semesters
+      const unmetPrerequisites = potentialPrerequisites.filter(prereq => {
+        const status = prerequisiteStatus[prereq];
+        return !status || !status.met;
+      });
+
+      // Don't block - just warn if prerequisites aren't met
+      // This allows students to plan their roadmap flexibly
+      if (unmetPrerequisites.length > 0) {
+        const prereqList = unmetPrerequisites.join(', ');
+        // Set a warning but don't block - allow the course to be added
+        console.warn(`Prerequisites not yet met: ${prereqList}. Make sure to complete these courses or add them to an earlier semester in your roadmap.`);
+        // Don't return - allow adding the course anyway for planning purposes
+      }
+
+      // For potential courses, grade is optional (for planning purposes)
+      // Normalize grade if provided, otherwise use "Planning"
+      const normalizedGrade = newPotentialCourse.grade && newPotentialCourse.grade !== 'Planning' 
+        ? newPotentialCourse.grade.toUpperCase().trim() 
+        : 'Planning';
+
+      // Only validate grade format if a specific grade is provided (not "Planning")
+      if (normalizedGrade !== 'Planning' && !isValidGrade(normalizedGrade)) {
+        error = `Invalid grade. Valid grades are: ${VALID_GRADES.join(', ')}, or leave as "Planning"`;
+        return;
+      }
+
+      // Check C- or D grade limit only if a real grade is specified (not for "Planning")
+      if (normalizedGrade !== 'Planning' && (normalizedGrade === 'C-' || normalizedGrade === 'D+' || normalizedGrade === 'D')) {
+        const hasCInHistory = academicHistory.some(c => {
+          const grade = c.grade?.toUpperCase().trim();
+          return (grade === 'C-' || grade === 'D+' || grade === 'D') && !c.nullified;
+        });
+        const hasCInPotential = potentialCourses.some(c => {
+          const grade = c.grade?.toUpperCase().trim();
+          return grade === 'C-' || grade === 'D+' || grade === 'D';
+        });
+        if (hasCInHistory || hasCInPotential) {
+          error = 'You can only have at most one course with grade C- or D. You already have a C- or D grade.';
+          return;
+        }
+      }
+
+      // Determine if counts toward diploma
+      // First check if course counts toward CS degree (based on PDF requirements)
+      // Then check if grade is acceptable (C or above)
+      const GRADES_BELOW_C = ['C-', 'D+', 'D', 'F'];
+      
+      // Check with server if course counts toward CS degree
+      let countsTowardCSDegree = potentialCourseLookup.required; // Default to catalog value
+      try {
+        const response = await fetch(`/api/courses/countsTowardDegree/${encodeURIComponent(potentialCourseLookup.courseId)}`);
+        if (response.ok) {
+          const data = await response.json();
+          countsTowardCSDegree = data.countsTowardDegree;
+        }
+      } catch (err) {
+        console.error('Error checking if course counts toward degree:', err);
+        // Fall back to catalog value
+      }
+      
+      // Course counts if: (1) it counts toward CS degree AND (2) grade is C or above
+      // For "Planning" grade, assume it will count (optimistic planning)
+      const countsTowardDiploma = normalizedGrade === 'Planning' 
+        ? countsTowardCSDegree 
+        : (countsTowardCSDegree && !GRADES_BELOW_C.includes(normalizedGrade));
+
+      const potentialCourse = {
+        courseId: potentialCourseLookup.courseId,
+        title: potentialCourseLookup.title,
+        credits: potentialCourseLookup.credits,
+        grade: normalizedGrade,
+        semester: newPotentialCourse.semester,
+        required: potentialCourseLookup.required,
+        category: potentialCourseLookup.category,
+        countsTowardDiploma: countsTowardDiploma,
+        prerequisites: potentialPrerequisites,
+        isPotential: true // Mark as potential
+      };
+
+      potentialCourses = [...potentialCourses, potentialCourse];
+      newPotentialCourse = { courseId: '', grade: 'Planning', semester: '' };
+      potentialCourseLookup = null;
+      potentialLookupError = '';
+      potentialPrerequisites = [];
+      prerequisiteStatus = {};
+      error = '';
+      
+      // Recheck prerequisites for all potential courses
+      potentialCourses.forEach(course => {
+        if (course.prerequisites && course.prerequisites.length > 0) {
+          // Recheck prerequisite status for all courses
+          checkPrerequisiteStatus();
+        }
+      });
     } catch (err) {
-      console.error('Error checking if course counts toward degree:', err);
-      // Fall back to catalog value
+      console.error('Error adding potential course:', err);
+      error = `Failed to add course: ${err instanceof Error ? err.message : 'Unknown error'}`;
     }
-    
-    // Course counts if: (1) it counts toward CS degree AND (2) grade is C or above
-    const countsTowardDiploma = countsTowardCSDegree && !GRADES_BELOW_C.includes(normalizedGrade);
-
-    const potentialCourse = {
-      courseId: potentialCourseLookup.courseId,
-      title: potentialCourseLookup.title,
-      credits: potentialCourseLookup.credits,
-      grade: normalizedGrade,
-      semester: newPotentialCourse.semester,
-      required: potentialCourseLookup.required,
-      category: potentialCourseLookup.category,
-      countsTowardDiploma: countsTowardDiploma,
-      prerequisites: potentialPrerequisites,
-      isPotential: true // Mark as potential
-    };
-
-    potentialCourses = [...potentialCourses, potentialCourse];
-    newPotentialCourse = { courseId: '', grade: 'A', semester: '' };
-    potentialCourseLookup = null;
-    potentialLookupError = '';
-    potentialPrerequisites = [];
-    prerequisiteStatus = {};
-    error = '';
-    
-    // Recheck prerequisites for all potential courses
-    potentialCourses.forEach(course => {
-      if (course.prerequisites && course.prerequisites.length > 0) {
-        checkPrerequisiteStatusForCourse(course);
-      }
-    });
   }
 
   function checkPrerequisiteStatusForCourse(course: any) {
@@ -1961,13 +2001,14 @@
                   </select>
                 {/if}
               </div>
-              <div style="width: 120px;">
-                <label for="potential-grade" style="display: block; font-weight: 500; color: #374151; font-size: 0.875rem; margin-bottom: 0.5rem;">Grade</label>
+              <div style="width: 140px;">
+                <label for="potential-grade" style="display: block; font-weight: 500; color: #374151; font-size: 0.875rem; margin-bottom: 0.5rem;">Grade (Optional)</label>
                 <select 
                   id="potential-grade"
                   bind:value={newPotentialCourse.grade}
                   style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem;"
                 >
+                  <option value="Planning">Planning</option>
                   {#each VALID_GRADES as grade}
                     <option value={grade}>{grade}</option>
                   {/each}
@@ -2035,7 +2076,7 @@
                         <div class="course-code">{course.courseId}</div>
                         <div class="course-title">{course.title}</div>
                         <div class="course-meta">
-                          {course.credits} credits • Grade: {course.grade}
+                          {course.credits} credits • Grade: {course.grade === 'Planning' ? 'TBD' : course.grade}
                           <span style="color: #3b82f6; margin-left: 0.5rem; font-weight: 500;">(Planned)</span>
                           {#if !course.countsTowardDiploma}
                             <span style="color: #d97706; margin-left: 0.5rem; font-weight: 500;">(Does not count toward degree)</span>
