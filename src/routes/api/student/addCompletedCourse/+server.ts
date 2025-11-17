@@ -157,14 +157,14 @@ export async function POST({ request, cookies }: RequestEvent) {
       if (shouldAddNew) {
         await students.updateOne(
           { _id: userId },
-          { $push: { academicHistory: courseToAdd } }
+          { $push: { academicHistory: courseToAdd } } as any
         );
       }
     } else {
       // Not a retake, just add the new course
       await students.updateOne(
         { _id: userId },
-        { $push: { academicHistory: courseToAdd } }
+        { $push: { academicHistory: courseToAdd } } as any
       );
     }
 

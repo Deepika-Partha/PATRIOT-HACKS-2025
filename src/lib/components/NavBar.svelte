@@ -18,7 +18,7 @@
     </div>
     <div class="nav-links">
       <a href="/dashboard" class="nav-link">Dashboard</a>
-      <a href="/calendar" class="nav-link">Calendar</a>
+      <a href="/schedule" class="nav-link">Calendar</a>
       <a href="/syllabus" class="nav-link">Syllabus Archive</a>
       <button class="nav-link logout-btn" on:click={handleLogout}>Log Out</button>
     </div>

@@ -1,8 +1,8 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
+import { ObjectId } from 'mongodb';
 import { students } from '$lib/server/db';
 import { verifyJwt } from '$lib/server/jwt';
-import { ObjectId } from 'mongodb';
 
 export async function POST({ request, cookies }: RequestEvent) {
   const token = cookies.get('jwt');
@@ -13,39 +13,36 @@ export async function POST({ request, cookies }: RequestEvent) {
     return json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { courseId, semester, grade } = await request.json();
+  const { tasks, events } = await request.json();
 
-  if (!courseId) {
-    return json({ error: "Course ID is required" }, { status: 400 });
+  if (!user.id) {
+    return json({ error: "Invalid user ID" }, { status: 400 });
   }
 
-  // Convert string ID to ObjectId if needed
   const userId = typeof user.id === 'string' ? new ObjectId(user.id) : user.id;
 
   try {
-    // Remove the course from academic history
+    const updateData: any = {};
+    if (tasks !== undefined) {
+      updateData.tasks = tasks;
+    }
+    if (events !== undefined) {
+      updateData.events = events;
+    }
+
     const result = await students.updateOne(
       { _id: userId },
-      { 
-        $pull: { 
-          academicHistory: { 
-            courseId: courseId,
-            semester: semester,
-            grade: grade
-          }
-        }
-      } as any
+      { $set: updateData }
     );
 
     if (result.matchedCount === 0) {
-      return json({ error: "Course not found" }, { status: 404 });
+      return json({ error: "Student not found" }, { status: 404 });
     }
 
-    return json({ success: true });
+    return json({ success: true, message: "Tasks and events updated successfully" });
   } catch (dbError: any) {
     console.error('Database error:', dbError);
     
-    // Handle MongoDB connection errors
     if (dbError.name === 'MongoNetworkError' || dbError.message?.includes('ENOTFOUND')) {
       return json({ 
         error: 'Database connection failed. Please check your internet connection and try again.' 
@@ -53,7 +50,7 @@ export async function POST({ request, cookies }: RequestEvent) {
     }
     
     return json({ 
-      error: 'Failed to delete course. Please try again.' 
+      error: 'Failed to update tasks. Please try again.' 
     }, { status: 500 });
   }
 }

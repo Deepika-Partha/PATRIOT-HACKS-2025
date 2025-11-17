@@ -47,7 +47,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         const userId = typeof user.id === 'string' ? new ObjectId(user.id) : user.id;
         await students.updateOne(
             { _id: userId },
-            { $push: { syllabi: syllabus } }
+            { $push: { syllabi: syllabus } } as any
         );
 
         return json({ success: true, syllabus });

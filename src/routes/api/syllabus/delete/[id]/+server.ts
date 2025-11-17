@@ -27,7 +27,7 @@ export const DELETE: RequestHandler = async ({ params, cookies }) => {
         // Try both ObjectId and string comparison
         const result = await students.updateOne(
             { _id: userId },
-            { $pull: { syllabi: { $or: [{ _id: syllabusId }, { _id: params.id }] } } }
+            { $pull: { syllabi: { $or: [{ _id: syllabusId }, { _id: params.id }] } } } as any
         );
 
         if (result.matchedCount === 0) {

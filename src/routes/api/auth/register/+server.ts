@@ -35,6 +35,8 @@ export async function POST({ request, cookies }: RequestEvent) {
 
     academicHistory: [],
     currentSchedule: [],
+    tasks: [],
+    events: [],
     degreeProgress: {
       requiredCourses: [],
       electivesRemaining: 6,
