@@ -62,6 +62,13 @@
       return;
     }
 
+    // Validate G-number format: G followed by exactly 8 digits
+    const gNumberPattern = /^G\d{8}$/;
+    if (!gNumberPattern.test(profile.gmuId)) {
+      error = 'GMU ID must be in the format G followed by 8 digits (e.g., G12345678)';
+      return;
+    }
+
     try {
       const res = await fetch("/api/student/updateProfile", {
         method: "POST",
@@ -71,8 +78,7 @@
             name: profile.name,
             gmuId: profile.gmuId,
             major: profile.major,
-            minor: profile.minor || null,
-            catalogYear: profile.catalogYear || 2024
+            minor: profile.minor || null
           },
           email: email,
           year: year
@@ -277,13 +283,34 @@
         </div>
         
         <div class="form-group">
-          <label for="gmuId">GMU ID *</label>
+          <label for="gmuId">GMU ID (G-Number) *</label>
           <input 
             id="gmuId" 
             type="text" 
             bind:value={profile.gmuId} 
-            placeholder="Enter your GMU ID"
+            placeholder="G12345678"
+            maxlength="9"
+            on:input={(e) => {
+              let value = e.currentTarget.value.toUpperCase();
+              // Remove any non-alphanumeric characters except G
+              value = value.replace(/[^G0-9]/g, '');
+              // Ensure it starts with G
+              if (value && !value.startsWith('G')) {
+                value = 'G' + value.replace(/G/g, '');
+              }
+              // Limit to G + 8 digits
+              if (value.startsWith('G')) {
+                const digits = value.substring(1);
+                if (digits.length > 8) {
+                  value = 'G' + digits.substring(0, 8);
+                }
+              }
+              profile.gmuId = value;
+            }}
           />
+          <small style="color: #64748b; font-size: 0.75rem; margin-top: 0.25rem; display: block;">
+            Format: G followed by 8 digits (e.g., G12345678)
+          </small>
         </div>
         
         <div class="form-group">
@@ -327,18 +354,6 @@
               <option value={yearOption.value}>{yearOption.label}</option>
             {/each}
           </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="catalogYear">Catalog Year</label>
-          <input 
-            id="catalogYear" 
-            type="number" 
-            bind:value={profile.catalogYear} 
-            placeholder="e.g., 2024"
-            min="2020"
-            max="2030"
-          />
         </div>
       </div>
       

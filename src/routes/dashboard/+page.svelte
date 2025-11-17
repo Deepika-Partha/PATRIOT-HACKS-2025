@@ -18,17 +18,23 @@
   let duplicateCourse = $state<any>(null);
   let pendingCourseToAdd = $state<any>(null);
   
+  // Prerequisites for completed courses
+  let coursePrerequisites = $state<string[]>([]);
+  let coursePrerequisiteStatus = $state<Record<string, { met: boolean; inHistory: boolean }>>({});
+  
   // Autocomplete for course input
   let courseSuggestions = $state<any[]>([]);
   let showSuggestions = $state(false);
   let selectedSuggestionIndex = $state(-1);
 
-  // Potential courses (temporary)
+  // Potential courses (temporary) - roadmap feature
   let potentialCourses = $state<any[]>([]);
   let showPotentialCourses = $state(false);
-  let newPotentialCourse = $state({ courseId: '', grade: 'A' });
+  let newPotentialCourse = $state({ courseId: '', grade: 'A', semester: '' });
   let potentialCourseLookup = $state<any>(null);
   let potentialLookupError = $state('');
+  let potentialPrerequisites = $state<string[]>([]);
+  let prerequisiteStatus = $state<Record<string, { met: boolean; inHistory: boolean; inPotential: boolean; semester?: string }>>({});
   
   // Autocomplete for potential course input
   let potentialSuggestions = $state<any[]>([]);
@@ -186,6 +192,11 @@
         
         // Recalculate course counts after fetching
         await recalculateCourseCounts();
+        
+        // Recheck prerequisite status if we have a course selected
+        if (courseLookup && coursePrerequisites.length > 0) {
+          checkCoursePrerequisiteStatus();
+        }
     } else {
         const errorData = await res.json();
         error = errorData.error || 'Failed to fetch student information';
@@ -265,12 +276,16 @@
     courseSuggestions = [];
     showSuggestions = false;
     lookupError = '';
+    // Fetch prerequisites when course is selected
+    fetchCoursePrerequisites(course.courseId);
   }
 
   async function lookupCourse() {
     if (!newCourse.courseId) {
       courseLookup = null;
       lookupError = '';
+      coursePrerequisites = [];
+      coursePrerequisiteStatus = {};
       return;
     }
 
@@ -281,6 +296,8 @@
     if (!newCourse.courseId) {
       courseLookup = null;
       lookupError = '';
+      coursePrerequisites = [];
+      coursePrerequisiteStatus = {};
       return;
     }
 
@@ -290,16 +307,62 @@
         const data = await res.json();
         courseLookup = data;
         lookupError = '';
+        
+        // Fetch prerequisites
+        await fetchCoursePrerequisites(newCourse.courseId);
       } else {
         const errorData = await res.json();
         courseLookup = null;
         lookupError = errorData.error || `Course ${newCourse.courseId} does not exist in the course catalog`;
+        coursePrerequisites = [];
+        coursePrerequisiteStatus = {};
       }
     } catch (err) {
       console.error('Lookup error:', err);
       courseLookup = null;
       lookupError = 'Failed to lookup course. Please try again.';
+      coursePrerequisites = [];
+      coursePrerequisiteStatus = {};
     }
+  }
+
+  async function fetchCoursePrerequisites(courseId: string) {
+    try {
+      const res = await fetch(`/api/courses/prerequisites/${encodeURIComponent(courseId)}`);
+      if (res.ok) {
+        const data = await res.json();
+        coursePrerequisites = data.prerequisites || [];
+        checkCoursePrerequisiteStatus();
+      } else {
+        coursePrerequisites = [];
+        coursePrerequisiteStatus = {};
+      }
+    } catch (err) {
+      console.error('Error fetching prerequisites:', err);
+      coursePrerequisites = [];
+      coursePrerequisiteStatus = {};
+    }
+  }
+
+  function checkCoursePrerequisiteStatus() {
+    const status: Record<string, { met: boolean; inHistory: boolean }> = {};
+    
+    coursePrerequisites.forEach(prereqId => {
+      const normalizedPrereq = prereqId.toUpperCase().trim();
+      
+      // Check if in academic history (completed and not nullified)
+      const inHistory = academicHistory.some(c => {
+        const courseId = c.courseId?.toUpperCase().trim();
+        return courseId === normalizedPrereq && !c.nullified;
+      });
+      
+      status[prereqId] = {
+        met: inHistory,
+        inHistory
+      };
+    });
+    
+    coursePrerequisiteStatus = status;
   }
 
   const VALID_GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'F'];
@@ -391,6 +454,18 @@
       return;
     }
     
+    // Validate prerequisites
+    const unmetPrerequisites = coursePrerequisites.filter(prereq => {
+      const status = coursePrerequisiteStatus[prereq];
+      return !status || !status.met;
+    });
+
+    if (unmetPrerequisites.length > 0) {
+      const prereqList = unmetPrerequisites.join(', ');
+      error = `Prerequisites not met: ${prereqList}. Please complete these courses before adding this course to your academic history.`;
+      return;
+    }
+    
     // C grades (without minus) and F grades are always allowed
     // No additional validation needed for these
 
@@ -435,6 +510,8 @@
         newCourse = { courseId: '', semester: '', grade: '' };
         courseLookup = null;
         lookupError = '';
+        coursePrerequisites = [];
+        coursePrerequisiteStatus = {};
         showAddCourse = false;
         showRetakeModal = false;
         duplicateCourse = null;
@@ -569,12 +646,16 @@
     potentialSuggestions = [];
     showPotentialSuggestions = false;
     potentialLookupError = '';
+    // Fetch prerequisites when course is selected
+    fetchPrerequisites(course.courseId);
   }
 
   async function lookupPotentialCourse() {
     if (!newPotentialCourse.courseId) {
       potentialCourseLookup = null;
       potentialLookupError = '';
+      potentialPrerequisites = [];
+      prerequisiteStatus = {};
       return;
     }
 
@@ -585,20 +666,113 @@
       if (res.ok) {
         potentialCourseLookup = await res.json();
         potentialLookupError = '';
+        
+        // Fetch prerequisites
+        await fetchPrerequisites(newPotentialCourse.courseId);
       } else {
         const errorData = await res.json();
         potentialCourseLookup = null;
         potentialLookupError = errorData.error || `Course ${newPotentialCourse.courseId} does not exist in the course catalog`;
+        potentialPrerequisites = [];
+        prerequisiteStatus = {};
       }
     } catch (err) {
       potentialCourseLookup = null;
       potentialLookupError = 'Failed to lookup course. Please try again.';
+      potentialPrerequisites = [];
+      prerequisiteStatus = {};
     }
+  }
+
+  async function fetchPrerequisites(courseId: string) {
+    try {
+      const res = await fetch(`/api/courses/prerequisites/${encodeURIComponent(courseId)}`);
+      if (res.ok) {
+        const data = await res.json();
+        potentialPrerequisites = data.prerequisites || [];
+        checkPrerequisiteStatus();
+      } else {
+        potentialPrerequisites = [];
+        prerequisiteStatus = {};
+      }
+    } catch (err) {
+      console.error('Error fetching prerequisites:', err);
+      potentialPrerequisites = [];
+      prerequisiteStatus = {};
+    }
+  }
+
+  function checkPrerequisiteStatus() {
+    const status: Record<string, { met: boolean; inHistory: boolean; inPotential: boolean; semester?: string }> = {};
+    
+    potentialPrerequisites.forEach(prereqId => {
+      const normalizedPrereq = prereqId.toUpperCase().trim();
+      
+      // Check if in academic history (completed)
+      const inHistory = academicHistory.some(c => {
+        const courseId = c.courseId?.toUpperCase().trim();
+        return courseId === normalizedPrereq && !c.nullified;
+      });
+      
+      // Check if in potential courses (planned)
+      const inPotential = potentialCourses.find(c => {
+        const courseId = c.courseId?.toUpperCase().trim();
+        return courseId === normalizedPrereq;
+      });
+      
+      // Check if prerequisite is met (either completed or planned in an earlier semester)
+      let met = inHistory;
+      let semester: string | undefined;
+      
+      if (inPotential) {
+        semester = inPotential.semester;
+        // If prerequisite is in potential courses, check if it's in an earlier semester
+        if (newPotentialCourse.semester && inPotential.semester) {
+          met = compareSemesters(inPotential.semester, newPotentialCourse.semester) < 0;
+        } else {
+          met = false; // Can't compare if semester not set
+        }
+      }
+      
+      status[prereqId] = {
+        met: met || inHistory,
+        inHistory,
+        inPotential: !!inPotential,
+        semester
+      };
+    });
+    
+    prerequisiteStatus = status;
+  }
+
+  // Compare two semesters (e.g., "Fall 2024" vs "Spring 2025")
+  // Returns: -1 if sem1 < sem2, 0 if equal, 1 if sem1 > sem2
+  function compareSemesters(sem1: string, sem2: string): number {
+    const parseSemester = (sem: string) => {
+      const parts = sem.split(' ');
+      const season = parts[0].toLowerCase();
+      const year = parseInt(parts[1]) || 0;
+      const seasonOrder = { 'spring': 0, 'summer': 1, 'fall': 2 };
+      return { year, season: seasonOrder[season as keyof typeof seasonOrder] ?? 0 };
+    };
+    
+    const s1 = parseSemester(sem1);
+    const s2 = parseSemester(sem2);
+    
+    if (s1.year !== s2.year) {
+      return s1.year - s2.year;
+    }
+    return s1.season - s2.season;
   }
 
   async function addPotentialCourse() {
     if (!potentialCourseLookup) {
       error = 'Please enter a valid course number';
+      return;
+    }
+
+    if (!newPotentialCourse.semester) {
+      error = 'Please select a semester for this course';
       return;
     }
 
@@ -612,6 +786,18 @@
     // Check if already in academic history
     if (academicHistory.some(c => c.courseId.toUpperCase().trim() === normalizedCourseId && !c.nullified)) {
       error = 'This course is already in your academic history';
+      return;
+    }
+
+    // Validate prerequisites
+    const unmetPrerequisites = potentialPrerequisites.filter(prereq => {
+      const status = prerequisiteStatus[prereq];
+      return !status || !status.met;
+    });
+
+    if (unmetPrerequisites.length > 0) {
+      const prereqList = unmetPrerequisites.join(', ');
+      error = `Prerequisites not met: ${prereqList}. Please complete these courses or add them to an earlier semester in your roadmap.`;
       return;
     }
 
@@ -665,18 +851,43 @@
       title: potentialCourseLookup.title,
       credits: potentialCourseLookup.credits,
       grade: normalizedGrade,
+      semester: newPotentialCourse.semester,
       required: potentialCourseLookup.required,
       category: potentialCourseLookup.category,
       countsTowardDiploma: countsTowardDiploma,
+      prerequisites: potentialPrerequisites,
       isPotential: true // Mark as potential
     };
 
     potentialCourses = [...potentialCourses, potentialCourse];
-    newPotentialCourse = { courseId: '', grade: 'A' };
+    newPotentialCourse = { courseId: '', grade: 'A', semester: '' };
     potentialCourseLookup = null;
     potentialLookupError = '';
+    potentialPrerequisites = [];
+    prerequisiteStatus = {};
     error = '';
+    
+    // Recheck prerequisites for all potential courses
+    potentialCourses.forEach(course => {
+      if (course.prerequisites && course.prerequisites.length > 0) {
+        checkPrerequisiteStatusForCourse(course);
+      }
+    });
   }
+
+  function checkPrerequisiteStatusForCourse(course: any) {
+    // This will be called when courses are added/removed to update prerequisite status
+    // For now, we'll rely on the main checkPrerequisiteStatus function
+  }
+
+  // Derived: sorted semesters for roadmap display
+  const sortedSemesters = $derived.by(() => {
+    const semesters = [...new Set(potentialCourses.map(c => c.semester).filter(Boolean))];
+    return semesters.sort((a, b) => {
+      if (!a || !b) return 0;
+      return compareSemesters(a, b);
+    });
+  });
 
   function removePotentialCourse(courseId: string) {
     potentialCourses = potentialCourses.filter(c => c.courseId !== courseId);
@@ -1592,6 +1803,24 @@
             <div style="color: #64748b; font-size: 0.8125rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Major</div>
             <div style="color: #1a202c; font-weight: 600; font-size: 1.25rem;">{profile.major || 'Not set'}</div>
           </div>
+          <div>
+            <div style="color: #64748b; font-size: 0.8125rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Year</div>
+            <div style="color: #1a202c; font-weight: 600; font-size: 1.25rem;">
+              {#if studentYear === 1}
+                Freshman
+              {:else if studentYear === 2}
+                Sophomore
+              {:else if studentYear === 3}
+                Junior
+              {:else if studentYear === 4}
+                Senior
+              {:else if studentYear}
+                Year {studentYear}
+              {:else}
+                Not set
+              {/if}
+            </div>
+          </div>
           {#if profile.minor}
             <div>
               <div style="color: #64748b; font-size: 0.8125rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;">Minor</div>
@@ -1711,6 +1940,27 @@
                   </div>
                 {/if}
               </div>
+              <div style="width: 180px;">
+                <label for="potential-semester" style="display: block; font-weight: 500; color: #374151; font-size: 0.875rem; margin-bottom: 0.5rem;">Semester</label>
+                {#if !studentYear}
+                  <div class="profile-prompt">
+                    <p>Please complete your profile with your year in college to plan semesters.</p>
+                    <a href="/profile" class="profile-link">Complete Profile →</a>
+                  </div>
+                {:else}
+                  <select 
+                    id="potential-semester"
+                    bind:value={newPotentialCourse.semester}
+                    on:change={() => checkPrerequisiteStatus()}
+                    style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.9375rem;"
+                  >
+                    <option value="">Select Semester</option>
+                    {#each getAvailableSemesters() as semester}
+                      <option value={semester}>{semester}</option>
+                    {/each}
+                  </select>
+                {/if}
+              </div>
               <div style="width: 120px;">
                 <label for="potential-grade" style="display: block; font-weight: 500; color: #374151; font-size: 0.875rem; margin-bottom: 0.5rem;">Grade</label>
                 <select 
@@ -1720,13 +1970,38 @@
                 >
                   {#each VALID_GRADES as grade}
                     <option value={grade}>{grade}</option>
-  {/each}
+                  {/each}
                 </select>
               </div>
-              <button class="btn btn-primary" on:click={addPotentialCourse} disabled={!potentialCourseLookup}>
-                Add Potential
+              <button class="btn btn-primary" on:click={addPotentialCourse} disabled={!potentialCourseLookup || !newPotentialCourse.semester}>
+                Add to Roadmap
               </button>
             </div>
+            
+            {#if potentialPrerequisites.length > 0}
+              <div style="margin-top: 1.5rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e2e8f0;">
+                <div style="font-weight: 600; color: #1a202c; margin-bottom: 0.75rem; font-size: 0.9375rem;">Prerequisites:</div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  {#each potentialPrerequisites as prereq}
+                    {@const status = prerequisiteStatus[prereq]}
+                    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: {status?.met ? '#f0fdf4' : '#fef2f2'}; border-radius: 8px; border-left: 3px solid {status?.met ? '#10b981' : '#ef4444'};">
+                      <span style="font-size: 1.125rem;">{status?.met ? '✓' : '✗'}</span>
+                      <span style="font-weight: 500; color: #1a202c;">{prereq}</span>
+                      {#if status?.inHistory}
+                        <span style="font-size: 0.75rem; color: #059669; margin-left: auto;">(Completed)</span>
+                      {:else if status?.inPotential}
+                        <span style="font-size: 0.75rem; color: #3b82f6; margin-left: auto;">(Planned: {status.semester || 'TBD'})</span>
+                        {#if status.semester && newPotentialCourse.semester && compareSemesters(status.semester, newPotentialCourse.semester) >= 0}
+                          <span style="font-size: 0.75rem; color: #dc2626; font-weight: 600;">⚠️ Must be earlier</span>
+                        {/if}
+                      {:else}
+                        <span style="font-size: 0.75rem; color: #dc2626; margin-left: auto;">(Not met)</span>
+                      {/if}
+                    </div>
+                  {/each}
+                </div>
+              </div>
+            {/if}
 
             {#if potentialLookupError}
               <div class="error-msg" style="margin-top: 1rem;">{potentialLookupError}</div>
@@ -1742,27 +2017,60 @@
 
           {#if potentialCourses.length > 0}
             <div style="margin-top: 1.5rem;">
-              <h3 style="font-size: 1.125rem; font-weight: 600; color: #1a202c; margin-bottom: 1rem;">Your Potential Courses:</h3>
-              {#each potentialCourses as course}
-                <div class="course-item" style="border-left-color: #3b82f6; background: #eff6ff;">
-                  <div style="flex: 1;">
-                    <div class="course-code">{course.courseId}</div>
-                    <div class="course-title">{course.title}</div>
-                    <div class="course-meta">
-                      {course.credits} credits • Grade: {course.grade}
-                      <span style="color: #3b82f6; margin-left: 0.5rem; font-weight: 500;">(Potential)</span>
-                      {#if !course.countsTowardDiploma}
-                        <span style="color: #d97706; margin-left: 0.5rem; font-weight: 500;">(Does not count toward degree)</span>
-                      {/if}
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: #1a202c; margin-bottom: 1rem;">📅 Your Roadmap:</h3>
+              
+              {#each sortedSemesters as semester}
+                {@const semesterCourses = potentialCourses.filter(c => c.semester === semester)}
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 12px; border-left: 4px solid #3b82f6;">
+                  <h4 style="font-size: 1rem; font-weight: 600; color: #1a202c; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>📆</span>
+                    <span>{semester}</span>
+                    <span style="font-size: 0.875rem; font-weight: 400; color: #64748b;">
+                      ({semesterCourses.length} course{semesterCourses.length !== 1 ? 's' : ''})
+                    </span>
+                  </h4>
+                  {#each semesterCourses as course}
+                    <div class="course-item" style="border-left-color: #3b82f6; background: white; margin-bottom: 0.75rem;">
+                      <div style="flex: 1;">
+                        <div class="course-code">{course.courseId}</div>
+                        <div class="course-title">{course.title}</div>
+                        <div class="course-meta">
+                          {course.credits} credits • Grade: {course.grade}
+                          <span style="color: #3b82f6; margin-left: 0.5rem; font-weight: 500;">(Planned)</span>
+                          {#if !course.countsTowardDiploma}
+                            <span style="color: #d97706; margin-left: 0.5rem; font-weight: 500;">(Does not count toward degree)</span>
+                          {/if}
+                        </div>
+                        {#if course.prerequisites && course.prerequisites.length > 0}
+                          <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">
+                            <strong>Prerequisites:</strong> {course.prerequisites.join(', ')}
+                          </div>
+                        {/if}
+                      </div>
+                      <button class="btn btn-danger" on:click={() => removePotentialCourse(course.courseId)} style="margin-left: 1rem;">Remove</button>
                     </div>
-                  </div>
-                  <button class="btn btn-danger" on:click={() => removePotentialCourse(course.courseId)} style="margin-left: 1rem;">Remove</button>
-                </div>
   {/each}
+                </div>
+              {/each}
+              
+              {#if potentialCourses.some(c => !c.semester)}
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #fffbeb; border-radius: 12px; border-left: 4px solid #f59e0b;">
+                  <h4 style="font-size: 0.9375rem; font-weight: 600; color: #92400e; margin-bottom: 0.75rem;">⚠️ Courses without semester:</h4>
+                  {#each potentialCourses.filter(c => !c.semester) as course}
+                    <div class="course-item" style="border-left-color: #f59e0b; background: white; margin-bottom: 0.5rem;">
+                      <div style="flex: 1;">
+                        <div class="course-code">{course.courseId}</div>
+                        <div class="course-title">{course.title}</div>
+                      </div>
+                      <button class="btn btn-danger" on:click={() => removePotentialCourse(course.courseId)} style="margin-left: 1rem;">Remove</button>
+                    </div>
+                  {/each}
+                </div>
+              {/if}
             </div>
           {:else}
             <div class="empty-state">
-              <p>No potential courses added yet. Add courses above to see how they would affect your progress.</p>
+              <p>No potential courses added yet. Add courses above to create your semester roadmap.</p>
             </div>
           {/if}
         {:else}
@@ -1879,6 +2187,33 @@
                 <p>{courseLookup.credits} credits • {courseLookup.required ? 'Required' : 'Elective'}</p>
               </div>
 
+              {#if coursePrerequisites.length > 0}
+                <div style="margin-top: 1.5rem; padding: 1rem; background: white; border-radius: 12px; border: 2px solid #e2e8f0;">
+                  <div style="font-weight: 600; color: #1a202c; margin-bottom: 0.75rem; font-size: 0.9375rem;">Prerequisites:</div>
+                  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    {#each coursePrerequisites as prereq}
+                      {@const status = coursePrerequisiteStatus[prereq]}
+                      <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: {status?.met ? '#f0fdf4' : '#fef2f2'}; border-radius: 8px; border-left: 3px solid {status?.met ? '#10b981' : '#ef4444'};">
+                        <span style="font-size: 1.125rem;">{status?.met ? '✓' : '✗'}</span>
+                        <span style="font-weight: 500; color: #1a202c;">{prereq}</span>
+                        {#if status?.met}
+                          <span style="font-size: 0.75rem; color: #059669; margin-left: auto;">(Completed)</span>
+                        {:else}
+                          <span style="font-size: 0.75rem; color: #dc2626; margin-left: auto;">(Not met)</span>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                  {#if coursePrerequisites.some(prereq => !coursePrerequisiteStatus[prereq]?.met)}
+                    <div style="margin-top: 0.75rem; padding: 0.75rem; background: #fffbeb; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                      <p style="margin: 0; font-size: 0.875rem; color: #92400e;">
+                        ⚠️ You must complete all prerequisites before adding this course to your academic history.
+                      </p>
+                    </div>
+                  {/if}
+                </div>
+              {/if}
+
               <div class="form-group">
                 <label for="semester">Semester</label>
                 {#if !studentYear}
@@ -1921,7 +2256,7 @@
               <button 
                 class="btn btn-primary" 
                 on:click={addCompletedCourse} 
-                disabled={!courseLookup || !newCourse.semester || !newCourse.grade}
+                disabled={!courseLookup || !newCourse.semester || !newCourse.grade || coursePrerequisites.some(prereq => !coursePrerequisiteStatus[prereq]?.met)}
               >
                 Add Course
               </button>
@@ -1930,6 +2265,8 @@
                 newCourse = { courseId: '', semester: '', grade: '' };
                 courseLookup = null;
                 lookupError = '';
+                coursePrerequisites = [];
+                coursePrerequisiteStatus = {};
                 error = '';
               }}>Cancel</button>
             </div>

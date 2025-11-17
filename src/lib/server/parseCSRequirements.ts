@@ -192,49 +192,94 @@ export async function courseCountsTowardCSDegree(courseId: string): Promise<bool
     c.courseId.toUpperCase().trim() === normalizedId
   );
   
-  // Mason Core requirements (required for degree)
+  // MASON CORE REQUIREMENTS (24 credits)
   const masonCoreCourses = [
-    'ENGH 101', 'ENGH 302', 'COMM 100', 'COMM 101'
+    'ENGH 101', // Composition
+    'ENGH 302', // Advanced Composition
+    'COMM 100', // Public Speaking
+    'COMM 101'  // Fundamentals of Communication
+    // Literature, Western Civilization, Social Science, Global Understanding, Arts are satisfied by various courses
+    // Information Technology and Quantitative Reasoning are satisfied by major requirements
+    // Natural Science is satisfied by major requirements
+    // Synthesis is satisfied by CS 306
   ];
   if (masonCoreCourses.some(mc => mc.toUpperCase() === normalizedId)) {
     return true;
   }
   
-  // Required courses always count
-  if (course && course.required) {
+  // REQUIRED COMPUTER SCIENCE COURSES
+  const requiredCSCourses = [
+    'CS 110', // Essentials of Computer Science
+    'CS 112', // Introduction to Computer Programming
+    'CS 211', // Object-Oriented Programming
+    'CS 262', // Introduction to Low-Level Programming
+    'CS 306', // Synthesis of Ethics and Law for the Computing Professional
+    'CS 310', // Data Structures
+    'CS 321', // Software Engineering
+    'CS 330', // Formal Methods and Models
+    'CS 367', // Computer Systems and Programming
+    'CS 471', // Operating Systems
+    'CS 483'  // Analysis of Algorithms
+  ];
+  if (requiredCSCourses.some(cs => cs.toUpperCase() === normalizedId)) {
     return true;
   }
   
-  // CS-related electives (from Hackathon catalog)
-  // ECE 301, 331, 332, 350, 446, 447, 511
-  // OR 335, 441, 442
-  // PHIL 371, 376
-  // STAT 354
-  // SWE 432, 437, 443
-  // SYST 371, 470
-  // Any MATH course > 300 except MATH 351
-  // Any CS course > 300
+  // SENIOR CS REQUIREMENTS
+  // One of: CS 455, CS 468, CS 475
+  const seniorCSRequired = ['CS 455', 'CS 468', 'CS 475'];
+  if (seniorCSRequired.some(cs => cs.toUpperCase() === normalizedId)) {
+    return true;
+  }
+  
+  // Additional Senior CS courses (4 required)
+  const seniorCSAdditional = [
+    'CS 425', 'CS 440', 'CS 450', 'CS 451', 'CS 455', 'CS 463', 'CS 465', 
+    'CS 468', 'CS 469', 'CS 475', 'CS 477', 'CS 480', 'CS 482', 'CS 484', 
+    'CS 485', 'CS 490', 'CS 491', 'CS 499'
+  ];
+  if (seniorCSAdditional.some(cs => cs.toUpperCase() === normalizedId)) {
+    return true;
+  }
+  
+  // MATH 446 (or OR 481) can count toward Senior CS
+  if (normalizedId === 'MATH 446' || normalizedId === 'OR 481') {
+    return true;
+  }
+  
+  // REQUIRED MATHEMATICS AND STATISTICS
+  const requiredMathCourses = [
+    'MATH 113', // Calculus I
+    'MATH 114', // Calculus II
+    'MATH 125', // Discrete Mathematics
+    'MATH 203', // Linear Algebra
+    'MATH 213', // Calculus III
+    'STAT 344'  // Probability and Statistics for Engineers & Scientists I
+  ];
+  if (requiredMathCourses.some(math => math.toUpperCase() === normalizedId)) {
+    return true;
+  }
+  
+  // Alternative to STAT 344: MATH 351 and MATH 352 (also satisfies one CS-related elective)
+  if (normalizedId === 'MATH 351' || normalizedId === 'MATH 352') {
+    return true;
+  }
+  
+  // CS-RELATED ELECTIVES (Any two required)
   const csRelatedElectives = [
     'ECE 301', 'ECE 331', 'ECE 332', 'ECE 350', 'ECE 446', 'ECE 447', 'ECE 511',
     'OR 335', 'OR 441', 'OR 442',
     'PHIL 371', 'PHIL 376',
     'STAT 354',
     'SWE 432', 'SWE 437', 'SWE 443',
-    'SYST 371', 'SYST 470'
+    'SYST 371', 'SYST 470',
+    'ENGH 388'
   ];
-  
-  // Check if it's a CS-related elective
   if (csRelatedElectives.some(elective => elective.toUpperCase() === normalizedId)) {
     return true;
   }
   
-  // Check if it's a CS course above 300
-  const csMatch = normalizedId.match(/^CS\s+(\d+)/);
-  if (csMatch && parseInt(csMatch[1]) > 300) {
-    return true;
-  }
-  
-  // Check if it's a MATH course above 300 (except MATH 351)
+  // Any MATH course > 300 except MATH 351 (already counted above)
   const mathMatch = normalizedId.match(/^MATH\s+(\d+)/);
   if (mathMatch) {
     const mathNum = parseInt(mathMatch[1]);
@@ -243,13 +288,40 @@ export async function courseCountsTowardCSDegree(courseId: string): Promise<bool
     }
   }
   
-  // CS electives (CS courses that are electives)
-  if (course && course.category === 'elective' && course.courseId.startsWith('CS')) {
+  // Any CS course > 300 (for Senior CS or electives)
+  const csMatch = normalizedId.match(/^CS\s+(\d+)/);
+  if (csMatch && parseInt(csMatch[1]) > 300) {
+    return true;
+  }
+  
+  // NATURAL SCIENCE REQUIREMENT (12 credits required)
+  // Must include a two-course sequence with laboratories
+  const naturalScienceCourses = [
+    // Biology sequence
+    'BIOL 103', 'BIOL 106', 'BIOL 107',
+    // Chemistry sequence
+    'CHEM 211', 'CHEM 213', 'CHEM 212', 'CHEM 214',
+    // Geology sequence
+    'GEOL 101', 'GEOL 102',
+    // Physics sequence (required for CS)
+    'PHYS 160', 'PHYS 161', 'PHYS 260', 'PHYS 261'
+  ];
+  if (naturalScienceCourses.some(sci => sci.toUpperCase() === normalizedId)) {
+    return true;
+  }
+  
+  // Check course catalog for required courses
+  if (course && course.required) {
     return true;
   }
   
   // Math/science courses that are required count
   if (course && (course.category === 'math' || course.category === 'science') && course.required) {
+    return true;
+  }
+  
+  // CS electives (CS courses that are electives)
+  if (course && course.category === 'elective' && course.courseId.startsWith('CS')) {
     return true;
   }
   
@@ -264,11 +336,9 @@ export async function courseCountsTowardCSDegree(courseId: string): Promise<bool
   
   // If course is in catalog but not explicitly required, it might be a general elective
   // For now, we'll be conservative and only count courses we know about
-  // In a full implementation, we'd track general elective credits separately
   if (course) {
     // If it's in the catalog and not explicitly excluded, it could count as general elective
-    // But we need to be careful - let's check if it's a reasonable course
-    return true; // If it's in our catalog, it likely counts
+    return true;
   }
   
   return false;

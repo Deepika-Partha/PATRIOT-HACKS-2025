@@ -20,6 +20,12 @@ export async function POST({ request, cookies }: RequestEvent) {
         return json({ error: 'Name, GMU ID, and Major are required' }, { status: 400 });
     }
 
+    // Validate G-number format: G followed by exactly 8 digits
+    const gNumberPattern = /^G\d{8}$/;
+    if (!gNumberPattern.test(profileData.gmuId)) {
+        return json({ error: 'GMU ID must be in the format G followed by 8 digits (e.g., G12345678)' }, { status: 400 });
+    }
+
     if (year && (year < 1 || year > 4)) {
         return json({ error: 'Year must be between 1 and 4' }, { status: 400 });
     }
@@ -31,8 +37,7 @@ export async function POST({ request, cookies }: RequestEvent) {
         'profile.name': profileData.name,
         'profile.gmuId': profileData.gmuId,
         'profile.major': profileData.major,
-        'profile.minor': profileData.minor || null,
-        'profile.catalogYear': profileData.catalogYear || 2024
+        'profile.minor': profileData.minor || null
     };
 
     if (newEmail) {
