@@ -2,6 +2,10 @@
 
 A comprehensive academic management platform for George Mason University students, providing schedule management, degree progress tracking, course planning, syllabus archiving, and an AI-powered academic assistant.
 
+![Example Image](PatriotPath.png)
+
+
+
 ## 🎯 Overview
 
 The GMU Academic Portal is a full-stack web application designed to help students manage their academic journey at George Mason University. It integrates course scheduling, degree progress tracking, prerequisite checking, syllabus management, and an intelligent chatbot assistant powered by Anthropic's Claude AI.
